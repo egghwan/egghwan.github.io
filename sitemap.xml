@@ -20,7 +20,7 @@
     <loc>https://egghwan.github.io/docs/rtl-ip/</loc>
     <lastmod>2023-05-22T00:34:57+01:00</lastmod>
   </url><url>
-    <loc>https://egghwan.github.io/docs/fpga-demo/code/</loc>
+    <loc>https://egghwan.github.io/docs/fpga-demo/axi4-lite-led_demo/</loc>
     <lastmod>2023-05-22T00:44:31+01:00</lastmod>
   </url><url>
     <loc>https://egghwan.github.io/fr/docs/example-content/code/</loc>
@@ -32,7 +32,7 @@
     <loc>https://egghwan.github.io/docs/rtl-ip/mermaid/</loc>
     <lastmod>2023-09-08T05:12:51+01:00</lastmod>
   </url><url>
-    <loc>https://egghwan.github.io/docs/fpga-demo/mermaid/</loc>
+    <loc>https://egghwan.github.io/docs/fpga-demo/petalinux-build-demo/</loc>
     <lastmod>2023-09-08T05:12:51+01:00</lastmod>
   </url><url>
     <loc>https://egghwan.github.io/docs/section-folder/</loc>
