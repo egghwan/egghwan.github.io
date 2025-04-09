@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Section Folder on </title>
-    <link>/docs/section-folder/</link>
+    <link>https://egghwan.github.io/docs/docs/section-folder/</link>
     <description>Recent content in Section Folder on </description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate></lastBuildDate>
-    <atom:link href="/docs/section-folder/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://egghwan.github.io/docs/docs/section-folder/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
