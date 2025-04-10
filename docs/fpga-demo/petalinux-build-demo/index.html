@@ -16,9 +16,8 @@
 
 <html lang="en"><head>
     <meta charset="utf-8" />
-    <title>Petalinux Build Demo (Zynq z7-10) | </title>
+    <title>Petalinux Build Demo (Zybo-z7-10) | </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Example Mermaid diagrams">
     <meta name="keywords" content="Documentation, Hugo, Hugo Theme, Bootstrap" />
     <meta name="author" content="Colin Wilson - Lotus Labs" />
     <meta name="email" content="support@aigis.uk" />
@@ -31,15 +30,23 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://egghwan.github.io/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://egghwan.github.io/favicon-16x16.png">
 <link rel="manifest" crossorigin="use-credentials" href="https://egghwan.github.io/site.webmanifest">
-<meta property="og:title" content="Petalinux Build Demo (Zynq z7-10)" />
-<meta property="og:description" content="Example Mermaid diagrams" />
+<meta property="og:title" content="Petalinux Build Demo (Zybo-z7-10)" />
+<meta property="og:description" content="
+
+
+1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다. 본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.
+2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 이와 반대로 Vivado에서 제공하는 Vitis 환경이 있는데 이는 운영체제가 없는 Baremetal 환경이다. Baremetal은 부팅 속도가 빠르고 단순하지만 주변 장치를 FPGA와 연동할 때에는 디바이스 드라이버를 따로 구현해야 하는 단점이 있다. 만약 FPGA에 연결되는 주변 장치가 없다면 Baremetal 환경으로 검증하는 것도 좋은 방법이다. Petalinux를 FPGA에 Build한다는 뜻은 컴퓨터에 윈도우를 설치하는 것처럼 FPGA에 리눅스를 설치하는 것이다." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://egghwan.github.io/docs/fpga-demo/petalinux-build-demo/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_76974d0e782ee896.png"/><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2023-09-08T05:12:51+01:00" />
-<meta property="article:modified_time" content="2023-09-08T05:12:51+01:00" /><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_76974d0e782ee896.png"/>
-<meta name="twitter:title" content="Petalinux Build Demo (Zynq z7-10)"/>
-<meta name="twitter:description" content="Example Mermaid diagrams"/>
+<meta property="og:url" content="https://egghwan.github.io/docs/fpga-demo/petalinux-build-demo/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_7c26c4ddbacaae2b.png"/><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-05-22T00:44:31+01:00" />
+<meta property="article:modified_time" content="2023-05-22T00:44:31+01:00" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_7c26c4ddbacaae2b.png"/>
+<meta name="twitter:title" content="Petalinux Build Demo (Zybo-z7-10)"/>
+<meta name="twitter:description" content="
+
+
+1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다. 본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.
+2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 이와 반대로 Vivado에서 제공하는 Vitis 환경이 있는데 이는 운영체제가 없는 Baremetal 환경이다. Baremetal은 부팅 속도가 빠르고 단순하지만 주변 장치를 FPGA와 연동할 때에는 디바이스 드라이버를 따로 구현해야 하는 단점이 있다. 만약 FPGA에 연결되는 주변 장치가 없다면 Baremetal 환경으로 검증하는 것도 좋은 방법이다. Petalinux를 FPGA에 Build한다는 뜻은 컴퓨터에 윈도우를 설치하는 것처럼 FPGA에 리눅스를 설치하는 것이다."/>
 
     
     
@@ -54,7 +61,7 @@
     
     
 
-    <link rel="stylesheet" href="/docs/scss/style.min.015abca806d9307aa469ad25ff445c523730eb1145449ab7a64daa7b1dffccd71031f0b410e055a5bcde95cf98954ea2.css" integrity="sha384-AVq8qAbZMHqkaa0l/0RcUjcw6xFFRJq3pk2qex3/zNcQMfC0EOBVpbzelc&#43;YlU6i"crossorigin="anonymous">
+    <link rel="stylesheet" href="/docs/scss/style.min.0dd19585783190e3219032920f3a0497a073adc641fd4386e14968b027b323d586f5c3ad89ac285595ec9b82b9d8273b.css" integrity="sha384-DdGVhXgxkOMhkDKSDzoEl6BzrcZB/UOG4UlosCezI9WG9cOtiawoVZXsm4K52Cc7"crossorigin="anonymous">
     
     
     
@@ -92,7 +99,7 @@
                                     
                                         
                                         
-                                            <li class="current "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/fpga-demo/petalinux-build-demo/">Petalinux Build Demo (Zynq z7-10)</a></li>
+                                            <li class="current "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/fpga-demo/petalinux-build-demo/">Petalinux Build Demo (Zybo-z7-10)</a></li>
                                         
                                     
                                 </ul>
@@ -181,6 +188,51 @@
                                                     </ul>
                                                 </div>
                                             </li>
+                                        
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                    
+                
+                    
+                    
+                        <li class="sidebar-dropdown  ">
+                            <button class="btn">
+                                <i class="material-icons me-2">tune</i>
+                                Terms
+                            </button>
+                            <div class="sidebar-submenu ">
+                                <ul>
+                                    
+                                        
+                                        
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/terms/wsl/">WSL</a></li>
+                                        
+                                    
+                                </ul>
+                            </div>
+                        </li>
+                    
+                
+                    
+                    
+                        <li class="sidebar-dropdown  ">
+                            <button class="btn">
+                                <i class="material-icons me-2">tune</i>
+                                Theme Options
+                            </button>
+                            <div class="sidebar-submenu ">
+                                <ul>
+                                    
+                                        
+                                        
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/theme-options/breadcrumbs/">Breadcrumb Navigation</a></li>
+                                        
+                                    
+                                        
+                                        
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/theme-options/link-behaviour/">Link behaviour</a></li>
                                         
                                     
                                 </ul>
@@ -322,7 +374,7 @@
             
         
             <li class="breadcrumb-item text-capitalize active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <span itemprop="name">Petalinux Build Demo (Zynq z7-10)</span>
+                <span itemprop="name">Petalinux Build Demo (Zybo-z7-10)</span>
                 <meta itemprop="position" content='3' />
             </li>
         
@@ -335,16 +387,20 @@
     <div class="fw-bold text-uppercase mb-2">On this page</div>
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#flowchart">Flowchart</a></li>
-    <li><a href="#sequence-diagram">Sequence diagram</a></li>
-    <li><a href="#gantt-chart">Gantt Chart</a></li>
-    <li><a href="#class-diagram">Class diagram</a></li>
-    <li><a href="#state-diagram">State diagram</a></li>
-    <li><a href="#pie-chart">Pie Chart</a></li>
-    <li><a href="#git-graph">Git Graph</a></li>
-    <li><a href="#bar-chart-using-gantt-chart">Bar chart (using gantt chart)</a></li>
-    <li><a href="#user-journey-diagram">User Journey diagram</a></li>
-    <li><a href="#c4-diagram">C4 diagram</a></li>
+    <li><a href="#1-데모-설명">1. 데모 설명</a></li>
+    <li><a href="#2-what-is-petalinux">2. What is Petalinux?</a></li>
+    <li><a href="#3-demo">3. Demo</a>
+      <ul>
+        <li><a href="#31-wsl-환경-셋업">3.1 WSL 환경 셋업</a></li>
+        <li><a href="#32-리눅스-패키지-설치">3.2 리눅스 패키지 설치</a></li>
+        <li><a href="#33-bsp-파일-직접-만들기-or-구하기">3.3 BSP 파일 (직접 만들기 or 구하기)</a></li>
+        <li><a href="#34-petalinux-설치">3.4 Petalinux 설치</a></li>
+        <li><a href="#35-petalinux-프로젝트-생성-및-설정">3.5 Petalinux 프로젝트 생성 및 설정</a></li>
+        <li><a href="#36-petalinux-빌드">3.6 Petalinux 빌드</a></li>
+        <li><a href="#37-sd-카드-포맷">3.7 SD 카드 포맷</a></li>
+        <li><a href="#38-fpga에서-petalinux-부팅하기">3.8 FPGA에서 Petalinux 부팅하기</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
     </toc></div>
@@ -356,25 +412,29 @@
                                             </button>
 <nav id="toc-mobile">
   <ul class="dropdown-menu">
-    <li><a href="#flowchart">Flowchart</a></li>
-    <li><a href="#sequence-diagram">Sequence diagram</a></li>
-    <li><a href="#gantt-chart">Gantt Chart</a></li>
-    <li><a href="#class-diagram">Class diagram</a></li>
-    <li><a href="#state-diagram">State diagram</a></li>
-    <li><a href="#pie-chart">Pie Chart</a></li>
-    <li><a href="#git-graph">Git Graph</a></li>
-    <li><a href="#bar-chart-using-gantt-chart">Bar chart (using gantt chart)</a></li>
-    <li><a href="#user-journey-diagram">User Journey diagram</a></li>
-    <li><a href="#c4-diagram">C4 diagram</a></li>
+    <li><a href="#1-데모-설명">1. 데모 설명</a></li>
+    <li><a href="#2-what-is-petalinux">2. What is Petalinux?</a></li>
+    <li><a href="#3-demo">3. Demo</a>
+      <ul>
+        <li><a href="#31-wsl-환경-셋업">3.1 WSL 환경 셋업</a></li>
+        <li><a href="#32-리눅스-패키지-설치">3.2 리눅스 패키지 설치</a></li>
+        <li><a href="#33-bsp-파일-직접-만들기-or-구하기">3.3 BSP 파일 (직접 만들기 or 구하기)</a></li>
+        <li><a href="#34-petalinux-설치">3.4 Petalinux 설치</a></li>
+        <li><a href="#35-petalinux-프로젝트-생성-및-설정">3.5 Petalinux 프로젝트 생성 및 설정</a></li>
+        <li><a href="#36-petalinux-빌드">3.6 Petalinux 빌드</a></li>
+        <li><a href="#37-sd-카드-포맷">3.7 SD 카드 포맷</a></li>
+        <li><a href="#38-fpga에서-petalinux-부팅하기">3.8 FPGA에서 Petalinux 부팅하기</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
                                         <div class="docs-content col-12 col-xl-9 mt-0">
                                             <div class="mb-0 d-flex">
                                                 
-                                                <i class="material-icons title-icon me-2">function</i>
+                                                <i class="material-icons title-icon me-2">code</i>
                                                 
                                                 <h1 class="content-title mb-0">
-                                                    Petalinux Build Demo (Zynq z7-10)
+                                                    Petalinux Build Demo (Zybo-z7-10)
                                                     
                                                 </h1>
                                             </div>
@@ -383,151 +443,559 @@
                                                 
     
     <div data-prismjs-copy="" data-prismjs-copy-success="" data-prismjs-copy-error="">
-        <h2 id="flowchart">Flowchart <a href="#flowchart" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">flowchart LR
+        <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h2 id="1-데모-설명">1. 데모 설명 <a href="#1-%eb%8d%b0%eb%aa%a8-%ec%84%a4%eb%aa%85" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>Zybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다. 본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.</p>
+<h2 id="2-what-is-petalinux">2. What is Petalinux? <a href="#2-what-is-petalinux" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>Petalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 이와 반대로 Vivado에서 제공하는 Vitis 환경이 있는데 이는 운영체제가 없는 Baremetal 환경이다. Baremetal은 부팅 속도가 빠르고 단순하지만 주변 장치를 FPGA와 연동할 때에는 디바이스 드라이버를 따로 구현해야 하는 단점이 있다. 만약 FPGA에 연결되는 주변 장치가 없다면 Baremetal 환경으로 검증하는 것도 좋은 방법이다. Petalinux를 FPGA에 Build한다는 뜻은 컴퓨터에 윈도우를 설치하는 것처럼 FPGA에 리눅스를 설치하는 것이다.</p>
+<h2 id="3-demo">3. Demo <a href="#3-demo" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>Petalinux를 Build하기 위한 Demo다. 3.1 항목 부터 차례대로 따라서 진행하면 된다. 이하 모든 과정은 WSL 환경에서 실행한다. 3번 과정이 모두 끝나면 FPGA에서 Petalinux가 빌드된다. 숫자로 인덱싱된 과정들을 놓치지 말고 차근차근 따라해보자.
+ </p>
+<h3 id="31-wsl-환경-셋업">3.1 WSL 환경 셋업 <a href="#31-wsl-%ed%99%98%ea%b2%bd-%ec%85%8b%ec%97%85" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>Petalinux 빌드를 위해서 먼저 컴퓨터에 <a data-bs-delay="{&#34;hide&#34;:300,&#34;show&#34;:550}" data-bs-html="true" data-bs-title="<a href='/docs/terms/wsl/'><p>TERMS</p><strong>WSL</strong><br>WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구축한다.</a>" data-bs-toggle="tooltip" href="/docs/terms/wsl/">WSL</a> 환경이 컴퓨터에 세팅되어야 한다. WSL 버전은 Petalinux가 정상적으로 동작하는데 매우 중요한 조건이다.</p>
+<p><a href="https://docs.amd.com/r/en-US/ug1144-petalinux-tools-reference-guide/Navigating-Content-by-Design-Process" rel="external" target="_blank">https://docs.amd.com/r/en-US/ug1144-petalinux-tools-reference-guide/Navigating-Content-by-Design-Process<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/></svg></a></p>
+<p>위 링크를 클릭하면 PetaLinux Tools Documentation: Reference Guide (UG1144) 문서로 연결된다. 문서의 Installation Requirements 항목에 Supported OS: 부분에 지원되는 WSL 환경이 명시되어 있다.</p>
+<p>
 
-A[Hard] --&gt;|Text| B(Round)
-B --&gt; C{Decision}
-C --&gt;|One| D[Result 1]
-C --&gt;|Two| E[Result 2]
-</pre>
-<h2 id="sequence-diagram">Sequence diagram <a href="#sequence-diagram" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">sequenceDiagram
-Alice-&gt;&gt;John: Hello John, how are you?
-loop Healthcheck
-    John-&gt;&gt;John: Fight against hypochondria
-end
-Note right of John: Rational thoughts!
-John--&gt;&gt;Alice: Great!
-John-&gt;&gt;Bob: How about you?
-Bob--&gt;&gt;John: Jolly good!
-</pre>
-<h2 id="gantt-chart">Gantt Chart <a href="#gantt-chart" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">gantt
-    section Section
-    Completed :done,    des1, 2014-01-06,2014-01-08
-    Active        :active,  des2, 2014-01-07, 3d
-    Parallel 1   :         des3, after des1, 1d
-    Parallel 2   :         des4, after des1, 1d
-    Parallel 3   :         des5, after des3, 1d
-    Parallel 4   :         des6, after des4, 1d
-</pre>
-<h2 id="class-diagram">Class diagram <a href="#class-diagram" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">classDiagram
-Class01 &lt;|-- AveryLongClass : Cool
-&lt;&lt;interface&gt;&gt; Class01
-Class09 --&gt; C2 : Where am i?
-Class09 --* C3
-Class09 --|&gt; Class07
-Class07 : equals()
-Class07 : Object[] elementData
-Class01 : size()
-Class01 : int chimp
-Class01 : int gorilla
-class Class10 {
-  &gt;&gt;service&gt;&gt;
-  int id
-  size()
-}
-</pre>
-<h2 id="state-diagram">State diagram <a href="#state-diagram" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">stateDiagram-v2
-[*] --&gt; Still
-Still --&gt; [*]
-Still --&gt; Moving
-Moving --&gt; Still
-Moving --&gt; Crash
-Crash --&gt; [*]
-</pre>
-<h2 id="pie-chart">Pie Chart <a href="#pie-chart" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">pie
-&#34;Dogs&#34; : 386
-&#34;Cats&#34; : 85.9
-&#34;Rats&#34; : 15
-</pre>
-<h2 id="git-graph">Git Graph <a href="#git-graph" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">    gitGraph
-      commit
-      commit
-      branch develop
-      checkout develop
-      commit
-      commit
-      checkout main
-      merge develop
-      commit
-      commit
-</pre>
-<h2 id="bar-chart-using-gantt-chart">Bar chart (using gantt chart) <a href="#bar-chart-using-gantt-chart" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">gantt
-    title Git Issues - days since last update
-    dateFormat  X
-    axisFormat %s
 
-    section Issue19062
-    71   : 0, 71
-    section Issue19401
-    36   : 0, 36
-    section Issue193
-    34   : 0, 34
-    section Issue7441
-    9    : 0, 9
-    section Issue1300
-    5    : 0, 5
-</pre>
-<h2 id="user-journey-diagram">User Journey diagram <a href="#user-journey-diagram" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">  journey
-    title My working day
-    section Go to work
-      Make tea: 5: Me
-      Go upstairs: 3: Me
-      Do work: 1: Me, Cat
-    section Go home
-      Go downstairs: 5: Me
-      Sit down: 3: Me
-</pre>
-<h2 id="c4-diagram">C4 diagram <a href="#c4-diagram" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><pre class="mermaid">C4Context
-title System Context diagram for Internet Banking System
 
-Person(customerA, &#34;Banking Customer A&#34;, &#34;A customer of the bank, with personal bank accounts.&#34;)
-Person(customerB, &#34;Banking Customer B&#34;)
-Person_Ext(customerC, &#34;Banking Customer C&#34;)
-System(SystemAA, &#34;Internet Banking System&#34;, &#34;Allows customers to view information about their bank accounts, and make payments.&#34;)
 
-Person(customerD, &#34;Banking Customer D&#34;, &#34;A customer of the bank, &lt;br/&gt; with personal bank accounts.&#34;)
 
-Enterprise_Boundary(b1, &#34;BankBoundary&#34;) {
+  
 
-  SystemDb_Ext(SystemE, &#34;Mainframe Banking System&#34;, &#34;Stores all of the core banking information about customers, accounts, transactions, etc.&#34;)
 
-  System_Boundary(b2, &#34;BankBoundary2&#34;) {
-    System(SystemA, &#34;Banking System A&#34;)
-    System(SystemB, &#34;Banking System B&#34;, &#34;A system of the bank, with personal bank accounts.&#34;)
-  }
 
-  System_Ext(SystemC, &#34;E-mail system&#34;, &#34;The internal Microsoft Exchange e-mail system.&#34;)
-  SystemDb(SystemD, &#34;Banking System D Database&#34;, &#34;A system of the bank, with personal bank accounts.&#34;)
+  
+    
+      <img src="/images/content/support_os_petalinux.png" alt="Internal link preview tooltip" width="779" height="261" loading="lazy">
+    
+  
+</p>
+<ol>
+<li>해당 Demo는 Ubuntu 20.04.6 LTS로 WSL를 구축한다. <a href="https://leirbag.tistory.com/145" rel="external" target="_blank">(VMWare로 WSL 환경 구축 방법 참고)<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/></svg></a></li>
+</ol>
+<p> </p>
+<h3 id="32-리눅스-패키지-설치">3.2 리눅스 패키지 설치 <a href="#32-%eb%a6%ac%eb%88%85%ec%8a%a4-%ed%8c%a8%ed%82%a4%ec%a7%80-%ec%84%a4%ec%b9%98" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>Petalinux를 설치하기 위해서 필요한 리눅스 패키지 파일을 설치한다.</p>
+<ol>
+<li>
+<p>리눅스 터미널을 열고 아래 명령어를 입력해 패키지 파일을 설치한다.</p>
+</li>
+<li>
+<p>sudo apt-get install gawk</p>
+</li>
+<li>
+<p>sudo apt-get install gcc</p>
+</li>
+<li>
+<p>sudo apt-get install net-tools</p>
+</li>
+<li>
+<p>sudo apt-get install xterm</p>
+</li>
+<li>
+<p>sudo apt-get install libtool</p>
+</li>
+<li>
+<p>sudo apt-get install texinfo</p>
+</li>
+<li>
+<p>sudo apt-get install zlib1g-dev</p>
+</li>
+<li>
+<p>sudo apt-get install gcc-multilib</p>
+</li>
+<li>
+<p>sudo apt-get install build-essential</p>
+</li>
+<li>
+<p>sudo apt-get install ncurses-dev</p>
+</li>
+<li>
+<p>sudo apt-get install libncurses5-dev</p>
+</li>
+<li>
+<p>sudo dpkg-reconfigure dash -&gt; &ldquo;No&rdquo; 엔터</p>
+</li>
+</ol>
+<p> </p>
+<h3 id="33-bsp-파일-직접-만들기-or-구하기">3.3 BSP 파일 (직접 만들기 or 구하기) <a href="#33-bsp-%ed%8c%8c%ec%9d%bc-%ec%a7%81%ec%a0%91-%eb%a7%8c%eb%93%a4%ea%b8%b0-or-%ea%b5%ac%ed%95%98%ea%b8%b0" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>Petalinux 빌드를 위해서는 bsp파일이 필요하다. 다행히 Xilinx에서 제공하는 EVM 보드는 미리 Petalinux가 빌드된 bsp 파일을 공식 사이트에서 배포한다. Zybo-z7-10의 경우는 Digilent 홈페이지에서 bsp 파일을 배포한다. 만약 미리 빌드된 bsp파일을 구하지 못한다면 petalinux 구성 설정을 통해 직접 bsp파일을 만들어야 한다. (아직 bsp 파일을 만드는 방법은 몰라서 추후 업데이트)</p>
+<ol>
+<li>
+<p><a href="https://digilent.com/reference/programmable-logic/zybo-z7/demos/petalinux" rel="external" target="_blank">https://digilent.com/reference/programmable-logic/zybo-z7/demos/petalinux<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/></svg></a> 로 들어간다.</p>
+<p>
 
-  Boundary(b3, &#34;BankBoundary3&#34;, &#34;boundary&#34;) {
-    SystemQueue(SystemF, &#34;Banking System F Queue&#34;, &#34;A system of the bank, with personal bank accounts.&#34;)
-    SystemQueue_Ext(SystemG, &#34;Banking System G Queue&#34;, &#34;A system of the bank, with personal bank accounts.&#34;)
-  }
-}
 
-BiRel(customerA, SystemAA, &#34;Uses&#34;)
-BiRel(SystemAA, SystemE, &#34;Uses&#34;)
-Rel(SystemAA, SystemC, &#34;Sends e-mails&#34;, &#34;SMTP&#34;)
-Rel(SystemC, customerA, &#34;Sends e-mails to&#34;)
-</pre>
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/zybo_petalinux_bsp.png" alt="Internal link preview tooltip" width="1122" height="441" loading="lazy">
+    
+  
+</p>
+</li>
+<li>
+<p>위 사진에서 원하는 petalinux 버전의 bsp파일을 선택한다. 이 때 반드시 3.4에서 설치할 petalinux 버전과 동일해야 한다. 이 데모는 Zybo-z7-10-Petalinux-2022-1.bsp를 설치한다.</p>
+</li>
+</ol>
+<p> </p>
+<h3 id="34-petalinux-설치">3.4 Petalinux 설치 <a href="#34-petalinux-%ec%84%a4%ec%b9%98" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>이제 Petalinux 툴을 WSL 환경에 설치한다. 설치 파일은 AMD 홈페이지에서 구할 수 있다.</p>
+<ol>
+<li>
+<p><a href="https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/archive.html" rel="external" target="_blank">https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/embedded-design-tools/archive.html<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/></svg></a> 접속</p>
+</li>
+<li>
+<p>bsp 버전과 똑같은 Petalinux 버전 설치 (만약 bsp를 직접 만들거라면 내가 생성하려는 Petalinux 버전을 선택하면 된다.)</p>
+</li>
+<li>
+<p>PetaLinux 2022.1 Installer를 클릭해 설치한다. 설치가 완료되면 &lt;파일 이름&gt;.run 파일이 받아짐을 확인할 수 있다. (BSP 파일 버전과 Petalinux 버전을 꼭 일치시키자!)
+
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/petalinux_install.png" alt="Internal link preview tooltip" width="987" height="437" loading="lazy">
+    
+  
+</p>
+</li>
+<li>
+<p>설치가 완료되면 &lt;Petalinux 파일 이름&gt;.run 파일이 받아진다.</p>
+</li>
+<li>
+<p>리눅스 터미널을 열고 &lt;Petalinux 파일 이름&gt;.run이 있는 경로를 cd 명령어를 활용해 들어간다.</p>
+</li>
+<li>
+<p>터미널에서 &ldquo;chmod 755 ./&lt;Petalinux 파일 이름&gt;.run&rdquo; 을 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>   ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;chmod 755 ./petalinux-v2022.1-04191534-installer.run&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>Petalinux를 설치할 폴더를 만들기 위해 터미널에서 &ldquo;mkdir -p /opt/pkg/petalinux&quot;를 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;mkdir -p /opt/pkg/petalinux&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>터미널에서 &ldquo;./&lt;Petalinux 파일 이름&gt;.run /opt/pkg/petalinux&rdquo; 명령어를 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;./petalinux-v2022.1-04191534-installer.run /opt/pkg/petalinux&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>INFO : Petalinux SDK has been installed to &lt;설치 경로&gt; 가 뜨면 정상적으로 Petalinux가 설치되었다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/petalinux_install_done_log.png" alt="Internal link preview tooltip" width="712" height="437" loading="lazy">
+    
+  
+</p>
+</li>
+<li>
+<p>터미널에서 &ldquo;cd /opt/pkg/petalinux&rdquo; 명령어를 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#e6db74">&#34;cd /opt/pkg/petalinux&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>터미널에서 &ldquo;source settings.sh&rdquo; 명령어를 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> <span style="color:#e6db74">&#34;source settings.sh&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>터미널에서 &ldquo;echo $PETALINUX&rdquo; 명령어를 입력해 뜨는 로그가 /opt/pkg/petalinux 이면 Petalinux가 WSL 환경에 잘 설치 되었다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> <span style="color:#e6db74">&#34;echo </span>$PETALINUX<span style="color:#e6db74">&#34;</span></span></span></code></pre></div>
+</li>
+</ol>
+<p> </p>
+<h3 id="35-petalinux-프로젝트-생성-및-설정">3.5 Petalinux 프로젝트 생성 및 설정 <a href="#35-petalinux-%ed%94%84%eb%a1%9c%ec%a0%9d%ed%8a%b8-%ec%83%9d%ec%84%b1-%eb%b0%8f-%ec%84%a4%ec%a0%95" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>우리가 Vivado 프로젝트를 만드는 것과 동일하게 Petalinux 프로젝트를 새로 생성한다. 그리고 Petalinux 설정을 통해 이더넷 등 다양한 디바이스 드라이버들을 사용하기 위한 설정을 진행한다. (각 디테일한 옵션은 To do)</p>
+<ol>
+<li>
+<p>Petalinux 프로젝트들을 저장할 디렉토리를 하나 만든다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>   ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;mkdir -p /home/kkh/Desktop/kkh&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>cd 명령어를 이용해 Petalinux 프로젝트 폴더로 이동한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>   ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;cd /home/kkh/Desktop/kkh&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>3.3절의 2번 항목에서 받았던 bsp파일을 Petalinux 프로젝트 폴더로 이동시킨다.</p>
+</li>
+<li>
+<p>터미널에서 &ldquo;petalinux-create &ndash;t project -s &lt;bsp 파일 이름&gt;&ldquo;명령어를 입력해서 Petalinux 프로젝트를 생성한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;petalinux-create -t project -s Zybo-Z7-10-Petalinux-2022-1.bsp&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>터미널에서 cd 명령어를 활용해 생성된 petalinux 프로젝트 폴더 안으로 이동한다. (프로젝트 이름은 기본값 &ldquo;os&quot;로 생성된다.)</p>
+</li>
+<li>
+<p>터미널에서 &ldquo;petalinux-config&rdquo; 명령어를 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;petalinux-config&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>Subsystem Hardware Settings -&gt; Ethernet Settings -&gt; Obtain IP address automatically -&gt; &ldquo;n 입력&rdquo; -&gt; 아래와 같이 IP 설정 (IP address는 192.168.x.x 임의로 설정 가능하다.)</p>
+<p>해당 과정은 컴퓨터에서 FPGA 보드에 ssh 이더넷을 활용해 접속할 때 FPGA의 IP를 정적으로 할당하기 위함이다. 만약 해당 옵션을 체크하지 않으면 무작위로 FPGA의 이더넷 IP가 할당된다.   </p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/petalinux_config.png" alt="Internal link preview tooltip" width="1292" height="261" loading="lazy">
+    
+  
+</p>
+</li>
+<li>
+<p>Exit을 2번 눌러 최상위로 나온다.</p>
+</li>
+<li>
+<p>Image Packing Configuration -&gt; Root filesystem type (SD/eMMC/SATA/USB) -&gt; EXT4 설정     </p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/petalinux_config_1.png" alt="Internal link preview tooltip" width="1277" height="261" loading="lazy">
+    
+  
+</p>
+</li>
+<li>
+<p>하단의 &ldquo;SAVE&quot;를 눌러서 Petalinux 설정을 저장한다.</p>
+</li>
+<li>
+<p>터미널을 열어 petalinux 프로젝트 폴더 안의 project-spec/meta-user/recipes-bsp/device-tree/files/ 경로로 들어간뒤 system-user.dtsi 파일을 연다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;cd project-spec/meta-user/recipes-bsp/device-tree/files&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>파일의 내용 중 bootargs = console=ttyPS0,115200 earlyprintk uio_pdrv_genirq.of_id=generic-uio&rdquo; 을 찾아서 bootargs = &ldquo;console=ttyPS0,115200 earlyprintk uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait&quot;로 수정 후 저장한다.</p>
+</li>
+<li>
+<p>터미널에서 &ldquo;petalinux-config -c rootfs&quot;를 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;petalinux-config -c rootfs&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>Filesystem Packages -&gt; misc -&gt; packagegroup-core-buildessential -&gt; packagegroup-core-buildessential -&gt; &ldquo;y&quot;입력   </p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/petalinux_config_2.png" alt="Internal link preview tooltip" width="1724" height="256" loading="lazy">
+    
+  
+</p>
+<p>해당 과정은 Petalinux안에 C언어 컴파일을 위한 gcc 컴파일러를 설치하는 과정이다. 이를 통해 PS영역의 SW 프로그램을 코딩할 수 있다. 따라서 PL로부터 AXI 프로토콜을 활용해 데이터를 읽어오는 SW 프로그래밍 코드가 가능하다.</p>
+</li>
+<li>
+<p>Filesystem Packages -&gt; misc -&gt; python3 -&gt; python3 -&gt; &ldquo;y&rdquo; 입력   </p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/petalinux_config_3.png" alt="Internal link preview tooltip" width="1726" height="253" loading="lazy">
+    
+  
+</p>
+<p>해당 과정은 Petalinux안에 Python 컴파일러를 설치하는 과정이다. Python으로도 SW 프로그밍이 가능하다.</p>
+</li>
+<li>
+<p>설정이 끝났으면 &ldquo;SAVE&quot;를 통해 설정을 저장한다.</p>
+</li>
+</ol>
+<p>기나긴 Petalinux 설정이 끝났다. 드디어 Petalinux를 빌드할 준비가 되었다.
+ </p>
+<h3 id="36-petalinux-빌드">3.6 Petalinux 빌드 <a href="#36-petalinux-%eb%b9%8c%eb%93%9c" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>이제 Petalinux 빌드를 해보자. 빌드 방법은 매우 간단하다.</p>
+<ol>
+<li>
+<p>터미널에서 &ldquo;petalinux-build&rdquo; 를 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;petalinux-build&#34;</span></span></span></code></pre></div>
+<p>컴퓨터 성능에 따라 다르지만 약 15~20분 정도 걸린다.</p>
+</li>
+<li>
+<p>빌드가 완료되면 “petalinux-package &ndash;boot &ndash;fsbl ./images/linux/zynq_fsbl.elf &ndash;fpga ./images/linux/system.bit &ndash;u-boot ./images/linux/u-boot.elf –force” 을 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> “petalinux-package --boot --fsbl ./images/linux/zynq_fsbl.elf --fpga ./images/linux/system.bit --u-boot ./images/linux/u-boot.elf –force”</span></span></code></pre></div>
+</li>
+<li>
+<p>1번과 2번 과정이 모두 완료되면 Petalinux 프로젝트 폴더 안에 /images 하위에 boot.scr, image.ub, BOOT.BIN, rootfs.tar.gz 파일이 생성된다.</p>
+</li>
+</ol>
+<p>이로써 Petalinux Build를 완료했다.</p>
+<h3 id="37-sd-카드-포맷">3.7 SD 카드 포맷 <a href="#37-sd-%ec%b9%b4%eb%93%9c-%ed%8f%ac%eb%a7%b7" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>FPGA에서 Petalinux를 부팅시키는 과정은 SD 카드를 통해서 진행한다. SD카드 안에 3.6과정을 통해 생성된 boot.scr, image.ub, BOOT.BIN, rootfs.tar.gz 파일을 넣는다. USB나 SD카드를 통해 윈도우 부팅 디스크를 만드는 것과 똑같다.</p>
+<p>이를 위해선 SD 카드가 특정 형태로 포맷되어야 한다.</p>
+<ol>
+<li>
+<p>컴퓨터에 SD카드를 꽂는다.</p>
+</li>
+<li>
+<p>터미널에 &ldquo;sudo fdisk -l&rdquo; 명령어를 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> “sudo fdisk -l”</span></span></code></pre></div>
+<p>그러면 log로 /dev/sdb 또는 /(dev/sda, /dev/sdc) 형태로 SD카드가 검색된다. 이 때 내가 넣은 SD카드의 용량을 확인해서 다른 저장공간과 헷갈리지 않게 유의한다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sd_card_fdisk.png" alt="Internal link preview tooltip" width="543" height="249" loading="lazy">
+    
+  
+</p>
+</li>
+<li>
+<p>터미널에 &ldquo;sudo fdisk &lt;SD카드 장치 이름&gt;을 입력한다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> “sudo fdisk /dev/sdb”</span></span></code></pre></div>
+</li>
+<li>
+<p>터미널에 &ldquo;p&quot;를 입력한다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sd_card_fdisk_1.png" alt="Internal link preview tooltip" width="585" height="219" loading="lazy">
+    
+  
+</p>
+<p>현재 파티션이 하나도 없음을 확인 할 수 있다.</p>
+</li>
+<li>
+<p>터미널에 &ldquo;n&quot;을 입력 -&gt; 터미널에 &ldquo;p&rdquo; 입력 -&gt; 그냥 한 번 엔터 -&gt; 그냥 한 번 엔터 -&gt; +1G 입력 엔터를 수행한다. (아래 그림 참고)</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sd_card_fdisk_2.png" alt="Internal link preview tooltip" width="1514" height="358" loading="lazy">
+    
+  
+</p>
+<p>위 과정을 수행한 뒤 터미널에 &ldquo;a&quot;를 입력하면 /dev/sdb1 이름으로 파티션이 한 개 생성된다.</p>
+</li>
+<li>
+<p>터미널에 &ldquo;n&quot;을 입력 -&gt; 터미널에 &ldquo;p&rdquo; 입력 -&gt; 그냥 한 번 엔터 -&gt; 그냥 한 번 엔터 -&gt; 터미널에 &ldquo;p&quot;입력 -&gt; 터미널에 &ldquo;w&quot;입력 (아래 그림 참고)</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sd_card_fdisk_3.png" alt="Internal link preview tooltip" width="1561" height="419" loading="lazy">
+    
+  
+</p>
+<p>위 과정을 수행하면 총 2개의 파티션 (/dev/sdb1, /dev/sdb2)가 생성됨을 확인할 수 있다.</p>
+</li>
+<li>
+<p>터미널에 &ldquo;sudo mkfs.vfat -F 32 -n BOOT /dev/sdb1&rdquo; 입력</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;sudo mkfs.vfat -F 32 -n BOOT /dev/sdb1&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>터미널에 &ldquo;sudo mkfs.ext4 -L ROOT /dev/sdb2&rdquo; 입력</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;sudo mkfs.ext4 -L ROOT /dev/sdb2&#34;</span></span></span></code></pre></div>
+</li>
+<li>
+<p>위 과정이 모두 완료되면 SD카드 파티션이 boot, root 이름으로 2개가 생성되는지 확인하기</p>
+</li>
+<li>
+<p>sd카드의 boot 영역에 3.6 항목의 3번에서 생성했던 boot.src, BOOT.BIN, image.ub 3개의 파일을 드래그 앤 드롭으로 복사</p>
+</li>
+<li>
+<p>BOOT.BIN파일이 존재하는 경로에서 터미널을 열기</p>
+</li>
+<li>
+<p>터미널에서 “sudo dd if=rootfs.ext4 of=/dev/sdb2” 입력</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> “sudo dd <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>rootfs.ext4 of<span style="color:#f92672">=</span>/dev/sdb2” </span></span></code></pre></div>
+<p>약 30분 정도 소요된다.</p>
+</li>
+<li>
+<p>터미널에서 “sudo resize2fs /dev/sdb” 입력</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  ex<span style="color:#f92672">)</span> “sudo resize2fs /dev/sdb”</span></span></code></pre></div>
+</li>
+</ol>
+<p>위 과정을 거쳐서 SD카드에 petalinux 부팅 파일이 정상적으로 올라갔다.</p>
+<p> </p>
+<h3 id="38-fpga에서-petalinux-부팅하기">3.8 FPGA에서 Petalinux 부팅하기 <a href="#38-fpga%ec%97%90%ec%84%9c-petalinux-%eb%b6%80%ed%8c%85%ed%95%98%ea%b8%b0" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>이제 FPGA에서 Petalinux를 부팅만 하면 된다. 부팅 방법은 간단하다.</p>
+<ol>
+<li>
+<p>3.7에서 만든 SD카드를 FPGA SD 카드 슬롯에 꽂기</p>
+</li>
+<li>
+<p>Zybo-z7-10을 SD카드 부팅 모드로 설정하기 (아래 그림 참고)</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/z7_10_sd_boot.jpg" alt="Internal link preview tooltip" width="1117" height="761" loading="lazy">
+    
+  
+</p>
+<p>보드를 위와 같이 구성한다. 파란색 고무 마개를 빨간색 네모 처럼 꼽으면 된다.</p>
+</li>
+<li>
+<p>컴퓨터와 FPGA 이더넷 포트를 랜선으로 연결하기</p>
+</li>
+<li>
+<p>컴퓨터의 설정 -&gt; 네트워크 및 인터넷 -&gt; 이더넷 -&gt;IPv4 주소를 192.168.255.xxx로 설정한다. 이때 IPv4 주소는 3.5항목의 7번 과정에서 설정한 IP의 3번째 구역까지 같아야하고 마지막 구역은 달라야 한다.</p>
+<p>ex) 3.5항목의 7번과정에서 IP를 192.168.255.10으로 설정했으면 내 컴퓨터의 IP는 192.168.255.100이어야 한다.</p>
+</li>
+<li>
+<p>서브넷 마스크는 255.255.255.0으로 설정한다.</p>
+</li>
+<li>
+<p>MobaXterm이나 Tera-Term으로 serial 접속을 수행한다. 이때 Baurd-Rate를 115200으로 설정한다.</p>
+</li>
+<li>
+<p>FPGA 보드 전원을 켜면 시리얼 통신으로 부팅 로그가 뜬다.</p>
+</li>
+<li>
+<p>초기 login ID는 root, 초기 비밀번호도 root이다.</p>
+</li>
+<li>
+<p>로그인을 완료하면 root@Petalinux-2022가 뜬다. 이를 통해 Petalinux가 성공적으로 부팅됨을 확인 할 수 있다.</p>
+</li>
+<li>
+<p>ssh 이더넷 포트를 통해서도 접속이 가능하다 ssh root@&lt;FPGA IP주소&gt;를 입력하면 ssh 접속도 가능하다.</p>
+</li>
+</ol>
 
     </div>
 
-    
-    
-    
-        
-    
-    <script src="/docs/js/mermaid.min.a4a583544e57b0ee421947966ee3a1ece84217be936d80e4ebb1ab6e798219816de5512403f79735bfef34e4d955e6cd.js" integrity="sha384-pKWDVE5XsO5CGUeWbuOh7OhCF76TbYDk67GrbnmCGYFt5VEkA/eXNb/vNOTZVebN"></script>
-    <script>
-        const config = {
-            startOnLoad:true,
-            logLevel: "error",
-            align: "center",
-            theme:"null"
-        };
-        mermaid.initialize(config);
-    </script>
     
 
     
@@ -537,22 +1005,22 @@ Rel(SystemC, customerA, &#34;Sends e-mails to&#34;)
 
 	<div class="row flex-xl-nowrap ">
 	<div class="col-sm-6 pt-2 doc-next">
-		<a href="/docs/rtl-ip/mermaid/">
+		<a href="/docs/rtl-ip/code/">
 			<div class="card h-100 my-1">
 				<div class="card-body py-2">
-                    <p class="card-title fs-5 fw-semibold lh-base mb-0"><i class="material-icons align-middle">navigate_before</i> Mermaid</p>
-					<p class="card-text ms-2">Example Mermaid diagrams</p>
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0"><i class="material-icons align-middle">navigate_before</i> lib_round.v</p>
+					<p class="card-text ms-2"></p>
 					
 				</div>
 			</div>
 		</a>
         </div>
 	<div class="col-sm-6 pt-2 doc-prev">
-		<a class="ms-auto" href="/docs/section-folder/section-subfolder/second-section-subfolder/third-section-subfolder/example-doc/">
+		<a class="ms-auto" href="/docs/rtl-ip/mermaid/">
 			<div class="card h-100 my-1 text-end">
 				<div class="card-body py-2">
-                    <p class="card-title fs-5 fw-semibold lh-base mb-0">Example Doc <i class="material-icons align-middle">navigate_next</i></p>
-					<p class="card-text me-2">Example document nested inside multiple …</p>
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0">Mermaid <i class="material-icons align-middle">navigate_next</i></p>
+					<p class="card-text me-2">Example Mermaid diagrams</p>
 					
 				</div>
 			</div>
@@ -802,6 +1270,41 @@ Rel(SystemC, customerA, &#34;Sends e-mails to&#34;)
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
     
@@ -847,17 +1350,17 @@ Rel(SystemC, customerA, &#34;Sends e-mails to&#34;)
     index.add(
             {
                 id:  4 ,
-                href: "\/docs\/rtl-ip\/mermaid\/",
-                title: "Mermaid",
-                description: "Example Mermaid diagrams",
-                content: "Flowchart linkflowchart LR\rA[Hard] --\u003e|Text| B(Round)\rB --\u003e C{Decision}\rC --\u003e|One| D[Result 1]\rC --\u003e|Two| E[Result 2] Sequence diagram linksequenceDiagram\rAlice-\u003e\u003eJohn: Hello John, how are you?\rloop Healthcheck\rJohn-\u003e\u003eJohn: Fight against hypochondria\rend\rNote right of John: Rational thoughts!\rJohn--\u003e\u003eAlice: Great!\rJohn-\u003e\u003eBob: How about you?\rBob--\u003e\u003eJohn: Jolly good! Gantt Chart linkgantt\rsection Section\rCompleted :done, des1, 2014-01-06,2014-01-08\rActive :active, des2, 2014-01-07, 3d\rParallel 1 : des3, after des1, 1d\rParallel 2 : des4, after des1, 1d\rParallel 3 : des5, after des3, 1d\rParallel 4 : des6, after des4, 1d Class diagram linkclassDiagram\rClass01 \u003c|-- AveryLongClass : Cool\r\u003c\u003e Class01\rClass09 --\u003e C2 : Where am i?\rClass09 --* C3\rClass09 --|\u003e Class07\rClass07 : equals()\rClass07 : Object[] elementData\rClass01 : size()\rClass01 : int chimp\rClass01 : int gorilla\rclass Class10 {\r\u003e\u003eservice\u003e\u003e\rint id\rsize()\r} State diagram linkstateDiagram-v2\r[*] --\u003e Still\rStill --\u003e [*]\rStill --\u003e Moving\rMoving --\u003e Still\rMoving --\u003e Crash\rCrash --\u003e [*] Pie Chart linkpie\r\"Dogs\" : 386\r\"Cats\" : 85.9\r\"Rats\" : 15 Git Graph link gitGraph\rcommit\rcommit\rbranch develop\rcheckout develop\rcommit\rcommit\rcheckout main\rmerge develop\rcommit\rcommit Bar chart (using gantt chart) linkgantt\rtitle Git Issues - days since last update\rdateFormat X\raxisFormat %s\rsection Issue19062\r71 : 0, 71\rsection Issue19401\r36 : 0, 36\rsection Issue193\r34 : 0, 34\rsection Issue7441\r9 : 0, 9\rsection Issue1300\r5 : 0, 5 User Journey diagram link journey\rtitle My working day\rsection Go to work\rMake tea: 5: Me\rGo upstairs: 3: Me\rDo work: 1: Me, Cat\rsection Go home\rGo downstairs: 5: Me\rSit down: 3: Me C4 diagram linkC4Context\rtitle System Context diagram for Internet Banking System\rPerson(customerA, \"Banking Customer A\", \"A customer of the bank, with personal bank accounts.\")\rPerson(customerB, \"Banking Customer B\")\rPerson_Ext(customerC, \"Banking Customer C\")\rSystem(SystemAA, \"Internet Banking System\", \"Allows customers to view information about their bank accounts, and make payments.\")\rPerson(customerD, \"Banking Customer D\", \"A customer of the bank, with personal bank accounts.\")\rEnterprise_Boundary(b1, \"BankBoundary\") {\rSystemDb_Ext(SystemE, \"Mainframe Banking System\", \"Stores all of the core banking information about customers, accounts, transactions, etc.\")\rSystem_Boundary(b2, \"BankBoundary2\") {\rSystem(SystemA, \"Banking System A\")\rSystem(SystemB, \"Banking System B\", \"A system of the bank, with personal bank accounts.\")\r}\rSystem_Ext(SystemC, \"E-mail system\", \"The internal Microsoft Exchange e-mail system.\")\rSystemDb(SystemD, \"Banking System D Database\", \"A system of the bank, with personal bank accounts.\")\rBoundary(b3, \"BankBoundary3\", \"boundary\") {\rSystemQueue(SystemF, \"Banking System F Queue\", \"A system of the bank, with personal bank accounts.\")\rSystemQueue_Ext(SystemG, \"Banking System G Queue\", \"A system of the bank, with personal bank accounts.\")\r}\r}\rBiRel(customerA, SystemAA, \"Uses\")\rBiRel(SystemAA, SystemE, \"Uses\")\rRel(SystemAA, SystemC, \"Sends e-mails\", \"SMTP\")\rRel(SystemC, customerA, \"Sends e-mails to\") "
+                href: "\/docs\/fpga-demo\/petalinux-build-demo\/",
+                title: "Petalinux Build Demo (Zybo-z7-10)",
+                description: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다. 본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.\n2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 이와 반대로 Vivado에서 제공하는 Vitis 환경이 있는데 이는 운영체제가 없는 Baremetal 환경이다. Baremetal은 부팅 속도가 빠르고 단순하지만 주변 장치를 FPGA와 연동할 때에는 디바이스 드라이버를 따로 구현해야 하는 단점이 있다. 만약 FPGA에 연결되는 주변 장치가 없다면 Baremetal 환경으로 검증하는 것도 좋은 방법이다. Petalinux를 FPGA에 Build한다는 뜻은 컴퓨터에 윈도우를 설치하는 것처럼 FPGA에 리눅스를 설치하는 것이다.\n",
+                content: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다. 본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.\n2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 이와 반대로 Vivado에서 제공하는 Vitis 환경이 있는데 이는 운영체제가 없는 Baremetal 환경이다. Baremetal은 부팅 속도가 빠르고 단순하지만 주변 장치를 FPGA와 연동할 때에는 디바이스 드라이버를 따로 구현해야 하는 단점이 있다. 만약 FPGA에 연결되는 주변 장치가 없다면 Baremetal 환경으로 검증하는 것도 좋은 방법이다. Petalinux를 FPGA에 Build한다는 뜻은 컴퓨터에 윈도우를 설치하는 것처럼 FPGA에 리눅스를 설치하는 것이다.\n3. Demo linkPetalinux를 Build하기 위한 Demo다. 3.1 항목 부터 차례대로 따라서 진행하면 된다. 이하 모든 과정은 WSL 환경에서 실행한다. 3번 과정이 모두 끝나면 FPGA에서 Petalinux가 빌드된다. 숫자로 인덱싱된 과정들을 놓치지 말고 차근차근 따라해보자. 3.1 WSL 환경 셋업 linkPetalinux 빌드를 위해서 먼저 컴퓨터에 "
             }
         );
     index.add(
             {
                 id:  5 ,
-                href: "\/docs\/fpga-demo\/petalinux-build-demo\/",
-                title: "Petalinux Build Demo (Zynq z7-10)",
+                href: "\/docs\/rtl-ip\/mermaid\/",
+                title: "Mermaid",
                 description: "Example Mermaid diagrams",
                 content: "Flowchart linkflowchart LR\rA[Hard] --\u003e|Text| B(Round)\rB --\u003e C{Decision}\rC --\u003e|One| D[Result 1]\rC --\u003e|Two| E[Result 2] Sequence diagram linksequenceDiagram\rAlice-\u003e\u003eJohn: Hello John, how are you?\rloop Healthcheck\rJohn-\u003e\u003eJohn: Fight against hypochondria\rend\rNote right of John: Rational thoughts!\rJohn--\u003e\u003eAlice: Great!\rJohn-\u003e\u003eBob: How about you?\rBob--\u003e\u003eJohn: Jolly good! Gantt Chart linkgantt\rsection Section\rCompleted :done, des1, 2014-01-06,2014-01-08\rActive :active, des2, 2014-01-07, 3d\rParallel 1 : des3, after des1, 1d\rParallel 2 : des4, after des1, 1d\rParallel 3 : des5, after des3, 1d\rParallel 4 : des6, after des4, 1d Class diagram linkclassDiagram\rClass01 \u003c|-- AveryLongClass : Cool\r\u003c\u003e Class01\rClass09 --\u003e C2 : Where am i?\rClass09 --* C3\rClass09 --|\u003e Class07\rClass07 : equals()\rClass07 : Object[] elementData\rClass01 : size()\rClass01 : int chimp\rClass01 : int gorilla\rclass Class10 {\r\u003e\u003eservice\u003e\u003e\rint id\rsize()\r} State diagram linkstateDiagram-v2\r[*] --\u003e Still\rStill --\u003e [*]\rStill --\u003e Moving\rMoving --\u003e Still\rMoving --\u003e Crash\rCrash --\u003e [*] Pie Chart linkpie\r\"Dogs\" : 386\r\"Cats\" : 85.9\r\"Rats\" : 15 Git Graph link gitGraph\rcommit\rcommit\rbranch develop\rcheckout develop\rcommit\rcommit\rcheckout main\rmerge develop\rcommit\rcommit Bar chart (using gantt chart) linkgantt\rtitle Git Issues - days since last update\rdateFormat X\raxisFormat %s\rsection Issue19062\r71 : 0, 71\rsection Issue19401\r36 : 0, 36\rsection Issue193\r34 : 0, 34\rsection Issue7441\r9 : 0, 9\rsection Issue1300\r5 : 0, 5 User Journey diagram link journey\rtitle My working day\rsection Go to work\rMake tea: 5: Me\rGo upstairs: 3: Me\rDo work: 1: Me, Cat\rsection Go home\rGo downstairs: 5: Me\rSit down: 3: Me C4 diagram linkC4Context\rtitle System Context diagram for Internet Banking System\rPerson(customerA, \"Banking Customer A\", \"A customer of the bank, with personal bank accounts.\")\rPerson(customerB, \"Banking Customer B\")\rPerson_Ext(customerC, \"Banking Customer C\")\rSystem(SystemAA, \"Internet Banking System\", \"Allows customers to view information about their bank accounts, and make payments.\")\rPerson(customerD, \"Banking Customer D\", \"A customer of the bank, with personal bank accounts.\")\rEnterprise_Boundary(b1, \"BankBoundary\") {\rSystemDb_Ext(SystemE, \"Mainframe Banking System\", \"Stores all of the core banking information about customers, accounts, transactions, etc.\")\rSystem_Boundary(b2, \"BankBoundary2\") {\rSystem(SystemA, \"Banking System A\")\rSystem(SystemB, \"Banking System B\", \"A system of the bank, with personal bank accounts.\")\r}\rSystem_Ext(SystemC, \"E-mail system\", \"The internal Microsoft Exchange e-mail system.\")\rSystemDb(SystemD, \"Banking System D Database\", \"A system of the bank, with personal bank accounts.\")\rBoundary(b3, \"BankBoundary3\", \"boundary\") {\rSystemQueue(SystemF, \"Banking System F Queue\", \"A system of the bank, with personal bank accounts.\")\rSystemQueue_Ext(SystemG, \"Banking System G Queue\", \"A system of the bank, with personal bank accounts.\")\r}\r}\rBiRel(customerA, SystemAA, \"Uses\")\rBiRel(SystemAA, SystemE, \"Uses\")\rRel(SystemAA, SystemC, \"Sends e-mails\", \"SMTP\")\rRel(SystemC, customerA, \"Sends e-mails to\") "
             }
@@ -910,6 +1413,51 @@ Rel(SystemC, customerA, &#34;Sends e-mails to&#34;)
     index.add(
             {
                 id:  11 ,
+                href: "\/docs\/terms\/",
+                title: "Terms",
+                description: "Optional features in Lotus Docs.",
+                content: ""
+            }
+        );
+    index.add(
+            {
+                id:  12 ,
+                href: "\/docs\/theme-options\/",
+                title: "Theme Options",
+                description: "Optional features in Lotus Docs.",
+                content: ""
+            }
+        );
+    index.add(
+            {
+                id:  13 ,
+                href: "\/docs\/theme-options\/breadcrumbs\/",
+                title: "Breadcrumb Navigation",
+                description: "How to configure Breadcrumb navigation for your Lotus Docs site.",
+                content: " \u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e/ Guides / Theme Options / Breadcrumbs Enable Breadcrumbs linkBreadcrumb navigation is enabled by default1 and appears in the top right-hand corner of content pages above the page title. The Lotus Docs breadcrumb implementation functions with both multilingual and single-language sites.\nStructured Data linkThe breadcrumb navigation also auto-generates structured data for rich results to help enable search results that are more engaging to users. Here are the Breadcrumb Rich Results test results for this very page.\nBreadcrumb configuration reference. ↩︎\n"
+            }
+        );
+    index.add(
+            {
+                id:  14 ,
+                href: "\/docs\/terms\/wsl\/",
+                title: "WSL",
+                description: "WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구축한다.",
+                content: ""
+            }
+        );
+    index.add(
+            {
+                id:  15 ,
+                href: "\/docs\/theme-options\/link-behaviour\/",
+                title: "Link behaviour",
+                description: "Options for Link behaviour in content pages",
+                content: "Open external links in a new tab linkBy default, Lotus Docs will open external links in a new tab.\nThis behaviour can be disabled by setting the extLinkNewTab parameter to false in your config:\nhugo.toml hugo.yaml hugo.json [params.docs] extLinkNewTab = false # Open external links in a new Tab? default true params: docs: extLinkNewTab: false # Open external links in a new Tab? default true { \"params\": { \"feedback\": { \"extLinkNewTab\": false } } } External links are indicated by the ’external link’ icon to the right of the link text. e.g. Lotus Docs GitHub repository:\nPreview tooltip for internal links linkWhen this option is enabled, internal links feature a tooltip that displays basic information about the destination page, such as it’s parent section, title, and description.\nHow to enable the link preview tooltip linkTo enable tooltip previews for internal links, set the intLinkTooltip parameter to true in your config:\nhugo.toml hugo.yaml hugo.json [params.docs] intLinkTooltip = true # Enable a tooltip for internal links that displays info about the destination? default false params: docs: intLinkTooltip: true # Enable a tooltip for internal links that displays info about the destination? default false { \"params\": { \"feedback\": { \"intLinkTooltip\": true } } } How to format links in your Markdown for preview tooltips linkThe link preview tooltip feature works by using a custom Markdown render hook to first validate a link is internal, and then enables the tooltip function for those links. Markdown links in your content pages can be formatted in one of two ways:\nUsing the relref shortcode - This shortcode displays the relative permalink to a document1.\nreport Be sure to use the % delimiter if creating internal markdown links using the relref shortcode. e.g. [Plausible Analytics Guide]({{% relref \"/docs/features/plausible-analytics\" %}}) warning Note, that relref links don’t work with _index or index files, you’ll need to use regular Markdown links to section landing or other index pages. Specify these links relative to the site’s root URL, for example:/docs/guides/ Links relative to the site’s root - e.g. /docs/guides/features/docsearch/ - /docs/guides/features/docsearch/\nBoth these formats will enable preview tooltips on internal links. However, one benefit of using relref to link internal content is that the hugo command will produce an error if an internal link’s path is invalid.\nLinks and cross references | Hugo ↩︎\n"
+            }
+        );
+    index.add(
+            {
+                id:  16 ,
                 href: "\/docs\/",
                 title: "Docs",
                 description: "",

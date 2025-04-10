@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloud Platforms on </title>
+    <link>http://localhost:1313/deployment/platforms/</link>
+    <description>Recent content in Cloud Platforms on </description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 26 Aug 2023 15:36:47 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/deployment/platforms/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GitHub Pages</title>
+      <link>http://localhost:1313/deployment/platforms/github-pages/</link>
+      <pubDate>Sat, 26 Aug 2023 15:36:39 +0100</pubDate>
+      <guid>http://localhost:1313/deployment/platforms/github-pages/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;GitHub provides free and fast static hosting over SSL for personal, organization, or project pages directly from a GitHub repository via its &lt;a href=&#34;https://pages.github.com/&#34;&gt;GitHub Pages&lt;/a&gt; service and automating development workflows and build with &lt;a href=&#34;https://github.com/features/actions&#34;&gt;GitHub Actions&lt;/a&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;prerequisites&#34;&gt;Prerequisites&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/signup&#34;&gt;A GitHub Account&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://git-scm.com/book/en/v2/Getting-Started-Installing-Git&#34;&gt;Git&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;&#34;&gt;Create a Hugo site using the Lotus Docs theme&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;procedure&#34;&gt;Procedure&lt;/h2&gt;&#xA;&lt;p&gt;Use the following steps to get your Lotus Docs themed site up and running on GitHub Pages.&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Create a new repo on GitHub e.g. &lt;code&gt;https://github.com/colinwilson/colinwilson.github.io&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GitLab Pages</title>
+      <link>http://localhost:1313/deployment/platforms/gitlab-pages/</link>
+      <pubDate>Sat, 26 Aug 2023 15:36:47 +0100</pubDate>
+      <guid>http://localhost:1313/deployment/platforms/gitlab-pages/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;With &lt;a href=&#34;https://docs.gitlab.com/ee/user/project/pages/&#34;&gt;GitLab Pages&lt;/a&gt;, you can publish your Lotus Docs themed site directly from a repository in GitLab.&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Use for any personal or business website.&lt;/li&gt;&#xA;&lt;li&gt;Native support for Hugo.&lt;/li&gt;&#xA;&lt;li&gt;Create websites for your projects, groups, or user account.&lt;/li&gt;&#xA;&lt;li&gt;Host your site on your own GitLab instance or on GitLab.com for free.&lt;/li&gt;&#xA;&lt;li&gt;Connect your custom domains and TLS certificates.&lt;/li&gt;&#xA;&lt;li&gt;Attribute any license to your content.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;GitLab Pages makes it easy to build, deploy, and host your Lotus Docs website.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
