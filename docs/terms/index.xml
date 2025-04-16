@@ -9,6 +9,20 @@
     <lastBuildDate>Wed, 16 Aug 2023 02:49:15 +0000</lastBuildDate>
     <atom:link href="https://egghwan.github.io/docs/terms/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>PL</title>
+      <link>https://egghwan.github.io/docs/terms/pl_region/</link>
+      <pubDate>Sun, 27 Nov 2022 07:08:15 +0000</pubDate>
+      <guid>https://egghwan.github.io/docs/terms/pl_region/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>PS</title>
+      <link>https://egghwan.github.io/docs/terms/ps_region/</link>
+      <pubDate>Sun, 27 Nov 2022 07:08:15 +0000</pubDate>
+      <guid>https://egghwan.github.io/docs/terms/ps_region/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>WSL</title>
       <link>https://egghwan.github.io/docs/terms/wsl/</link>
       <pubDate>Sun, 27 Nov 2022 07:08:15 +0000</pubDate>

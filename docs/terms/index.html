@@ -90,7 +90,7 @@
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/fpga-demo/petalinux-build-demo/">Petalinux Build Demo (Zybo-z7-10)</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/fpga-demo/petalinux_build_demo/">Petalinux Build Demo (Zybo-z7-10)</a></li>
                                         
                                     
                                 </ul>
@@ -195,6 +195,16 @@
                             </button>
                             <div class="sidebar-submenu d-block">
                                 <ul>
+                                    
+                                        
+                                        
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/terms/pl_region/">PL</a></li>
+                                        
+                                    
+                                        
+                                        
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/terms/ps_region/">PS</a></li>
+                                        
                                     
                                         
                                         
@@ -391,6 +401,40 @@
                                             <div id="content" class="main-content" >
                                                 
     <div class="row flex-xl-wrap">
+        
+        <div id="list-item" class="col-md-4 col-12 mt-4 pt-2">
+            <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/terms/pl_region/">
+                <div class="card h-100 features feature-full-bg rounded p-4 position-relative overflow-hidden border-1">
+                    <span class="icon-color d-flex my-3">
+                        <i class="material-icons align-middle">keyboard_double_arrow_right</i>
+                        
+                        
+                    </span>
+                    <div class="card-body p-0 content">
+                        <p class="fs-5 fw-semibold card-title mb-1">PL</p>
+                        <p class="para card-text mb-0">PL영역이란 FPGA에서 HW 부분을 의미한다. Verilog 또는 VHDL로 HW 병렬처리 로직을 구현할 수 있는 영역이다.</p>
+                    </div>
+                    
+                </div>
+            </a>
+        </div>
+        
+        <div id="list-item" class="col-md-4 col-12 mt-4 pt-2">
+            <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/terms/ps_region/">
+                <div class="card h-100 features feature-full-bg rounded p-4 position-relative overflow-hidden border-1">
+                    <span class="icon-color d-flex my-3">
+                        <i class="material-icons align-middle">keyboard_double_arrow_right</i>
+                        
+                        
+                    </span>
+                    <div class="card-body p-0 content">
+                        <p class="fs-5 fw-semibold card-title mb-1">PS</p>
+                        <p class="para card-text mb-0">PS영역이란 FPGA에서 SW 부분을 의미한다. C/C++ 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다.</p>
+                    </div>
+                    
+                </div>
+            </a>
+        </div>
         
         <div id="list-item" class="col-md-4 col-12 mt-4 pt-2">
             <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/terms/wsl/">
@@ -692,6 +736,20 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
     
@@ -721,8 +779,8 @@
                 id:  2 ,
                 href: "\/docs\/fpga-demo\/axi4-lite-led_demo\/",
                 title: "AXI4-Lite LED Demo",
-                description: " 모듈 설명 linkRounding 방법에 대해 기술하고 Verilog HDL로 구현한 과정 및 모듈 사용법을 기술한다.\nRounding Method link Truncate : 해당 비트를 단순히 잘라 버리는 것\nRounding to Even : ladsjf;ksdljf\nHTML link \u003c!DOCTYPE html\u003e \u003chtml\u003e \u003cbody\u003e \u003ch1\u003eMy First Heading\u003c/h1\u003e \u003cp\u003eMy first paragraph.\u003c/p\u003e \u003c/body\u003e \u003c/html\u003e Markdown link # H1 heading **Some bold text** *Italic text example*",
-                content: " 모듈 설명 linkRounding 방법에 대해 기술하고 Verilog HDL로 구현한 과정 및 모듈 사용법을 기술한다.\nRounding Method link Truncate : 해당 비트를 단순히 잘라 버리는 것\nRounding to Even : ladsjf;ksdljf\nHTML link \u003c!DOCTYPE html\u003e \u003chtml\u003e \u003cbody\u003e \u003ch1\u003eMy First Heading\u003c/h1\u003e \u003cp\u003eMy first paragraph.\u003c/p\u003e \u003c/body\u003e \u003c/html\u003e Markdown link # H1 heading **Some bold text** *Italic text example* "
+                description: " 1. 데모 설명 linkAXI4-LITE 프로토콜을 활용하여 FPGA의 PS-PL간 인터페이스 연결을 수행하여 PS에서 PL영역의 LED를 켜거나 끄는 명령을 내리고, PS에서 PL영역의 LED의 현재 상태를 읽어오는 데모에 대해 기술한다.\n보드는 Zybo-Z7-10 보드를 활용하지만 다른 보드에도 응용 가능하다.\n해당 데모를 수행하기 위해 FPGA에 Petalinux가 빌드되어 있어야 한다. (Petalinux 빌드 참고 링크)\nPetalinux가 없다면 Vitis를 활용해 해당 데모를 재현할 수 있다.\n",
+                content: " 1. 데모 설명 linkAXI4-LITE 프로토콜을 활용하여 FPGA의 PS-PL간 인터페이스 연결을 수행하여 PS에서 PL영역의 LED를 켜거나 끄는 명령을 내리고, PS에서 PL영역의 LED의 현재 상태를 읽어오는 데모에 대해 기술한다.\n보드는 Zybo-Z7-10 보드를 활용하지만 다른 보드에도 응용 가능하다.\n해당 데모를 수행하기 위해 FPGA에 Petalinux가 빌드되어 있어야 한다. (Petalinux 빌드 참고 링크)\nPetalinux가 없다면 Vitis를 활용해 해당 데모를 재현할 수 있다.\n2. Background linkFPGA로 제품을 구현할 때, "
             }
         );
     index.add(
@@ -730,14 +788,14 @@
                 id:  3 ,
                 href: "\/docs\/rtl-ip\/code\/",
                 title: "lib_round.v",
-                description: " 모듈 설명 linkRounding 방법에 대해 기술하고 Verilog HDL로 구현한 과정 및 모듈 사용법을 기술한다.\nRounding Method link Truncate : 해당 비트를 단순히 잘라 버리는 것\nRounding to Even : ladsjf;ksdljf\nHTML link \u003c!DOCTYPE html\u003e \u003chtml\u003e \u003cbody\u003e \u003ch1\u003eMy First Heading\u003c/h1\u003e \u003cp\u003eMy first paragraph.\u003c/p\u003e \u003c/body\u003e \u003c/html\u003e Markdown link # H1 heading **Some bold text** *Italic text example*",
-                content: " 모듈 설명 linkRounding 방법에 대해 기술하고 Verilog HDL로 구현한 과정 및 모듈 사용법을 기술한다.\nRounding Method link Truncate : 해당 비트를 단순히 잘라 버리는 것\nRounding to Even : ladsjf;ksdljf\nHTML link \u003c!DOCTYPE html\u003e \u003chtml\u003e \u003cbody\u003e \u003ch1\u003eMy First Heading\u003c/h1\u003e \u003cp\u003eMy first paragraph.\u003c/p\u003e \u003c/body\u003e \u003c/html\u003e Markdown link # H1 heading **Some bold text** *Italic text example* "
+                description: " 모듈 설명 linkRounding 방법에 대해 기술하고 Verilog HDL로 구현한 과정 및 모듈 사용법을 기술한다.\nRounding Method link Truncate : 해당 비트를 단순히 잘라 버리는 것\nRounding to Even : ladsjf;ksdljf\nHTML link 1 2 3 4 5 6 7 8 9 10 \u003c!DOCTYPE html\u003e \u003chtml\u003e \u003cbody\u003e \u003ch1\u003eMy First Heading\u003c/h1\u003e \u003cp\u003eMy first paragraph.\u003c/p\u003e \u003c/body\u003e \u003c/html\u003e Markdown link 1 2 3 4 5 # H1 heading **Some bold text** *Italic text example* ",
+                content: " 모듈 설명 linkRounding 방법에 대해 기술하고 Verilog HDL로 구현한 과정 및 모듈 사용법을 기술한다.\nRounding Method link Truncate : 해당 비트를 단순히 잘라 버리는 것\nRounding to Even : ladsjf;ksdljf\nHTML link 1 2 3 4 5 6 7 8 9 10 \u003c!DOCTYPE html\u003e \u003chtml\u003e \u003cbody\u003e \u003ch1\u003eMy First Heading\u003c/h1\u003e \u003cp\u003eMy first paragraph.\u003c/p\u003e \u003c/body\u003e \u003c/html\u003e Markdown link 1 2 3 4 5 # H1 heading **Some bold text** *Italic text example* "
             }
         );
     index.add(
             {
                 id:  4 ,
-                href: "\/docs\/fpga-demo\/petalinux-build-demo\/",
+                href: "\/docs\/fpga-demo\/petalinux_build_demo\/",
                 title: "Petalinux Build Demo (Zybo-z7-10)",
                 description: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다.\n본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.\n2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 또한 운영체제가 자원을 효과적으로 관리 가능하다.\n",
                 content: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다.\n본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.\n2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 또한 운영체제가 자원을 효과적으로 관리 가능하다.\n이와 반대로 Vivado에서 제공하는 Vitis 환경이 있는데 이는 운영체제가 없는 Baremetal 환경이다. Baremetal은 부팅 속도가 빠르고 단순하지만 주변 장치를 FPGA와 연동할 때에는 디바이스 드라이버를 따로 구현해야 하는 단점이 있다.\n만약 FPGA에 연결되는 주변 장치가 없다면 Baremetal 환경으로 검증하는 것도 좋은 방법이다. Petalinux를 FPGA에 Build한다는 뜻은 FPGA에 리눅스를 설치하는 것이다. 컴퓨터에 윈도우를 설치하는 것과 같다.\n3. Demo linkPetalinux를 Build하기 위한 Demo다. 3.1 항목 부터 차례대로 따라서 진행하면 된다. 이하 모든 과정은 "
@@ -827,6 +885,24 @@
     index.add(
             {
                 id:  14 ,
+                href: "\/docs\/terms\/pl_region\/",
+                title: "PL",
+                description: "PL영역이란 FPGA에서 HW 부분을 의미한다. Verilog 또는 VHDL로 HW 병렬처리 로직을 구현할 수 있는 영역이다.",
+                content: ""
+            }
+        );
+    index.add(
+            {
+                id:  15 ,
+                href: "\/docs\/terms\/ps_region\/",
+                title: "PS",
+                description: "PS영역이란 FPGA에서 SW 부분을 의미한다. C/C++ 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다.",
+                content: ""
+            }
+        );
+    index.add(
+            {
+                id:  16 ,
                 href: "\/docs\/terms\/wsl\/",
                 title: "WSL",
                 description: "WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구축한다.",
@@ -835,16 +911,16 @@
         );
     index.add(
             {
-                id:  15 ,
+                id:  17 ,
                 href: "\/docs\/theme-options\/link-behaviour\/",
                 title: "Link behaviour",
                 description: "Options for Link behaviour in content pages",
-                content: "Open external links in a new tab linkBy default, Lotus Docs will open external links in a new tab.\nThis behaviour can be disabled by setting the extLinkNewTab parameter to false in your config:\nhugo.toml hugo.yaml hugo.json [params.docs] extLinkNewTab = false # Open external links in a new Tab? default true params: docs: extLinkNewTab: false # Open external links in a new Tab? default true { \"params\": { \"feedback\": { \"extLinkNewTab\": false } } } External links are indicated by the ’external link’ icon to the right of the link text. e.g. Lotus Docs GitHub repository:\nPreview tooltip for internal links linkWhen this option is enabled, internal links feature a tooltip that displays basic information about the destination page, such as it’s parent section, title, and description.\nHow to enable the link preview tooltip linkTo enable tooltip previews for internal links, set the intLinkTooltip parameter to true in your config:\nhugo.toml hugo.yaml hugo.json [params.docs] intLinkTooltip = true # Enable a tooltip for internal links that displays info about the destination? default false params: docs: intLinkTooltip: true # Enable a tooltip for internal links that displays info about the destination? default false { \"params\": { \"feedback\": { \"intLinkTooltip\": true } } } How to format links in your Markdown for preview tooltips linkThe link preview tooltip feature works by using a custom Markdown render hook to first validate a link is internal, and then enables the tooltip function for those links. Markdown links in your content pages can be formatted in one of two ways:\nUsing the relref shortcode - This shortcode displays the relative permalink to a document1.\nreport Be sure to use the % delimiter if creating internal markdown links using the relref shortcode. e.g. [Plausible Analytics Guide]({{% relref \"/docs/features/plausible-analytics\" %}}) warning Note, that relref links don’t work with _index or index files, you’ll need to use regular Markdown links to section landing or other index pages. Specify these links relative to the site’s root URL, for example:/docs/guides/ Links relative to the site’s root - e.g. /docs/guides/features/docsearch/ - /docs/guides/features/docsearch/\nBoth these formats will enable preview tooltips on internal links. However, one benefit of using relref to link internal content is that the hugo command will produce an error if an internal link’s path is invalid.\nLinks and cross references | Hugo ↩︎\n"
+                content: "Open external links in a new tab linkBy default, Lotus Docs will open external links in a new tab.\nThis behaviour can be disabled by setting the extLinkNewTab parameter to false in your config:\nhugo.toml hugo.yaml hugo.json 1 2 [params.docs] extLinkNewTab = false # Open external links in a new Tab? default true 1 2 3 params: docs: extLinkNewTab: false # Open external links in a new Tab? default true 1 2 3 4 5 6 7 { \"params\": { \"feedback\": { \"extLinkNewTab\": false } } } External links are indicated by the ’external link’ icon to the right of the link text. e.g. Lotus Docs GitHub repository:\nPreview tooltip for internal links linkWhen this option is enabled, internal links feature a tooltip that displays basic information about the destination page, such as it’s parent section, title, and description.\nHow to enable the link preview tooltip linkTo enable tooltip previews for internal links, set the intLinkTooltip parameter to true in your config:\nhugo.toml hugo.yaml hugo.json 1 2 [params.docs] intLinkTooltip = true # Enable a tooltip for internal links that displays info about the destination? default false 1 2 3 params: docs: intLinkTooltip: true # Enable a tooltip for internal links that displays info about the destination? default false 1 2 3 4 5 6 7 { \"params\": { \"feedback\": { \"intLinkTooltip\": true } } } How to format links in your Markdown for preview tooltips linkThe link preview tooltip feature works by using a custom Markdown render hook to first validate a link is internal, and then enables the tooltip function for those links. Markdown links in your content pages can be formatted in one of two ways:\nUsing the relref shortcode - This shortcode displays the relative permalink to a document1.\nreport Be sure to use the % delimiter if creating internal markdown links using the relref shortcode. e.g. [Plausible Analytics Guide]({{% relref \"/docs/features/plausible-analytics\" %}}) warning Note, that relref links don’t work with _index or index files, you’ll need to use regular Markdown links to section landing or other index pages. Specify these links relative to the site’s root URL, for example:/docs/guides/ Links relative to the site’s root - e.g. /docs/guides/features/docsearch/ - /docs/guides/features/docsearch/\nBoth these formats will enable preview tooltips on internal links. However, one benefit of using relref to link internal content is that the hugo command will produce an error if an internal link’s path is invalid.\nLinks and cross references | Hugo ↩︎\n"
             }
         );
     index.add(
             {
-                id:  16 ,
+                id:  18 ,
                 href: "\/docs\/",
                 title: "Docs",
                 description: "",
