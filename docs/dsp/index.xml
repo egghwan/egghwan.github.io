@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Digital-Signal-Processing on </title>
+    <link>https://egghwan.github.io/docs/dsp/</link>
+    <description>Recent content in Digital-Signal-Processing on </description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 22 May 2023 00:44:31 +0100</lastBuildDate>
+    <atom:link href="https://egghwan.github.io/docs/dsp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Decimation vs Down-sampling</title>
+      <link>https://egghwan.github.io/docs/dsp/decimation/</link>
+      <pubDate>Mon, 22 May 2023 00:44:31 +0100</pubDate>
+      <guid>https://egghwan.github.io/docs/dsp/decimation/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;&#xA;&lt;!-- raw HTML omitted --&gt;&#xA;&lt;!-- raw HTML omitted --&gt;&#xA;&lt;h2 id=&#34;1-문서-설명&#34;&gt;1. 문서 설명 &lt;a href=&#34;#1-%eb%ac%b8%ec%84%9c-%ec%84%a4%eb%aa%85&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;신호처리를 할 때 Decimation과 down-sampling는 헷갈리는 개념이다.&lt;/p&gt;&#xA;&lt;p&gt;Decimation과 down-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.&lt;/p&gt;&#xA;&lt;h2 id=&#34;2-정의&#34;&gt;2. 정의 &lt;a href=&#34;#2-%ec%a0%95%ec%9d%98&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Decimation : 디지털 신호를 먼저 Low-Pass-Filtering(LPF)를 수행하고, 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취한다.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;down-sampling : 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취하고 끝난다.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
