@@ -16,9 +16,8 @@
 
 <html lang="en"><head>
     <meta charset="utf-8" />
-    <title>Second Section Subfolder | </title>
+    <title>Interpolation vs Upsampling | </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Subfolder nested inside a section subfolder">
     <meta name="keywords" content="Documentation, Hugo, Hugo Theme, Bootstrap" />
     <meta name="author" content="Colin Wilson - Lotus Labs" />
     <meta name="email" content="support@aigis.uk" />
@@ -31,13 +30,35 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://egghwan.github.io/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://egghwan.github.io/favicon-16x16.png">
 <link rel="manifest" crossorigin="use-credentials" href="https://egghwan.github.io/site.webmanifest">
-<meta property="og:title" content="Second Section Subfolder" />
-<meta property="og:description" content="Subfolder nested inside a section subfolder" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://egghwan.github.io/docs/section-folder/section-subfolder/second-section-subfolder/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_517b5d4b098f8f1b.png"/><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_517b5d4b098f8f1b.png"/>
-<meta name="twitter:title" content="Second Section Subfolder"/>
-<meta name="twitter:description" content="Subfolder nested inside a section subfolder"/>
+<meta property="og:title" content="Interpolation vs Upsampling" />
+<meta property="og:description" content="
+
+
+1. 문서 설명 link신호처리를 할 때 Interpolation과 Up-sampling은 헷갈리는 개념이다.
+Interpolation을 정확히 이해하기 위해서 먼저 Interpolation과 Up-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.
+2. 정의 link
+
+Interpolation : 디지털 신호를 먼저 샘플들 사이에 0을 집어넣어 up-sampling을 진행한다. 그 다음 Low-Pass-Filtering을 수행한다.
+
+
+Up-sampling : 디지털 신호를 샘플들 사이에 up-sampling factor 만큼 0을 넣어 up-sampling을 한다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://egghwan.github.io/docs/dsp/interpolation_upsampling/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_d1feef199a336302.png"/><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-05-22T00:44:31+01:00" />
+<meta property="article:modified_time" content="2023-05-22T00:44:31+01:00" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_d1feef199a336302.png"/>
+<meta name="twitter:title" content="Interpolation vs Upsampling"/>
+<meta name="twitter:description" content="
+
+
+1. 문서 설명 link신호처리를 할 때 Interpolation과 Up-sampling은 헷갈리는 개념이다.
+Interpolation을 정확히 이해하기 위해서 먼저 Interpolation과 Up-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.
+2. 정의 link
+
+Interpolation : 디지털 신호를 먼저 샘플들 사이에 0을 집어넣어 up-sampling을 진행한다. 그 다음 Low-Pass-Filtering을 수행한다.
+
+
+Up-sampling : 디지털 신호를 샘플들 사이에 up-sampling factor 만큼 0을 넣어 up-sampling을 한다."/>
 
     
     
@@ -75,12 +96,12 @@
                 
                     
                     
-                        <li class="sidebar-dropdown  ">
+                        <li class="sidebar-dropdown  current active">
                             <button class="btn">
                                 <i class="material-icons me-2">quick_reference_all</i>
                                 Digital-Signal-Processing
                             </button>
-                            <div class="sidebar-submenu ">
+                            <div class="sidebar-submenu d-block">
                                 <ul>
                                     
                                         
@@ -90,7 +111,7 @@
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/dsp/interpolation_upsampling/">Interpolation vs Upsampling</a></li>
+                                            <li class="current "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/dsp/interpolation_upsampling/">Interpolation vs Upsampling</a></li>
                                         
                                     
                                 </ul>
@@ -150,32 +171,32 @@
                 
                     
                     
-                        <li class="sidebar-dropdown  current active">
+                        <li class="sidebar-dropdown  ">
                             <button class="btn">
                                 <i class="material-icons me-2">folder</i>
                                 Section Folder
                             </button>
-                            <div class="sidebar-submenu d-block">
+                            <div class="sidebar-submenu ">
                                 <ul>
                                     
                                         
                                         
-                                            <li class="sidebar-dropdown nested  current active">
+                                            <li class="sidebar-dropdown nested  ">
                                                 <button class="btn">
                                                     
                                                     Section Subfolder
                                                 </button>
-                                                <div class="sidebar-submenu d-block">
+                                                <div class="sidebar-submenu ">
                                                     <ul>
                                                         
                                                             
                                                             
-                                                                <li class="sidebar-dropdown nested  current active">
+                                                                <li class="sidebar-dropdown nested  ">
                                                                     <button class="btn">
                                                                         
                                                                         Second Section Subfolder
                                                                     </button>
-                                                                    <div class="sidebar-submenu d-block">
+                                                                    <div class="sidebar-submenu ">
                                                                         <ul>
                                                                             
                                                                                 
@@ -392,24 +413,16 @@
             
             
                 <li class="breadcrumb-item text-capitalize" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="/docs/section-folder/">
-                        <span itemprop="name">Section Folder</span>
+                    <a itemprop="item" href="/docs/dsp/">
+                        <span itemprop="name">Digital-Signal-Processing</span>
                     </a>
                     <meta itemprop="position" content='2' />
                 </li>
             
-            
-                <li class="breadcrumb-item text-capitalize" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="/docs/section-folder/section-subfolder/">
-                        <span itemprop="name">Section Subfolder</span>
-                    </a>
-                    <meta itemprop="position" content='3' />
-                </li>
-            
         
             <li class="breadcrumb-item text-capitalize active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <span itemprop="name">Second Section Subfolder</span>
-                <meta itemprop="position" content='4' />
+                <span itemprop="name">Interpolation vs Upsampling</span>
+                <meta itemprop="position" content='3' />
             </li>
         
     </ul>
@@ -417,54 +430,292 @@
                                     
                                     <div class="row flex-xl-nowrap">
                                         
-                                        <div class="docs-toc col-xl-3 visually-hidden visually-hidden  d-xl-block"><toc>
+                                        <div class="docs-toc col-xl-3    d-xl-block"><toc>
     <div class="fw-bold text-uppercase mb-2">On this page</div>
-    <nav id="TableOfContents"></nav>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-문서-설명">1. 문서 설명</a></li>
+    <li><a href="#2-정의">2. 정의</a></li>
+    <li><a href="#3-상황-가정-및-문제">3. 상황 가정 및 문제</a></li>
+    <li><a href="#4-신호처리-관점">4. 신호처리 관점</a>
+      <ul>
+        <li><a href="#41-스펙트럼-분석">4.1 스펙트럼 분석</a></li>
+        <li><a href="#42-lpf의-필요성">4.2 LPF의 필요성</a></li>
+        <li><a href="#43-시간-축에서-upsampling과-interpolation-비교">4.3 시간 축에서 Upsampling과 Interpolation 비교</a></li>
+        <li><a href="#43-matlab-코드">4.3 MATLAB 코드</a></li>
+        <li><a href="#44-신호처리-관점-결론">4.4 신호처리 관점 결론</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-구현관점">5. 구현관점</a>
+      <ul>
+        <li><a href="#51-fir-filter기반-interpolation">5.1 Fir Filter기반 Interpolation</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
     </toc></div>
                                         
                                         
-                                        <div class="docs-toc-mobile visually-hidden visually-hidden  d-print-none d-xl-none">
+                                        <div class="docs-toc-mobile    d-print-none d-xl-none">
                                             <button id="toc-dropdown-btn" class="btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-offset="0,0" aria-expanded="false">
                                                 Table of Contents
                                             </button>
-<nav id="toc-mobile"></nav></div>
-                                        <div class="docs-content col-12  mt-0">
+<nav id="toc-mobile">
+  <ul class="dropdown-menu">
+    <li><a href="#1-문서-설명">1. 문서 설명</a></li>
+    <li><a href="#2-정의">2. 정의</a></li>
+    <li><a href="#3-상황-가정-및-문제">3. 상황 가정 및 문제</a></li>
+    <li><a href="#4-신호처리-관점">4. 신호처리 관점</a>
+      <ul>
+        <li><a href="#41-스펙트럼-분석">4.1 스펙트럼 분석</a></li>
+        <li><a href="#42-lpf의-필요성">4.2 LPF의 필요성</a></li>
+        <li><a href="#43-시간-축에서-upsampling과-interpolation-비교">4.3 시간 축에서 Upsampling과 Interpolation 비교</a></li>
+        <li><a href="#43-matlab-코드">4.3 MATLAB 코드</a></li>
+        <li><a href="#44-신호처리-관점-결론">4.4 신호처리 관점 결론</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-구현관점">5. 구현관점</a>
+      <ul>
+        <li><a href="#51-fir-filter기반-interpolation">5.1 Fir Filter기반 Interpolation</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+                                        <div class="docs-content col-12 col-xl-9 mt-0">
                                             <div class="mb-0 d-flex">
                                                 
-                                                <i class="material-icons title-icon me-2">folder</i>
+                                                <i class="material-icons title-icon me-2">code</i>
                                                 
                                                 <h1 class="content-title mb-0">
-                                                    Second Section Subfolder
+                                                    Interpolation vs Upsampling
                                                     
                                                 </h1>
                                             </div>
                                             
                                             <div id="content" class="main-content" >
                                                 
-    <div class="row flex-xl-wrap">
-        
-        <div id="list-item" class="col-md-4 col-12 mt-4 pt-2">
-            <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/section-folder/section-subfolder/second-section-subfolder/third-section-subfolder/">
-                <div class="card h-100 features feature-full-bg rounded p-4 position-relative overflow-hidden border-1">
-                    <span class="icon-color d-flex my-3">
-                        <i class="material-icons align-middle">folder</i>
-                        
-                        <i class="material-icons icon-faint align-middle ms-auto" title="Directory">folder</i>
-                    </span>
-                    <div class="card-body p-0 content">
-                        <p class="fs-5 fw-semibold card-title mb-1">Third Section Subfolder</p>
-                        <p class="para card-text mb-0">Subfolder nested inside a section subfolder</p>
-                    </div>
-                    
-                </div>
-            </a>
-        </div>
-        
+    
+    <div data-prismjs-copy="" data-prismjs-copy-success="" data-prismjs-copy-error="">
+        <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h2 id="1-문서-설명">1. 문서 설명 <a href="#1-%eb%ac%b8%ec%84%9c-%ec%84%a4%eb%aa%85" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>신호처리를 할 때 Interpolation과 Up-sampling은 헷갈리는 개념이다.</p>
+<p>Interpolation을 정확히 이해하기 위해서 먼저 Interpolation과 Up-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.</p>
+<h2 id="2-정의">2. 정의 <a href="#2-%ec%a0%95%ec%9d%98" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><ul>
+<li>
+<p>Interpolation : 디지털 신호를 먼저 샘플들 사이에 0을 집어넣어 up-sampling을 진행한다. 그 다음 Low-Pass-Filtering을 수행한다.</p>
+</li>
+<li>
+<p>Up-sampling : 디지털 신호를 샘플들 사이에 up-sampling factor 만큼 0을 넣어 up-sampling을 한다.</p>
+</li>
+</ul>
+<p>Interpolation과 Up-Sampling의 차이는 Low-Pass-Filtering을 수행하냐 안 하냐의 차이다.</p>
+<h2 id="3-상황-가정-및-문제">3. 상황 가정 및 문제 <a href="#3-%ec%83%81%ed%99%a9-%ea%b0%80%ec%a0%95-%eb%b0%8f-%eb%ac%b8%ec%a0%9c" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>두 개념의 차이를 설명하기 위해 아래와 같은 상황을 가정해보자.</p>
+<ol>
+<li>
+<p>수신 신호 : 중심 주파수가 150Hz이고 대역폭이 143.75Hz인 대역 신호</p>
+</li>
+<li>
+<p>샘플링 클럭 : 1kHz</p>
+</li>
+<li>
+<p>수신 신호를 facotr = 2로 Interpolation 하는 상황</p>
+</li>
+</ol>
+<p>모뎀 수신 동기화 알고리즘에서 Interpolation을 통해 심볼 타이밍을 복구하는 경우가 있다. 따라서 수신 신호를 Interpolation 하는 상황이 종종 있다.</p>
+<p>단순히 시간 축에서 0을 추가하여 샘플링 클럭 높히는 Up-sampling이면 충분할까? 답은 아니다.</p>
+<p>그 이유를 신호처리 관점에서 이해해보자.</p>
+<h2 id="4-신호처리-관점">4. 신호처리 관점 <a href="#4-%ec%8b%a0%ed%98%b8%ec%b2%98%eb%a6%ac-%ea%b4%80%ec%a0%90" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p> </p>
+<h3 id="41-스펙트럼-분석">4.1 스펙트럼 분석 <a href="#41-%ec%8a%a4%ed%8e%99%ed%8a%b8%eb%9f%bc-%eb%b6%84%ec%84%9d" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>주파수 영역에서 신호를 분석하면 두 개념의 차이를 쉽게 이해할 수 있다. 아래 그림은 수신 신호의 스펙트럼이다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/interpolation/rx_sig.png" alt="Internal link preview tooltip" width="736" height="595" loading="lazy">
+    
+  
+</p>
+<p>이제 시간 축에서 디지털 신호에 0을 추가해서 up-sampling을 전행하면 아래 스펙트럼과 같이 바뀐다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/interpolation/upsampling.png" alt="Internal link preview tooltip" width="733" height="595" loading="lazy">
+    
+  
+</p>
+<p>Up-Sampling 이후에 빨간색 Image 신호가 보이기 시작한다. 이러한 Image 신호는 신호 품질에 영향을 준다.</p>
+<h3 id="42-lpf의-필요성">4.2 LPF의 필요성 <a href="#42-lpf%ec%9d%98-%ed%95%84%ec%9a%94%ec%84%b1" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>따라서 위 Image 신호를 LPF를 통해 필터링 해줘야 한다.</p>
+<p>아래 그림은 이미지 신호를 LPF를 통해 필터링한 스펙트럼이다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/interpolation/lpf.png" alt="Internal link preview tooltip" width="738" height="595" loading="lazy">
+    
+  
+</p>
+<p>이렇게 이미지 신호를 제거해줘야 비로소 Interpolation이 완성된다.</p>
+<p> </p>
+<h3 id="43-시간-축에서-upsampling과-interpolation-비교">4.3 시간 축에서 Upsampling과 Interpolation 비교 <a href="#43-%ec%8b%9c%ea%b0%84-%ec%b6%95%ec%97%90%ec%84%9c-upsampling%ea%b3%bc-interpolation-%eb%b9%84%ea%b5%90" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>시간 축에서 Interpolation과 Upsampling을 비교해보자.</p>
+<p>파란색 신호는 0을 추가해서 up-sampling을 한 신호다. 빨간색 신호는 Interpolation(up-sampling 후 LPF)을 한 신호다.</p>
+<p>신호를 보면 알 수 있듯이, 단순히 up-sampling만 한 신호 대비, LPF를 추가로 수행하여 Interpolation을 하면 신호가 부드럽게 채워짐을 알 수 있다.</p>
+<p>이 효과를 통해 샘플 사이의 값을 유추할 수 있는 효과가 나타난다. 그래서 모뎀의 수신 동기화 알고리즘에서 많이 사용한다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/interpolation/time_interp.png" alt="Internal link preview tooltip" width="728" height="577" loading="lazy">
+    
+  
+</p>
+<h3 id="43-matlab-코드">4.3 MATLAB 코드 <a href="#43-matlab-%ec%bd%94%eb%93%9c" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-MATLAB" data-lang="MATLAB"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>close all;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>clear all;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#6272a4">%% Set Simulation Parameter</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>fs = <span style="color:#bd93f9">500</span>;                              <span style="color:#6272a4">% SampleRate</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>sps = <span style="color:#bd93f9">8</span>;                                <span style="color:#6272a4">% SampleperSym</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span><span style="color:#8be9fd;font-style:italic">beta</span> = <span style="color:#bd93f9">0.15</span>;                            <span style="color:#6272a4">% RRC roll-off</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>span = <span style="color:#bd93f9">10</span>;                              <span style="color:#6272a4">% filter span (심볼 단위)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>NFFT = <span style="color:#bd93f9">2</span>^<span style="color:#bd93f9">15</span>;                            <span style="color:#6272a4">% FFT Size</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>t = <span style="color:#bd93f9">0</span>:<span style="color:#bd93f9">1</span><span style="color:#ff79c6">/</span>fs:<span style="color:#bd93f9">10</span>;                           <span style="color:#6272a4">% Continuous Time index</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>f = <span style="color:#8be9fd;font-style:italic">linspace</span>(<span style="color:#ff79c6">-</span>fs<span style="color:#ff79c6">/</span><span style="color:#bd93f9">2</span>, fs<span style="color:#ff79c6">/</span><span style="color:#bd93f9">2</span>, NFFT);        <span style="color:#6272a4">% Discrete-Frequency axis (SampleRate)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>f_up = <span style="color:#8be9fd;font-style:italic">linspace</span>(<span style="color:#ff79c6">-</span>fs, fs, NFFT);         <span style="color:#6272a4">% Discrete-Frequency axis (Upsample)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span><span style="color:#6272a4">%% RRC pulse shaping 필터 생성</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>rrc_filter = rcosdesign(<span style="color:#8be9fd;font-style:italic">beta</span>, span, sps, <span style="color:#f1fa8c">&#39;normal&#39;</span>); <span style="color:#6272a4">% (RRC Filter coeffs)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span><span style="color:#6272a4">%% Create my Signal</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>my_bits = <span style="color:#bd93f9">2</span><span style="color:#ff79c6">*</span>randi([<span style="color:#bd93f9">0</span> <span style="color:#bd93f9">1</span>], <span style="color:#bd93f9">1</span>, <span style="color:#bd93f9">500</span>)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>;                         <span style="color:#6272a4">% BPSK Modulation</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>my_upsampled = upsample(my_bits, sps);                      <span style="color:#6272a4">% upsampling</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>my_shaped = conv(my_upsampled, rrc_filter, <span style="color:#f1fa8c">&#39;same&#39;</span>);         <span style="color:#6272a4">% RRC Pulse shaping</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>fc1 = <span style="color:#bd93f9">150</span>;                                                  <span style="color:#6272a4">% My Signal Center Freq</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>my_sig = my_shaped <span style="color:#ff79c6">.*</span> <span style="color:#8be9fd;font-style:italic">cos</span>(<span style="color:#bd93f9">2</span><span style="color:#ff79c6">*</span><span style="color:#8be9fd;font-style:italic">pi</span><span style="color:#ff79c6">*</span>fc1<span style="color:#ff79c6">*</span>t(<span style="color:#bd93f9">1</span>:<span style="color:#8be9fd;font-style:italic">length</span>(my_shaped))); <span style="color:#6272a4">% Upconversion</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span><span style="color:#6272a4">%% rx_sig</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>rx_sig = my_sig;  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span><span style="color:#6272a4">%% rx_sig spectrum</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>figure;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>fft_my = <span style="color:#bd93f9">20</span><span style="color:#ff79c6">*</span><span style="color:#8be9fd;font-style:italic">log10</span>(<span style="color:#8be9fd;font-style:italic">abs</span>(fftshift(fft(my_sig,NFFT))));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>fft_rx_sig = <span style="color:#bd93f9">20</span><span style="color:#ff79c6">*</span><span style="color:#8be9fd;font-style:italic">log10</span>(<span style="color:#8be9fd;font-style:italic">abs</span>(fftshift(fft(rx_sig,NFFT))));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>plot(f, fft_rx_sig);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>title(<span style="color:#f1fa8c">&#39;rx sig&#39;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>legend(<span style="color:#f1fa8c">&#39;수신 신호&#39;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span><span style="color:#6272a4">%% Upsampling (Zero-Padding)</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>up_rx_sig = upsample(rx_sig,<span style="color:#bd93f9">2</span>); <span style="color:#6272a4">% Zero-Padding을 수행하면 이미지 시그널이 생김</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>fft_up_my = <span style="color:#bd93f9">20</span><span style="color:#ff79c6">*</span><span style="color:#8be9fd;font-style:italic">log10</span>(fftshift(<span style="color:#8be9fd;font-style:italic">abs</span>(fft(up_rx_sig, NFFT))));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>img_idx = <span style="color:#8be9fd;font-style:italic">abs</span>(f_up) <span style="color:#ff79c6">&gt;</span> fs<span style="color:#ff79c6">/</span><span style="color:#bd93f9">2</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>origin_idx = <span style="color:#8be9fd;font-style:italic">abs</span>(f_up) <span style="color:#ff79c6">&lt;</span> fs<span style="color:#ff79c6">/</span><span style="color:#bd93f9">2</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>figure;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>plot(f_up(img_idx), fft_up_my(img_idx),<span style="color:#f1fa8c">&#39;r&#39;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>hold on;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>plot(f_up(origin_idx), fft_up_my(origin_idx),<span style="color:#f1fa8c">&#39;b&#39;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>title(<span style="color:#f1fa8c">&#39;Upsampling Signal&#39;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>legend(<span style="color:#f1fa8c">&#39;수신 신호&#39;</span>,<span style="color:#f1fa8c">&#39;이미지 신호&#39;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span><span style="color:#6272a4">%% Interpolation</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>interp_rx_sig = lowpass(up_rx_sig, <span style="color:#bd93f9">0.5</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>fft_interp_rx_sig = <span style="color:#bd93f9">20</span><span style="color:#ff79c6">*</span><span style="color:#8be9fd;font-style:italic">log10</span>(fftshift(<span style="color:#8be9fd;font-style:italic">abs</span>(fft(interp_rx_sig,NFFT))));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>figure;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span>plot(f_up, fft_interp_rx_sig);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span><span>title(<span style="color:#f1fa8c">&#39;Interpolation Signal&#39;</span>);</span></span></code></pre></div>
+<p> </p>
+<h3 id="44-신호처리-관점-결론">4.4 신호처리 관점 결론 <a href="#44-%ec%8b%a0%ed%98%b8%ec%b2%98%eb%a6%ac-%ea%b4%80%ec%a0%90-%ea%b2%b0%eb%a1%a0" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>Interpolation과 Upsampling의 차이는 LPF의 유무이다. Interpolation을 하기 위해서는 Up-sampling 이후에 LPF를 통해 Image 신호를 제거함을 기억하자.</p>
+<h2 id="5-구현관점">5. 구현관점 <a href="#5-%ea%b5%ac%ed%98%84%ea%b4%80%ec%a0%90" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>신호처리 관점에서 Interpolation을 수행하는 과정을 살펴보았다. 과정을 요약해보면 Upsampling Factor만큼 0을 넣어서 Upsampling을 한다. 그 다음 LPF를 통과해 스펙트럼 상에서 Image 신호를 제거한다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/interpolation/picture1.png" alt="Internal link preview tooltip" width="1881" height="944" loading="lazy">
+    
+  
+</p>
+<p>위 그림을 살펴보면, 위 아래가 각각 주파수 축과 시간 축에서 대응되는 신호다.</p>
+<p>주파수 축에서 수신 신호를 2배 Upsampling한 신호에 대해 완벽한 LPF를 곱한다면 Image신호가 완벽하게 제거될 것이다.</p>
+<p>그러나 완벽한 LPF는 시간 축에서 무한한 길이의 Sinc 파형이다.</p>
+<p>주파수 축에서 곱은, 시간 축에서 Convolution이므로 이는 곧 무한한 계수를 갖는 Sinc 계수를 시간 축에서 Convolution을 해야 Image가 완벽히 제거된 Interpolation 신호를 얻을 수 있다는 것이다.</p>
+<p>따라서 완벽한 LPF를 곱하는 방식으로 Interpolation을 수행하는 것은 구현 관점에서 불가능하다. 이를 해결하기 위해 엔지니어들은 다양한 근사화를 시도했다.</p>
+<p> </p>
+<h3 id="51-fir-filter기반-interpolation">5.1 Fir Filter기반 Interpolation <a href="#51-fir-filter%ea%b8%b0%eb%b0%98-interpolation" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>근사화를 하는 가장 쉬운 방법은 덜 완벽한 LPF를 사용하는 것이다.</p>
+
     </div>
 
+    
+
+    
                                             </div>
                                             <div><hr class="doc-hr">
 <div id="doc-nav" class="d-print-none">
+
+	<div class="row flex-xl-nowrap ">
+	<div class="col-sm-6 pt-2 doc-next">
+		<a href="/docs/dsp/decimation_downsampling/">
+			<div class="card h-100 my-1">
+				<div class="card-body py-2">
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0"><i class="material-icons align-middle">navigate_before</i> Decimation vs Down-sampling</p>
+					<p class="card-text ms-2"></p>
+					
+				</div>
+			</div>
+		</a>
+        </div>
+	<div class="col-sm-6 pt-2 doc-prev">
+		<a class="ms-auto" href="/docs/rtl-ip/code/">
+			<div class="card h-100 my-1 text-end">
+				<div class="card-body py-2">
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0">lib_round.v <i class="material-icons align-middle">navigate_next</i></p>
+					<p class="card-text me-2"></p>
+					
+				</div>
+			</div>
+		</a>
+        </div>
+	</div>
 </div></div>
                                         </div>
                                     </div>

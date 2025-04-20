@@ -96,7 +96,12 @@
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/dsp/decimation/">Decimation vs Down-sampling</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/dsp/decimation_downsampling/">Decimation vs Down-sampling</a></li>
+                                        
+                                    
+                                        
+                                        
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/dsp/interpolation_upsampling/">Interpolation vs Upsampling</a></li>
                                         
                                     
                                 </ul>
@@ -1373,6 +1378,13 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
 
 
     
@@ -1418,15 +1430,24 @@
     index.add(
             {
                 id:  4 ,
-                href: "\/docs\/dsp\/decimation\/",
+                href: "\/docs\/dsp\/decimation_downsampling\/",
                 title: "Decimation vs Down-sampling",
                 description: " 1. 문서 설명 link신호처리를 할 때 Decimation과 down-sampling는 헷갈리는 개념이다.\nDecimation과 down-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.\n2. 정의 link Decimation : 디지털 신호를 먼저 Low-Pass-Filtering(LPF)를 수행하고, 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취한다.\ndown-sampling : 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취하고 끝난다.\n",
-                content: " 1. 문서 설명 link신호처리를 할 때 Decimation과 down-sampling는 헷갈리는 개념이다.\nDecimation과 down-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.\n2. 정의 link Decimation : 디지털 신호를 먼저 Low-Pass-Filtering(LPF)를 수행하고, 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취한다.\ndown-sampling : 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취하고 끝난다.\nDecimation과 down-sampling의 차이는 LPF를 수행하냐 안 하냐의 차이다. 아래 섹션에서 자세히 알아보자.\n3. 상황 가정 및 문제 link두 개념의 차이를 설명하기 위해 아래와 같은 상황을 가정해보자.\n내가 사용하는 신호 : 중심 주파수가 150Hz이고 대역폭이 143.75Hz인 대역 신호\n남이 사용하는 신호 : 중심 주파수가 400Hz이고 대역폭이 143.75Hz인 대역 신호\n수신 신호 : 내가 사용하는 신호 + 남이 사용하는 신호 (노이즈는 없다고 가정하자)\n샘플링 클럭 : 1kHz\n수신 신호를 facotr = 2로 Decimation 하는 상황\n샘플링 클럭을 낮춰 수신 신호를 처리하면 구현 관점에서 전력, 발열에 유리하다. 그래서 수신 신호를 Decimation하는 상황을 가정했다.\n샘플링 클럭을 낮추기 위해서 단순히 시간 축에서 특정 간격의 샘플만 선택하는 down-sampling이면 충분할까? 답은 아니다.\n그 이유를 신호처리 관점에서 이해해보자.\n4. 신호처리 관점 link4.1 스펙트럼 분석 link주파수 영역에서 신호를 분석하면 두 개념의 차이를 쉽게 이해할 수 있다. 아래 그림은 수신 신호의 스펙트럼이다.\n파란색 신호는 내가 만든 신호고, 빨간색 신호는 남이 만든 신호다. 발열을 낮추기 위해 수신 신호를 절반의 샘플링 클럭인 500Hz로 down-sampling을 해보자.\n아래 스펙트럼은 수신 신호의 샘플을 2개 간격으로 선택하여 샘플링 클럭을 500MHz로 낮춘 신호다.\n보다시피 빨간색인 남이 만든 신호가 Aliasing이 일어나 내 신호를 간섭하는 것을 확인할 수 있다. 여기서 간단히 Aliasing이 일어난 과정을 알아보자.\n샘플링 클럭이 500MHz이므로 유효 주파수 대역은 그 절반인 250MHz다. 따라서 250MHz 이상의 신호 성분은 0~250MHz 영역으로 Aliasing이 일어나게 된다.\n400Mhz 신호는 250MHz기준 오른쪽으로 150Mhz 떨어져 있기 때문에 250MHz를 기준으로 왼쪽으로 150MHz만큼 떨어진 100MHz에 Aliasing이 일어난다.\n결과적으로 down-sampling 이전에는 신호들이 서로 분리되어 간섭을 주지 않았지만, down-sampling 이후에는 신호들이 서로 간섭한다.\n4.2 Low-Pass-Filtering의 필요성 link4.1에서 살펴봤듯이 down-sampling에 의해 aliasing되는 신호 때문에 내 신호에 간섭이 발생할 수 있다.\n따라서 2개 간격으로 샘플을 선택하는 down-sampling을 하기 이전에 먼저 간섭이 될 수 있는 신호를 제거해야한다. 이를 위해 먼저 LPF를 통과 시킨다.\nDecimation Factor가 2이므로 Passband가 250MHz인 LPF를 적용한다.\n아래 그림은 LPF를 거친 수신 신호의 스펙트럼이다. (아직 샘플링 클럭은 1kHz다.)\nLPF를 거친 이후에, 신호를 2개 샘플 간격으로 선택하는 down-sampling을 진행한다.\n아래 그림은 LPF를 한 후, down-sampling을 진행한 스펙트럼이다.\n그림에서 알 수 있듯이, 단순히 down-sampling을 진행했을 때보다. Decimation(LPF + down-sampling)을 진행했을 때, 내 신호에 대한 간섭이 줄어 들었음을 확인할 수 있다. 4.3 MATLAB CODE link 1close all; 2clear all; 3 4%% Set Simulation Parameter 5fs = 1000; % SampleRate 6sps = 8; % SampleperSym 7beta = 0.15; % RRC roll-off 8span = 10; % filter span (심볼 단위) 9NFFT = 2^15; % FFT Size 10 11t = 0:1/fs:5; % Continuous Time index 12f = linspace(-fs/2, fs/2, NFFT); % Discrete-Frequency axis (SampleRate) 13f_down = linspace(-fs/4, fs/4, NFFT); % Discrete-Frequency axis (Downsample) 14%% RRC pulse shaping 필터 생성 15rrc_filter = rcosdesign(beta, span, sps, 'normal'); % (RRC Filter coeffs) 16 17%% Create My Signal 18my_bits = 2*randi([0 1], 1, 500)-1; % BPSK Modulation 19my_upsampled = upsample(my_bits, sps); % upsampling 20my_shaped = conv(my_upsampled, rrc_filter, 'same'); % RRC Pulse shaping 21 22fc1 = 150; % My Signal Center Freq 23my_sig = my_shaped .* cos(2*pi*fc1*t(1:length(my_shaped))); % Upconversion 24 25%% Create Other Signal 26other_bits = 2*randi([0 1], 1, 500)-1; % BPSK Modulation 27other_upsampled = upsample(other_bits, sps); % upsampling 28other_shaped = conv(other_upsampled, rrc_filter, 'same'); % RRC Pulse shaping 29 30fc2 = 400; % Ohter signal Center Freq 31other_sig = other_shaped .* cos(2*pi*fc2*t(1:length(other_shaped))); % Upconversion 32 33%% rx_sig 34rx_sig = my_sig + other_sig; 35 36%% rx_sig spectrum 37figure; 38fft_my = 20*log10(abs(fftshift(fft(my_sig,NFFT)))); 39fft_other = 20*log10(abs(fftshift(fft(other_sig,NFFT)))); 40 41plot(f, fft_my); 42hold on; 43plot(f, fft_other,'r'); 44title('rx sig'); 45xlabel('Frequency (Hz)'); 46legend('내 신호','남의 신호'); 47 48%% Downsampling 49down_my = my_sig(1:2:end); % my_signal downsampling 50down_other = other_sig(1:2:end); % other_signal downsampling 51down_rx = down_my + down_other; % rx_signal downsampling 52 53fft_down_my = 20*log10(abs(fftshift(fft(down_my,NFFT)))); 54fft_down_other = 20*log10(abs(fftshift(fft(down_other,NFFT)))); 55 56%% Downsampling spectrum 57figure; 58plot(f_down, fft_down_my); 59hold on; 60plot(f_down, fft_down_other,'r') 61title('Downsampled Spectrum (Aliased \u0026 Overlapped)'); 62xlabel('Frequency (Hz)'); 63legend('내 신호','남의 신호'); 64 65%% Decimation 66lpf_my = lowpass(my_sig, 0.5); % my_signal LPF filtering 67lpf_other = lowpass(other_sig, 0.5);% other_signal LPF filtering 68 69deci_my = lpf_my(1:2:end); % my_signal downsampling 70deci_other = lpf_other(1:2:end); % other_signal downsampling 71 72 73fft_lpf_rx = 20*log10(abs(fftshift(fft(lpf_my,NFFT)))); 74fft_lpf_other = 20*log10(abs(fftshift(fft(lpf_other,NFFT)))); 75 76fft_deci_my = 20*log10(abs(fftshift(fft(deci_my,NFFT)))); 77fft_deci_other = 20*log10(abs(fftshift(fft(deci_other,NFFT)))); 78 79%% LPF Spectrum 80figure; 81plot(f, fft_lpf_rx); 82hold on; 83plot(f, fft_lpf_other); 84title('After LPF Spectrum') 85xlabel('주파수 (Hz)'); 86legend('내 신호', '남의 신호'); 87 88%% Decimation(LPF + downsampling) spectrum 89figure; 90plot(f_down, fft_deci_my); 91hold on; 92plot(f_down, fft_deci_other,'r'); 93title('Decimation Spectrum') 94xlabel('주파수 (Hz)'); 95legend('내 신호', '남의 신호'); 해당 예제를 모델링한 MATLAB 코드다.\n18 ~ 31 Line : 내 신호와, 남의 신호를 대역 신호로 만드는 과정이다. (해당 과정을 만드는 방법은 추후 포스팅)\n34 ~ 36 Line : 수신 신호 스펙트럼 모델링\n49 ~ 63 Line : Down-sampling 한 스펙트럼 모델링\n66 ~ 95 Line : Decimation (LPF + downsampling) 한 수신 신호 모델링\n5. 결론 linkDecimation이란 Low-Pass-Filtering을 수행한 뒤 down-sampling을 하는 것을 의미한다.\n현업에서 설계를 할 때 모뎀 신호를 down-sampling을 한다고 표현하면 큰일난다. 내 신호가 간섭되어 엉망이 되어도 상관 없다는 말을 하는 것과 같기 때문이다.\n따라서 신호를 Decimation 한다는 표현을 꼭 사용하자. 아니면 Low Pass Filtering을 거친 후 down-sampling을 진행 한다고 말하는게 정확한 표현이다.\n"
+                content: " 1. 문서 설명 link신호처리를 할 때 Decimation과 down-sampling는 헷갈리는 개념이다.\nDecimation과 down-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.\n2. 정의 link Decimation : 디지털 신호를 먼저 Low-Pass-Filtering(LPF)를 수행하고, 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취한다.\ndown-sampling : 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취하고 끝난다.\nDecimation과 down-sampling의 차이는 LPF를 수행하냐 안 하냐의 차이다. 아래 섹션에서 자세히 알아보자.\n3. 상황 가정 및 문제 link두 개념의 차이를 설명하기 위해 아래와 같은 상황을 가정해보자.\n내가 사용하는 신호 : 중심 주파수가 150Hz이고 대역폭이 143.75Hz인 대역 신호\n남이 사용하는 신호 : 중심 주파수가 400Hz이고 대역폭이 143.75Hz인 대역 신호\n수신 신호 : 내가 사용하는 신호 + 남이 사용하는 신호 (노이즈는 없다고 가정하자, 남의 신호를 노이즈라고 가정해도 된다.)\n샘플링 클럭 : 1kHz\n수신 신호를 facotr = 2로 Decimation 하는 상황\n샘플링 클럭을 낮춰 수신 신호를 처리하면 구현 관점에서 전력, 발열에 유리하다. 그래서 수신 신호를 Decimation하는 상황을 가정했다.\n샘플링 클럭을 낮추기 위해서 단순히 시간 축에서 특정 간격의 샘플만 선택하는 down-sampling이면 충분할까? 답은 아니다.\n그 이유를 신호처리 관점에서 이해해보자.\n4. 신호처리 관점 link4.1 스펙트럼 분석 link주파수 영역에서 신호를 분석하면 두 개념의 차이를 쉽게 이해할 수 있다. 아래 그림은 수신 신호의 스펙트럼이다.\n파란색 신호는 내가 만든 신호고, 빨간색 신호는 남이 만든 신호다. 발열을 낮추기 위해 수신 신호를 절반의 샘플링 클럭인 500Hz로 down-sampling을 해보자.\n아래 스펙트럼은 시간 축에서 수신 신호의 샘플을 2개 간격으로 선택하여 샘플링 클럭을 500MHz로 낮춘 신호다.\n보다시피 빨간색인 남이 만든 신호가 Aliasing이 일어나 내 신호를 간섭하는 것을 확인할 수 있다. 여기서 간단히 Aliasing이 일어난 과정을 알아보자.\n샘플링 클럭이 500MHz이므로 유효 주파수 대역은 그 절반인 250MHz다. 따라서 250MHz 이상의 신호 성분은 0~250MHz 영역으로 Aliasing이 일어나게 된다.\n400Mhz 신호는 250MHz기준 오른쪽으로 150Mhz 떨어져 있기 때문에 250MHz를 기준으로 왼쪽으로 150MHz만큼 떨어진 100MHz에 Aliasing이 일어난다.\n결과적으로 down-sampling 이전에는 신호들이 서로 분리되어 간섭을 주지 않았지만, down-sampling 이후에는 신호들이 서로 간섭한다.\n4.2 Low-Pass-Filtering의 필요성 link4.1에서 살펴봤듯이 down-sampling에 의해 aliasing되는 신호 때문에 내 신호에 간섭이 발생할 수 있다.\n따라서 2개 간격으로 샘플을 선택하는 down-sampling을 하기 이전에 먼저 간섭이 될 수 있는 신호를 제거해야한다. 이를 위해 먼저 LPF를 통과 시킨다.\nDecimation Factor가 2이므로 Passband가 250MHz인 LPF를 적용한다.\n아래 그림은 LPF를 거친 수신 신호의 스펙트럼이다. (아직 샘플링 클럭은 1kHz다.)\nLPF를 거친 이후에, 신호를 2개 샘플 간격으로 선택하는 down-sampling을 진행한다.\n아래 그림은 LPF를 한 후, down-sampling을 진행한 스펙트럼이다.\n그림에서 알 수 있듯이, 단순히 down-sampling을 진행했을 때보다. Decimation(LPF + down-sampling)을 진행했을 때, 내 신호에 대한 간섭이 줄어 들었음을 확인할 수 있다.\n4.3 MATLAB CODE link 1close all; 2clear all; 3 4%% Set Simulation Parameter 5fs = 1000; % SampleRate 6sps = 8; % SampleperSym 7beta = 0.15; % RRC roll-off 8span = 10; % filter span (심볼 단위) 9NFFT = 2^15; % FFT Size 10 11t = 0:1/fs:5; % Continuous Time index 12f = linspace(-fs/2, fs/2, NFFT); % Discrete-Frequency axis (SampleRate) 13f_down = linspace(-fs/4, fs/4, NFFT); % Discrete-Frequency axis (Downsample) 14%% RRC pulse shaping 필터 생성 15rrc_filter = rcosdesign(beta, span, sps, 'normal'); % (RRC Filter coeffs) 16 17%% Create My Signal 18my_bits = 2*randi([0 1], 1, 500)-1; % BPSK Modulation 19my_upsampled = upsample(my_bits, sps); % upsampling 20my_shaped = conv(my_upsampled, rrc_filter, 'same'); % RRC Pulse shaping 21 22fc1 = 150; % My Signal Center Freq 23my_sig = my_shaped .* cos(2*pi*fc1*t(1:length(my_shaped))); % Upconversion 24 25%% Create Other Signal 26other_bits = 2*randi([0 1], 1, 500)-1; % BPSK Modulation 27other_upsampled = upsample(other_bits, sps); % upsampling 28other_shaped = conv(other_upsampled, rrc_filter, 'same'); % RRC Pulse shaping 29 30fc2 = 400; % Ohter signal Center Freq 31other_sig = other_shaped .* cos(2*pi*fc2*t(1:length(other_shaped))); % Upconversion 32 33%% rx_sig 34rx_sig = my_sig + other_sig; 35 36%% rx_sig spectrum 37figure; 38fft_my = 20*log10(abs(fftshift(fft(my_sig,NFFT)))); 39fft_other = 20*log10(abs(fftshift(fft(other_sig,NFFT)))); 40 41plot(f, fft_my); 42hold on; 43plot(f, fft_other,'r'); 44title('rx sig'); 45xlabel('Frequency (Hz)'); 46legend('내 신호','남의 신호'); 47 48%% Downsampling 49down_my = my_sig(1:2:end); % my_signal downsampling 50down_other = other_sig(1:2:end); % other_signal downsampling 51down_rx = down_my + down_other; % rx_signal downsampling 52 53fft_down_my = 20*log10(abs(fftshift(fft(down_my,NFFT)))); 54fft_down_other = 20*log10(abs(fftshift(fft(down_other,NFFT)))); 55 56%% Downsampling spectrum 57figure; 58plot(f_down, fft_down_my); 59hold on; 60plot(f_down, fft_down_other,'r') 61title('Downsampled Spectrum (Aliased \u0026 Overlapped)'); 62xlabel('Frequency (Hz)'); 63legend('내 신호','남의 신호'); 64 65%% Decimation 66lpf_my = lowpass(my_sig, 0.5); % my_signal LPF filtering 67lpf_other = lowpass(other_sig, 0.5);% other_signal LPF filtering 68 69deci_my = lpf_my(1:2:end); % my_signal downsampling 70deci_other = lpf_other(1:2:end); % other_signal downsampling 71 72 73fft_lpf_rx = 20*log10(abs(fftshift(fft(lpf_my,NFFT)))); 74fft_lpf_other = 20*log10(abs(fftshift(fft(lpf_other,NFFT)))); 75 76fft_deci_my = 20*log10(abs(fftshift(fft(deci_my,NFFT)))); 77fft_deci_other = 20*log10(abs(fftshift(fft(deci_other,NFFT)))); 78 79%% LPF Spectrum 80figure; 81plot(f, fft_lpf_rx); 82hold on; 83plot(f, fft_lpf_other); 84title('After LPF Spectrum') 85xlabel('주파수 (Hz)'); 86legend('내 신호', '남의 신호'); 87 88%% Decimation(LPF + downsampling) spectrum 89figure; 90plot(f_down, fft_deci_my); 91hold on; 92plot(f_down, fft_deci_other,'r'); 93title('Decimation Spectrum') 94xlabel('주파수 (Hz)'); 95legend('내 신호', '남의 신호'); 해당 예제를 모델링 한 MATLAB 코드다.\n18 ~ 31 Line : 내 신호와, 남의 신호를 대역 신호로 만드는 과정이다. (대역 신호를 만드는 방법은 추후 포스팅)\n34 ~ 36 Line : 수신 신호 스펙트럼 모델링\n49 ~ 63 Line : Down-sampling 한 스펙트럼 모델링\n66 ~ 95 Line : Decimation (LPF + downsampling) 한 수신 신호 모델링\n4.4 신호처리 관점 결론 linkDecimation이란 Low-Pass-Filtering을 수행한 뒤 down-sampling을 하는 것을 의미한다.\n현업에서 설계를 할 때 모뎀 신호를 down-sampling을 한다고 표현하면 큰일난다. 내 신호가 간섭되어 엉망이 되어도 상관 없다는 말을 하는 것과 같기 때문이다.\n따라서 신호를 Decimation 한다는 표현을 꼭 사용하자. 아니면 Low Pass Filtering을 거친 후 down-sampling을 진행 한다고 말하는게 정확한 표현이다.\n5 구현 관점 link"
             }
         );
     index.add(
             {
                 id:  5 ,
+                href: "\/docs\/dsp\/interpolation_upsampling\/",
+                title: "Interpolation vs Upsampling",
+                description: " 1. 문서 설명 link신호처리를 할 때 Interpolation과 Up-sampling은 헷갈리는 개념이다.\nInterpolation을 정확히 이해하기 위해서 먼저 Interpolation과 Up-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.\n2. 정의 link Interpolation : 디지털 신호를 먼저 샘플들 사이에 0을 집어넣어 up-sampling을 진행한다. 그 다음 Low-Pass-Filtering을 수행한다.\nUp-sampling : 디지털 신호를 샘플들 사이에 up-sampling factor 만큼 0을 넣어 up-sampling을 한다.\n",
+                content: " 1. 문서 설명 link신호처리를 할 때 Interpolation과 Up-sampling은 헷갈리는 개념이다.\nInterpolation을 정확히 이해하기 위해서 먼저 Interpolation과 Up-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.\n2. 정의 link Interpolation : 디지털 신호를 먼저 샘플들 사이에 0을 집어넣어 up-sampling을 진행한다. 그 다음 Low-Pass-Filtering을 수행한다.\nUp-sampling : 디지털 신호를 샘플들 사이에 up-sampling factor 만큼 0을 넣어 up-sampling을 한다.\nInterpolation과 Up-Sampling의 차이는 Low-Pass-Filtering을 수행하냐 안 하냐의 차이다.\n3. 상황 가정 및 문제 link두 개념의 차이를 설명하기 위해 아래와 같은 상황을 가정해보자.\n수신 신호 : 중심 주파수가 150Hz이고 대역폭이 143.75Hz인 대역 신호\n샘플링 클럭 : 1kHz\n수신 신호를 facotr = 2로 Interpolation 하는 상황\n모뎀 수신 동기화 알고리즘에서 Interpolation을 통해 심볼 타이밍을 복구하는 경우가 있다. 따라서 수신 신호를 Interpolation 하는 상황이 종종 있다.\n단순히 시간 축에서 0을 추가하여 샘플링 클럭 높히는 Up-sampling이면 충분할까? 답은 아니다.\n그 이유를 신호처리 관점에서 이해해보자.\n4. 신호처리 관점 link 4.1 스펙트럼 분석 link주파수 영역에서 신호를 분석하면 두 개념의 차이를 쉽게 이해할 수 있다. 아래 그림은 수신 신호의 스펙트럼이다.\n이제 시간 축에서 디지털 신호에 0을 추가해서 up-sampling을 전행하면 아래 스펙트럼과 같이 바뀐다.\nUp-Sampling 이후에 빨간색 Image 신호가 보이기 시작한다. 이러한 Image 신호는 신호 품질에 영향을 준다.\n4.2 LPF의 필요성 link따라서 위 Image 신호를 LPF를 통해 필터링 해줘야 한다.\n아래 그림은 이미지 신호를 LPF를 통해 필터링한 스펙트럼이다.\n이렇게 이미지 신호를 제거해줘야 비로소 Interpolation이 완성된다.\n4.3 시간 축에서 Upsampling과 Interpolation 비교 link시간 축에서 Interpolation과 Upsampling을 비교해보자.\n파란색 신호는 0을 추가해서 up-sampling을 한 신호다. 빨간색 신호는 Interpolation(up-sampling 후 LPF)을 한 신호다.\n신호를 보면 알 수 있듯이, 단순히 up-sampling만 한 신호 대비, LPF를 추가로 수행하여 Interpolation을 하면 신호가 부드럽게 채워짐을 알 수 있다.\n이 효과를 통해 샘플 사이의 값을 유추할 수 있는 효과가 나타난다. 그래서 모뎀의 수신 동기화 알고리즘에서 많이 사용한다.\n4.3 MATLAB 코드 link 1close all; 2clear all; 3%% Set Simulation Parameter 4fs = 500; % SampleRate 5sps = 8; % SampleperSym 6beta = 0.15; % RRC roll-off 7span = 10; % filter span (심볼 단위) 8NFFT = 2^15; % FFT Size 9t = 0:1/fs:10; % Continuous Time index 10f = linspace(-fs/2, fs/2, NFFT); % Discrete-Frequency axis (SampleRate) 11f_up = linspace(-fs, fs, NFFT); % Discrete-Frequency axis (Upsample) 12 13%% RRC pulse shaping 필터 생성 14rrc_filter = rcosdesign(beta, span, sps, 'normal'); % (RRC Filter coeffs) 15 16%% Create my Signal 17my_bits = 2*randi([0 1], 1, 500)-1; % BPSK Modulation 18my_upsampled = upsample(my_bits, sps); % upsampling 19my_shaped = conv(my_upsampled, rrc_filter, 'same'); % RRC Pulse shaping 20fc1 = 150; % My Signal Center Freq 21my_sig = my_shaped .* cos(2*pi*fc1*t(1:length(my_shaped))); % Upconversion 22 23%% rx_sig 24rx_sig = my_sig; 25 26%% rx_sig spectrum 27figure; 28fft_my = 20*log10(abs(fftshift(fft(my_sig,NFFT)))); 29fft_rx_sig = 20*log10(abs(fftshift(fft(rx_sig,NFFT)))); 30plot(f, fft_rx_sig); 31title('rx sig'); 32legend('수신 신호') 33%% Upsampling (Zero-Padding) 34up_rx_sig = upsample(rx_sig,2); % Zero-Padding을 수행하면 이미지 시그널이 생김 35fft_up_my = 20*log10(fftshift(abs(fft(up_rx_sig, NFFT)))); 36 37img_idx = abs(f_up) \u003e fs/2; 38origin_idx = abs(f_up) \u003c fs/2; 39 40figure; 41plot(f_up(img_idx), fft_up_my(img_idx),'r'); 42hold on; 43plot(f_up(origin_idx), fft_up_my(origin_idx),'b'); 44title('Upsampling Signal') 45legend('수신 신호','이미지 신호'); 46 47%% Interpolation 48interp_rx_sig = lowpass(up_rx_sig, 0.5); 49fft_interp_rx_sig = 20*log10(fftshift(abs(fft(interp_rx_sig,NFFT)))); 50figure; 51plot(f_up, fft_interp_rx_sig); 52title('Interpolation Signal'); 4.4 신호처리 관점 결론 linkInterpolation과 Upsampling의 차이는 LPF의 유무이다. Interpolation을 하기 위해서는 Up-sampling 이후에 LPF를 통해 Image 신호를 제거함을 기억하자.\n5. 구현관점 link신호처리 관점에서 Interpolation을 수행하는 과정을 살펴보았다. 과정을 요약해보면 Upsampling Factor만큼 0을 넣어서 Upsampling을 한다. 그 다음 LPF를 통과해 스펙트럼 상에서 Image 신호를 제거한다.\n위 그림을 살펴보면, 위 아래가 각각 주파수 축과 시간 축에서 대응되는 신호다.\n주파수 축에서 수신 신호를 2배 Upsampling한 신호에 대해 완벽한 LPF를 곱한다면 Image신호가 완벽하게 제거될 것이다.\n그러나 완벽한 LPF는 시간 축에서 무한한 길이의 Sinc 파형이다.\n주파수 축에서 곱은, 시간 축에서 Convolution이므로 이는 곧 무한한 계수를 갖는 Sinc 계수를 시간 축에서 Convolution을 해야 Image가 완벽히 제거된 Interpolation 신호를 얻을 수 있다는 것이다.\n따라서 완벽한 LPF를 곱하는 방식으로 Interpolation을 수행하는 것은 구현 관점에서 불가능하다. 이를 해결하기 위해 엔지니어들은 다양한 근사화를 시도했다.\n5.1 Fir Filter기반 Interpolation link근사화를 하는 가장 쉬운 방법은 덜 완벽한 LPF를 사용하는 것이다.\n"
+            }
+        );
+    index.add(
+            {
+                id:  6 ,
                 href: "\/docs\/rtl-ip\/code\/",
                 title: "lib_round.v",
                 description: " 모듈 설명 linkRounding 방법에 대해 기술하고 Verilog HDL로 구현한 과정 및 모듈 사용법을 기술한다.\nRounding Method link Truncate : 해당 비트를 단순히 잘라 버리는 것\nRounding to Even : ladsjf;ksdljf\nHTML link 1\u003c!DOCTYPE html\u003e 2\u003chtml\u003e 3\u003cbody\u003e 4 5\u003ch1\u003eMy First Heading\u003c/h1\u003e 6 7\u003cp\u003eMy first paragraph.\u003c/p\u003e 8 9\u003c/body\u003e 10\u003c/html\u003e Markdown link 1# H1 heading 2 3**Some bold text** 4 5*Italic text example*",
@@ -1435,7 +1456,7 @@
         );
     index.add(
             {
-                id:  6 ,
+                id:  7 ,
                 href: "\/docs\/fpga-demo\/petalinux_build_demo\/",
                 title: "Petalinux Build Demo (Zybo-z7-10)",
                 description: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다.\n본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.\n2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 또한 운영체제가 자원을 효과적으로 관리 가능하다.\n",
@@ -1444,7 +1465,7 @@
         );
     index.add(
             {
-                id:  7 ,
+                id:  8 ,
                 href: "\/docs\/rtl-ip\/mermaid\/",
                 title: "Mermaid",
                 description: "Example Mermaid diagrams",
@@ -1453,7 +1474,7 @@
         );
     index.add(
             {
-                id:  8 ,
+                id:  9 ,
                 href: "\/docs\/section-folder\/",
                 title: "Section Folder",
                 description: "Example of a folder at the root of the content tree (under `/docs`)",
@@ -1462,7 +1483,7 @@
         );
     index.add(
             {
-                id:  9 ,
+                id:  10 ,
                 href: "\/docs\/section-folder\/section-subfolder\/",
                 title: "Section Subfolder",
                 description: "Subfolder nested inside a root section folder",
@@ -1471,7 +1492,7 @@
         );
     index.add(
             {
-                id:  10 ,
+                id:  11 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/third-section-subfolder\/",
                 title: "Third Section Subfolder",
                 description: "Subfolder nested inside a section subfolder",
@@ -1480,7 +1501,7 @@
         );
     index.add(
             {
-                id:  11 ,
+                id:  12 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/",
                 title: "Second Section Subfolder",
                 description: "Subfolder nested inside a section subfolder",
@@ -1489,7 +1510,7 @@
         );
     index.add(
             {
-                id:  12 ,
+                id:  13 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/third-section-subfolder\/example-doc\/",
                 title: "Example Doc",
                 description: "Example document nested inside multiple subfolders",
@@ -1498,7 +1519,7 @@
         );
     index.add(
             {
-                id:  13 ,
+                id:  14 ,
                 href: "\/docs\/terms\/",
                 title: "Terms",
                 description: "Optional features in Lotus Docs.",
@@ -1507,7 +1528,7 @@
         );
     index.add(
             {
-                id:  14 ,
+                id:  15 ,
                 href: "\/docs\/theme-options\/",
                 title: "Theme Options",
                 description: "Optional features in Lotus Docs.",
@@ -1516,7 +1537,7 @@
         );
     index.add(
             {
-                id:  15 ,
+                id:  16 ,
                 href: "\/docs\/theme-options\/breadcrumbs\/",
                 title: "Breadcrumb Navigation",
                 description: "How to configure Breadcrumb navigation for your Lotus Docs site.",
@@ -1525,7 +1546,7 @@
         );
     index.add(
             {
-                id:  16 ,
+                id:  17 ,
                 href: "\/docs\/terms\/pl_region\/",
                 title: "PL",
                 description: "PL영역이란 FPGA에서 HW 부분을 의미한다. Verilog 또는 VHDL로 HW 병렬처리 로직을 구현할 수 있는 영역이다.",
@@ -1534,7 +1555,7 @@
         );
     index.add(
             {
-                id:  17 ,
+                id:  18 ,
                 href: "\/docs\/terms\/ps_region\/",
                 title: "PS",
                 description: "PS영역이란 FPGA에서 SW 부분을 의미한다. C/C++ 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다.",
@@ -1543,7 +1564,7 @@
         );
     index.add(
             {
-                id:  18 ,
+                id:  19 ,
                 href: "\/docs\/terms\/wsl\/",
                 title: "WSL",
                 description: "WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구축한다.",
@@ -1552,7 +1573,7 @@
         );
     index.add(
             {
-                id:  19 ,
+                id:  20 ,
                 href: "\/docs\/theme-options\/link-behaviour\/",
                 title: "Link behaviour",
                 description: "Options for Link behaviour in content pages",
@@ -1561,7 +1582,7 @@
         );
     index.add(
             {
-                id:  20 ,
+                id:  21 ,
                 href: "\/docs\/",
                 title: "Docs",
                 description: "",

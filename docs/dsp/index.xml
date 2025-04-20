@@ -10,10 +10,17 @@
     <atom:link href="https://egghwan.github.io/docs/dsp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Decimation vs Down-sampling</title>
-      <link>https://egghwan.github.io/docs/dsp/decimation/</link>
+      <link>https://egghwan.github.io/docs/dsp/decimation_downsampling/</link>
       <pubDate>Mon, 22 May 2023 00:44:31 +0100</pubDate>
-      <guid>https://egghwan.github.io/docs/dsp/decimation/</guid>
+      <guid>https://egghwan.github.io/docs/dsp/decimation_downsampling/</guid>
       <description>&lt;!-- raw HTML omitted --&gt;&#xA;&lt;!-- raw HTML omitted --&gt;&#xA;&lt;!-- raw HTML omitted --&gt;&#xA;&lt;h2 id=&#34;1-문서-설명&#34;&gt;1. 문서 설명 &lt;a href=&#34;#1-%eb%ac%b8%ec%84%9c-%ec%84%a4%eb%aa%85&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;신호처리를 할 때 Decimation과 down-sampling는 헷갈리는 개념이다.&lt;/p&gt;&#xA;&lt;p&gt;Decimation과 down-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.&lt;/p&gt;&#xA;&lt;h2 id=&#34;2-정의&#34;&gt;2. 정의 &lt;a href=&#34;#2-%ec%a0%95%ec%9d%98&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Decimation : 디지털 신호를 먼저 Low-Pass-Filtering(LPF)를 수행하고, 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취한다.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;down-sampling : 디지털 신호를 구성하는 샘플들 중 특정 간격의 샘플만 취하고 끝난다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Interpolation vs Upsampling</title>
+      <link>https://egghwan.github.io/docs/dsp/interpolation_upsampling/</link>
+      <pubDate>Mon, 22 May 2023 00:44:31 +0100</pubDate>
+      <guid>https://egghwan.github.io/docs/dsp/interpolation_upsampling/</guid>
+      <description>&lt;!-- raw HTML omitted --&gt;&#xA;&lt;!-- raw HTML omitted --&gt;&#xA;&lt;!-- raw HTML omitted --&gt;&#xA;&lt;h2 id=&#34;1-문서-설명&#34;&gt;1. 문서 설명 &lt;a href=&#34;#1-%eb%ac%b8%ec%84%9c-%ec%84%a4%eb%aa%85&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;신호처리를 할 때 Interpolation과 Up-sampling은 헷갈리는 개념이다.&lt;/p&gt;&#xA;&lt;p&gt;Interpolation을 정확히 이해하기 위해서 먼저 Interpolation과 Up-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.&lt;/p&gt;&#xA;&lt;h2 id=&#34;2-정의&#34;&gt;2. 정의 &lt;a href=&#34;#2-%ec%a0%95%ec%9d%98&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Interpolation : 디지털 신호를 먼저 샘플들 사이에 0을 집어넣어 up-sampling을 진행한다. 그 다음 Low-Pass-Filtering을 수행한다.&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;Up-sampling : 디지털 신호를 샘플들 사이에 up-sampling factor 만큼 0을 넣어 up-sampling을 한다.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
