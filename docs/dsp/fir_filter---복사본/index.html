@@ -14,32 +14,46 @@
 
     
 
-<html lang="en"><head>
+<html lang="en"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8" />
-    <title>PS | </title>
+    <title>FIR Filter | </title>
+    <meta name="robots" content="noindex">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="PS영역이란 FPGA에서 SW 부분을 의미한다. C/C&#43;&#43; 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다.">
     <meta name="keywords" content="Documentation, Hugo, Hugo Theme, Bootstrap" />
     <meta name="author" content="Colin Wilson - Lotus Labs" />
     <meta name="email" content="support@aigis.uk" />
     <meta name="website" content="https://lotusdocs.dev" />
     <meta name="Version" content="v0.1.0" />
     
-    <link rel="icon" href="https://egghwan.github.io/favicon.ico" sizes="any">
-<link rel="icon" type="image/svg+xml" href="https://egghwan.github.io/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="https://egghwan.github.io/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://egghwan.github.io/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://egghwan.github.io/favicon-16x16.png">
-<link rel="manifest" crossorigin="use-credentials" href="https://egghwan.github.io/site.webmanifest">
-<meta property="og:title" content="PS" />
-<meta property="og:description" content="PS영역이란 FPGA에서 SW 부분을 의미한다. C/C&#43;&#43; 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다." />
+    <link rel="icon" href="http://localhost:1313/favicon.ico" sizes="any">
+<link rel="icon" type="image/svg+xml" href="http://localhost:1313/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="manifest" crossorigin="use-credentials" href="http://localhost:1313/site.webmanifest">
+<meta property="og:title" content="FIR Filter" />
+<meta property="og:description" content="
+
+
+1. 문서 설명 link신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.
+2. 정의 link
+FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다.
+
+3. 신호처리 관점 link필터 계수가 시간 축에서 유한하다는 것은 어떤 의미일까? 신호처리 관점에서 살펴보자." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://egghwan.github.io/docs/terms/ps_region/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_562c0b5d17b508a8.png"/><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2022-11-27T07:08:15+00:00" />
-<meta property="article:modified_time" content="2023-08-16T02:49:15+00:00" /><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_562c0b5d17b508a8.png"/>
-<meta name="twitter:title" content="PS"/>
-<meta name="twitter:description" content="PS영역이란 FPGA에서 SW 부분을 의미한다. C/C&#43;&#43; 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다."/>
+<meta property="og:url" content="http://localhost:1313/docs/dsp/fir_filter---%EB%B3%B5%EC%82%AC%EB%B3%B8/" /><meta property="og:image" content="http://localhost:1313/opengraph/card-base-2_hu_65ecff1c95585c45.png"/><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-05-22T00:44:31+01:00" />
+<meta property="article:modified_time" content="2023-05-22T00:44:31+01:00" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="http://localhost:1313/opengraph/card-base-2_hu_65ecff1c95585c45.png"/>
+<meta name="twitter:title" content="FIR Filter"/>
+<meta name="twitter:description" content="
+
+
+1. 문서 설명 link신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.
+2. 정의 link
+FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다.
+
+3. 신호처리 관점 link필터 계수가 시간 축에서 유한하다는 것은 어떤 의미일까? 신호처리 관점에서 살펴보자."/>
 
     
     
@@ -47,15 +61,13 @@
     
     
             
-                
-                <script type="text/javascript" src="https://egghwan.github.io/docs/js/flexsearch.bundle.min.f5159d5a2151ffbb653996ec17eaff7da4e04c286bd879fc41839d36a5586f3f20eaead0b6089de48f9adc669cdee771.js" integrity="sha384-9RWdWiFR/7tlOZbsF&#43;r/faTgTChr2Hn8QYOdNqVYbz8g6urQtgid5I&#43;a3Gac3udx" crossorigin="anonymous"></script>
-                
+                <script type="text/javascript" src="http://localhost:1313/docs/js/flexsearch.bundle.js"></script>
+            
         
     
     
 
-    <link rel="stylesheet" href="/docs/scss/style.min.0dd19585783190e3219032920f3a0497a073adc641fd4386e14968b027b323d586f5c3ad89ac285595ec9b82b9d8273b.css" integrity="sha384-DdGVhXgxkOMhkDKSDzoEl6BzrcZB/UOG4UlosCezI9WG9cOtiawoVZXsm4K52Cc7"crossorigin="anonymous">
-    
+    <link rel="stylesheet" href="/docs/scss/style.css" crossorigin="anonymous">
     
     
     </head>
@@ -77,27 +89,32 @@
                 
                     
                     
-                        <li class="sidebar-dropdown  ">
+                        <li class="sidebar-dropdown  current active">
                             <button class="btn">
                                 <i class="material-icons me-2">quick_reference_all</i>
                                 Digital-Signal-Processing
                             </button>
-                            <div class="sidebar-submenu ">
+                            <div class="sidebar-submenu d-block">
                                 <ul>
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/dsp/decimation_downsampling/">Decimation vs Down-sampling</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/dsp/decimation_downsampling/">Decimation vs Down-sampling</a></li>
                                         
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/dsp/fir_filter/">FIR Filter</a></li>
+                                            <li class="current "><a class="sidebar-nested-link" href="http://localhost:1313/docs/dsp/fir_filter---%EB%B3%B5%EC%82%AC%EB%B3%B8/">FIR Filter</a></li>
                                         
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/dsp/interpolation_upsampling/">Interpolation vs Upsampling</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/dsp/fir_filter/">FIR Filter</a></li>
+                                        
+                                    
+                                        
+                                        
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/dsp/interpolation_upsampling/">Interpolation vs Upsampling</a></li>
                                         
                                     
                                 </ul>
@@ -117,12 +134,12 @@
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/fpga-demo/axi4-lite-led_demo/">AXI4-Lite LED Demo</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/fpga-demo/axi4-lite-led_demo/">AXI4-Lite LED Demo</a></li>
                                         
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/fpga-demo/petalinux_build_demo/">Petalinux Build Demo (Zybo-z7-10)</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/fpga-demo/petalinux_build_demo/">Petalinux Build Demo (Zybo-z7-10)</a></li>
                                         
                                     
                                 </ul>
@@ -142,12 +159,12 @@
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/code/">lib_round.v</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/rtl-ip/code/">lib_round.v</a></li>
                                         
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/mermaid/">Mermaid</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/rtl-ip/mermaid/">Mermaid</a></li>
                                         
                                     
                                 </ul>
@@ -196,7 +213,7 @@
                                                                                             <ul>
                                                                                                 
                                                                                                     
-                                                                                                    <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/section-folder/section-subfolder/second-section-subfolder/third-section-subfolder/example-doc/">Example Doc</a></li>
+                                                                                                    <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/section-folder/section-subfolder/second-section-subfolder/third-section-subfolder/example-doc/">Example Doc</a></li>
                                                                                                 
                                                                                             </ul>
                                                                                         </div>
@@ -220,27 +237,27 @@
                 
                     
                     
-                        <li class="sidebar-dropdown  current active">
+                        <li class="sidebar-dropdown  ">
                             <button class="btn">
                                 <i class="material-icons me-2">tune</i>
                                 Terms
                             </button>
-                            <div class="sidebar-submenu d-block">
+                            <div class="sidebar-submenu ">
                                 <ul>
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/terms/pl_region/">PL</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/terms/pl_region/">PL</a></li>
                                         
                                     
                                         
                                         
-                                            <li class="current "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/terms/ps_region/">PS</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/terms/ps_region/">PS</a></li>
                                         
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/terms/wsl/">WSL</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/terms/wsl/">WSL</a></li>
                                         
                                     
                                 </ul>
@@ -260,12 +277,12 @@
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/theme-options/breadcrumbs/">Breadcrumb Navigation</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/theme-options/breadcrumbs/">Breadcrumb Navigation</a></li>
                                         
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/theme-options/link-behaviour/">Link behaviour</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="http://localhost:1313/docs/theme-options/link-behaviour/">Link behaviour</a></li>
                                         
                                     
                                 </ul>
@@ -399,15 +416,15 @@
             
             
                 <li class="breadcrumb-item text-capitalize" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                    <a itemprop="item" href="/docs/terms/">
-                        <span itemprop="name">Terms</span>
+                    <a itemprop="item" href="/docs/dsp/">
+                        <span itemprop="name">Digital-Signal-Processing</span>
                     </a>
                     <meta itemprop="position" content='2' />
                 </li>
             
         
             <li class="breadcrumb-item text-capitalize active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <span itemprop="name">PS</span>
+                <span itemprop="name">FIR Filter</span>
                 <meta itemprop="position" content='3' />
             </li>
         
@@ -416,24 +433,36 @@
                                     
                                     <div class="row flex-xl-nowrap">
                                         
-                                        <div class="docs-toc col-xl-3  visually-hidden  d-xl-block"><toc>
+                                        <div class="docs-toc col-xl-3    d-xl-block"><toc>
     <div class="fw-bold text-uppercase mb-2">On this page</div>
-    <nav id="TableOfContents"></nav>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-문서-설명">1. 문서 설명</a></li>
+    <li><a href="#2-정의">2. 정의</a></li>
+    <li><a href="#3-신호처리-관점">3. 신호처리 관점</a></li>
+  </ul>
+</nav>
     </toc></div>
                                         
                                         
-                                        <div class="docs-toc-mobile  visually-hidden  d-print-none d-xl-none">
+                                        <div class="docs-toc-mobile    d-print-none d-xl-none">
                                             <button id="toc-dropdown-btn" class="btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-offset="0,0" aria-expanded="false">
                                                 Table of Contents
                                             </button>
-<nav id="toc-mobile"></nav></div>
-                                        <div class="docs-content col-12  mt-0">
+<nav id="toc-mobile">
+  <ul class="dropdown-menu">
+    <li><a href="#1-문서-설명">1. 문서 설명</a></li>
+    <li><a href="#2-정의">2. 정의</a></li>
+    <li><a href="#3-신호처리-관점">3. 신호처리 관점</a></li>
+  </ul>
+</nav></div>
+                                        <div class="docs-content col-12 col-xl-9 mt-0">
                                             <div class="mb-0 d-flex">
                                                 
-                                                <i class="material-icons title-icon me-2">keyboard_double_arrow_right</i>
+                                                <i class="material-icons title-icon me-2">code</i>
                                                 
                                                 <h1 class="content-title mb-0">
-                                                    PS
+                                                    FIR Filter
                                                     
                                                 </h1>
                                             </div>
@@ -442,7 +471,15 @@
                                                 
     
     <div data-prismjs-copy="" data-prismjs-copy-success="" data-prismjs-copy-error="">
-        
+        <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h2 id="1-문서-설명">1. 문서 설명 <a href="#1-%eb%ac%b8%ec%84%9c-%ec%84%a4%eb%aa%85" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.</p>
+<h2 id="2-정의">2. 정의 <a href="#2-%ec%a0%95%ec%9d%98" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><ul>
+<li>FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다.</li>
+</ul>
+<h2 id="3-신호처리-관점">3. 신호처리 관점 <a href="#3-%ec%8b%a0%ed%98%b8%ec%b2%98%eb%a6%ac-%ea%b4%80%ec%a0%90" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>필터 계수가 시간 축에서 유한하다는 것은 어떤 의미일까? 신호처리 관점에서 살펴보자.</p>
+
     </div>
 
     
@@ -454,22 +491,22 @@
 
 	<div class="row flex-xl-nowrap ">
 	<div class="col-sm-6 pt-2 doc-next">
-		<a href="/docs/terms/pl_region/">
+		<a href="/docs/dsp/decimation_downsampling/">
 			<div class="card h-100 my-1">
 				<div class="card-body py-2">
-                    <p class="card-title fs-5 fw-semibold lh-base mb-0"><i class="material-icons align-middle">navigate_before</i> PL</p>
-					<p class="card-text ms-2">PL영역이란 FPGA에서 HW 부분을 의미한다. Verilog …</p>
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0"><i class="material-icons align-middle">navigate_before</i> Decimation vs Down-sampling</p>
+					<p class="card-text ms-2"></p>
 					
 				</div>
 			</div>
 		</a>
         </div>
 	<div class="col-sm-6 pt-2 doc-prev">
-		<a class="ms-auto" href="/docs/terms/wsl/">
+		<a class="ms-auto" href="/docs/dsp/fir_filter/">
 			<div class="card h-100 my-1 text-end">
 				<div class="card-body py-2">
-                    <p class="card-title fs-5 fw-semibold lh-base mb-0">WSL <i class="material-icons align-middle">navigate_next</i></p>
-					<p class="card-text me-2">WSL …</p>
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0">FIR Filter <i class="material-icons align-middle">navigate_next</i></p>
+					<p class="card-text me-2"></p>
 					
 				</div>
 			</div>
@@ -522,12 +559,10 @@
 
 
 
-    
-
-    <script src="/docs/js/bootstrap.c7927bdd82eceb076739257add3f4b0e11379da037c07d5c7110daeb6de0e3edcb2de867604550f88815157e4ec4ddb7.js" integrity="sha384-x5J73YLs6wdnOSV63T9LDhE3naA3wH1ccRDa623g4&#43;3LLehnYEVQ&#43;IgVFX5OxN23"defer></script>
+    <script src="/docs/js/bootstrap.js" defer></script>
 
 
-    <script type="text/javascript" src="https://egghwan.github.io/docs/js/bundle.min.4b07706b1da436c9600e641a8cf51af20b3e497ead85e0d0af7552a0314e8e317dc63bb69d12c072092518621478900d.js" integrity="sha384-Swdwax2kNslgDmQajPUa8gs&#43;SX6theDQr3VSoDFOjjF9xju2nRLAcgklGGIUeJAN" crossorigin="anonymous" defer></script>
+    <script type="text/javascript" src="http://localhost:1313/docs/js/bundle.js" defer></script>
 
         
 
@@ -796,6 +831,13 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
 
 
     
@@ -850,15 +892,24 @@
     index.add(
             {
                 id:  5 ,
-                href: "\/docs\/dsp\/fir_filter\/",
+                href: "\/docs\/dsp\/fir_filter---%EB%B3%B5%EC%82%AC%EB%B3%B8\/",
                 title: "FIR Filter",
-                description: " 1. 문서 설명 link신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.\n2. 정의 link FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다. 3. 신호처리 관점 link3.1 Convolution의 시간 축 분석 linkFIR Filter를 이해하려면 먼저 Convolution 연산에 대해 이해해야 한다. 먼저 시간 축에서 Convolution 식에 대해 알아보자.\n",
-                content: " 1. 문서 설명 link신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.\n2. 정의 link FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다. 3. 신호처리 관점 link3.1 Convolution의 시간 축 분석 linkFIR Filter를 이해하려면 먼저 Convolution 연산에 대해 이해해야 한다. 먼저 시간 축에서 Convolution 식에 대해 알아보자.\n사실 Convolution 식이 곧 Filter의 식과 동일하다.\n$$\r\\begin{aligned}\ry[n] \u0026= (x * h)[n] = \\sum_{k=-\\infty}^{\\infty} x[n-k]\\, h[k] \\quad (단 \\:\\: k ≤ n)\\\\\r\\\\\rx \u0026= \\text{필터링의 대상이 되는 신호} \\\\\rh \u0026= \\text{필터의 계수}\r\\end{aligned}\r$$ FIR 필터는 정의는 필터의 계수가 유한한 필터라고 했다. 이 말은 $h$는 유한개의 유의미한 값이 있고, 나머지는 0이라는 소리다.\n이해를 위해 $h[0] = 1 , \\: h[1] = 2, \\: h[2] = 3, \\: h[3] = 4$ 이고 나머지 인덱스의 값은 모두 0이라고 가정하자.\n$h$가 0인 부분은 아무 의미가 없기 때문에 시그마의 범위를 아래 식과 같이 축소할 수 있다.\n$$\r\\begin{aligned}\ry[n] \u0026= (x * h)[n] = \\sum_{k=0}^{3} x[n-k]\\, h[k] \\quad (단 \\:\\: k ≤ n)\\\\\r\\\\\rx \u0026= \\text{필터링의 대상이 되는 신호} \\\\\rh \u0026= \\text{필터의 계수}\r\\end{aligned}\r$$ 이제 식을 전개해보자.\n$$\r\\begin{aligned}\ry[0] \u0026= x[0]h[0] \\\\\ry[1] \u0026= x[1]h[0] + x[0]h[1] \\\\\ry[2] \u0026= x[2]h[0] + x[1]h[1] + x[0]h[2] \\\\\ry[3] \u0026= x[3]h[0] + x[2]h[1] + x[1]h[2] + x[0]h[3]\r\\end{aligned}\r$$ 이게 Convolution의 연산을 하는 방법이다.\n3.2 Convolution의 시간 축, 주파수 축 관계 link이제 Convolution연산을 주파수 축에서 살펴보자.\n결론부터 말하면 시간 축에서 Convolution 연산은 주파수 축에서 곱셈과 동일하다. 증명은 생략한다.\n아래 그림을 살펴보자.\n위 1열의 그림은 주파수 축에서 신호를 나타냈고, 2열의 그림은 시간 축에서 신호를 나타냈다.\n주파수 축에서 -5MHz ~ 5MHz 신호만 선택하기 위해 사각 파형의 계수를 갖는 필터와 곱했다.\n주파수 축에서 곱하는 행위는 시간 축에서 Convolution과 동일하다.\n주파수 축에서 사각 파형은 시간 축에서 무한한 길이의 Sinc 함수와 대응되므로 필터 계수 $h$가 무한개의 유의미한 값이 존재한다.\n이럴 경우에는 이론상으로는 문제가 없지만, 구현상으로 아주 큰 문제가 발생한다. 왜냐하면 결과가 나오려면 무한대의 시간이 걸리기 때문이다.\n3.1장에서 시그마의 위 아래를 무한대에서 유한한 값으로 바꿨다. 이것이 가능했던 이유는 계수 $h$를 유한개의 의미있는 값으로 가정했기 때문이다.\n만약 계수 $h$가 무한개의 의미있는 값이라면 $y[0]$을 구하기 위해 무한대의 덧셈을 수행해야 하므로 결과를 얻으려면 무한대의 시간이 필요하다.\n3.3 Convolution과 Fir Filter의 관계 link3.2에서 우리는 무한한 길이의 Sinc함수가 구현상에서 큰 문제가 되었다. 엔지니어들은 이 문제를 단순하게 해결했다.\n그것은 바로 무한한 길이의 Sinc함수를 유한한(Finite) 길이의 Sinc함수로 바꾸는 것이다. 이제 FIR Filter가 뭔지 알 수 있다.\nFIR Filter란 이상적으로 무한개의 계수를 갖는 필터를 구현을 위해 유한개의 계수를 갖는 필터로 바꾼 것이다.\n그러나 무한개의 필터 계수를 유한개의 필터 계수로 바꾸면 분명 단점도 존재한다. 그것은 바로 필터링의 성능 저하다.\n무한 길이의 Sinc함수를 유한 길이의 Sinc함수로 바꾸려면 시간 축에서 단순히 Sinc함수의 양 옆을 잘라버리면 된다. 그러면 주파수 축에서 어떻게 될까?\n왼쪽은 Sinc함수, 오른쪽은 Sinc함수의 주파수 축 그림이다.\n무한한 길이의 Sinc 계수를 양 옆을 잘라 유한한 길이의 Sinc 계수로 만들었더니 주파수 축에서는 사각파형 모양이, 살짝 찌그러져 보인다.\n이 뜻은, 무한한 길이의 Sinc함수는 주파수 축에서 완벽한 사각 파형을 갖기 때문에 필터링을 거치면 주파수 축에서 내가 원하는 영역을 완벽하게 선택할 수 있다.\n반대로 유한한 길이의 Sinc함수는 찌그러진 사각 파형을 갖기 때문에 주파수 축에서 내가 원하는 영역을 완벽하게 선택할 수 없다.\n모든 것에는 대가가 따르는 법이다.\n4. 구현 관점 link이제 Fir Filter를 RTL로 구현해보자.\n4.1 Even-Symmetric Fir Filter linkFir Filter의 계수가 짝수개 이고, 계수가 대칭 구조를 이루고 있는 Fir Filter다.\n"
+                description: " 1. 문서 설명 link신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.\n2. 정의 link FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다. 3. 신호처리 관점 link필터 계수가 시간 축에서 유한하다는 것은 어떤 의미일까? 신호처리 관점에서 살펴보자.\n",
+                content: " 1. 문서 설명 link신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.\n2. 정의 link FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다. 3. 신호처리 관점 link필터 계수가 시간 축에서 유한하다는 것은 어떤 의미일까? 신호처리 관점에서 살펴보자.\n"
             }
         );
     index.add(
             {
                 id:  6 ,
+                href: "\/docs\/dsp\/fir_filter\/",
+                title: "FIR Filter",
+                description: " 1. 문서 설명 link신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.\n2. 정의 link FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다. 3. 신호처리 관점 link필터 계수가 시간 축에서 유한하다는 것은 어떤 의미일까? 신호처리 관점에서 살펴보자.\n",
+                content: " 1. 문서 설명 link신호처리 분야에서 매우 많이 쓰이는 Fir Filter를 신호처리 관점 및 RTL 구현 관점에서 기술한다.\n2. 정의 link FIR Filter : FIR은 Finite-Impulse-Response 의 약자이다. FIR 필터는 계수가 시간 축에서 유한한 필터이다. 3. 신호처리 관점 link필터 계수가 시간 축에서 유한하다는 것은 어떤 의미일까? 신호처리 관점에서 살펴보자.\n"
+            }
+        );
+    index.add(
+            {
+                id:  7 ,
                 href: "\/docs\/dsp\/interpolation_upsampling\/",
                 title: "Interpolation vs Upsampling",
                 description: " 1. 문서 설명 link신호처리를 할 때 Interpolation과 Up-sampling은 헷갈리는 개념이다.\nInterpolation을 정확히 이해하기 위해서 먼저 Interpolation과 Up-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.\n2. 정의 link Interpolation : 디지털 신호를 먼저 샘플들 사이에 0을 집어넣어 up-sampling을 진행한다. 그 다음 Low-Pass-Filtering을 수행한다.\nUp-sampling : 디지털 신호를 샘플들 사이에 up-sampling factor 만큼 0을 넣어 up-sampling을 한다.\n",
@@ -867,7 +918,7 @@
         );
     index.add(
             {
-                id:  7 ,
+                id:  8 ,
                 href: "\/docs\/rtl-ip\/code\/",
                 title: "lib_round.v",
                 description: " 모듈 설명 linkRounding 방법에 대해 기술하고 Verilog HDL로 구현한 과정 및 모듈 사용법을 기술한다.\nRounding Method link Truncate : 해당 비트를 단순히 잘라 버리는 것\nRounding to Even : ladsjf;ksdljf\nHTML link 1\u003c!DOCTYPE html\u003e 2\u003chtml\u003e 3\u003cbody\u003e 4 5\u003ch1\u003eMy First Heading\u003c/h1\u003e 6 7\u003cp\u003eMy first paragraph.\u003c/p\u003e 8 9\u003c/body\u003e 10\u003c/html\u003e Markdown link 1# H1 heading 2 3**Some bold text** 4 5*Italic text example*",
@@ -876,7 +927,7 @@
         );
     index.add(
             {
-                id:  8 ,
+                id:  9 ,
                 href: "\/docs\/fpga-demo\/petalinux_build_demo\/",
                 title: "Petalinux Build Demo (Zybo-z7-10)",
                 description: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다.\n본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.\n2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 또한 운영체제가 자원을 효과적으로 관리 가능하다.\n",
@@ -885,7 +936,7 @@
         );
     index.add(
             {
-                id:  9 ,
+                id:  10 ,
                 href: "\/docs\/rtl-ip\/mermaid\/",
                 title: "Mermaid",
                 description: "Example Mermaid diagrams",
@@ -894,7 +945,7 @@
         );
     index.add(
             {
-                id:  10 ,
+                id:  11 ,
                 href: "\/docs\/section-folder\/",
                 title: "Section Folder",
                 description: "Example of a folder at the root of the content tree (under `/docs`)",
@@ -903,7 +954,7 @@
         );
     index.add(
             {
-                id:  11 ,
+                id:  12 ,
                 href: "\/docs\/section-folder\/section-subfolder\/",
                 title: "Section Subfolder",
                 description: "Subfolder nested inside a root section folder",
@@ -912,7 +963,7 @@
         );
     index.add(
             {
-                id:  12 ,
+                id:  13 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/third-section-subfolder\/",
                 title: "Third Section Subfolder",
                 description: "Subfolder nested inside a section subfolder",
@@ -921,7 +972,7 @@
         );
     index.add(
             {
-                id:  13 ,
+                id:  14 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/",
                 title: "Second Section Subfolder",
                 description: "Subfolder nested inside a section subfolder",
@@ -930,7 +981,7 @@
         );
     index.add(
             {
-                id:  14 ,
+                id:  15 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/third-section-subfolder\/example-doc\/",
                 title: "Example Doc",
                 description: "Example document nested inside multiple subfolders",
@@ -939,7 +990,7 @@
         );
     index.add(
             {
-                id:  15 ,
+                id:  16 ,
                 href: "\/docs\/terms\/",
                 title: "Terms",
                 description: "Optional features in Lotus Docs.",
@@ -948,7 +999,7 @@
         );
     index.add(
             {
-                id:  16 ,
+                id:  17 ,
                 href: "\/docs\/theme-options\/",
                 title: "Theme Options",
                 description: "Optional features in Lotus Docs.",
@@ -957,7 +1008,7 @@
         );
     index.add(
             {
-                id:  17 ,
+                id:  18 ,
                 href: "\/docs\/theme-options\/breadcrumbs\/",
                 title: "Breadcrumb Navigation",
                 description: "How to configure Breadcrumb navigation for your Lotus Docs site.",
@@ -966,7 +1017,7 @@
         );
     index.add(
             {
-                id:  18 ,
+                id:  19 ,
                 href: "\/docs\/terms\/pl_region\/",
                 title: "PL",
                 description: "PL영역이란 FPGA에서 HW 부분을 의미한다. Verilog 또는 VHDL로 HW 병렬처리 로직을 구현할 수 있는 영역이다.",
@@ -975,7 +1026,7 @@
         );
     index.add(
             {
-                id:  19 ,
+                id:  20 ,
                 href: "\/docs\/terms\/ps_region\/",
                 title: "PS",
                 description: "PS영역이란 FPGA에서 SW 부분을 의미한다. C/C++ 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다.",
@@ -984,7 +1035,7 @@
         );
     index.add(
             {
-                id:  20 ,
+                id:  21 ,
                 href: "\/docs\/terms\/wsl\/",
                 title: "WSL",
                 description: "WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구축한다.",
@@ -993,7 +1044,7 @@
         );
     index.add(
             {
-                id:  21 ,
+                id:  22 ,
                 href: "\/docs\/theme-options\/link-behaviour\/",
                 title: "Link behaviour",
                 description: "Options for Link behaviour in content pages",
@@ -1002,7 +1053,7 @@
         );
     index.add(
             {
-                id:  22 ,
+                id:  23 ,
                 href: "\/docs\/",
                 title: "Docs",
                 description: "",
