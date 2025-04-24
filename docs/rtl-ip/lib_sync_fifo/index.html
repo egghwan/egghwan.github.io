@@ -16,9 +16,8 @@
 
 <html lang="en"><head>
     <meta charset="utf-8" />
-    <title>Terms | </title>
+    <title>lib_sync_fifo.v | </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Optional features in Lotus Docs.">
     <meta name="keywords" content="Documentation, Hugo, Hugo Theme, Bootstrap" />
     <meta name="author" content="Colin Wilson - Lotus Labs" />
     <meta name="email" content="support@aigis.uk" />
@@ -31,13 +30,27 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://egghwan.github.io/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://egghwan.github.io/favicon-16x16.png">
 <link rel="manifest" crossorigin="use-credentials" href="https://egghwan.github.io/site.webmanifest">
-<meta property="og:title" content="Terms" />
-<meta property="og:description" content="Optional features in Lotus Docs." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://egghwan.github.io/docs/terms/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_bc1eb99284ae7692.png"/><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_bc1eb99284ae7692.png"/>
-<meta name="twitter:title" content="Terms"/>
-<meta name="twitter:description" content="Optional features in Lotus Docs."/>
+<meta property="og:title" content="lib_sync_fifo.v" />
+<meta property="og:description" content="
+
+
+모듈 설명 linkSynchronous FIFO에 대한 개념을 설명하고 RTL로 구현하는 과정을 기술한다.
+1. Synchronous FIFO 란? linkFIFO(First-In-First-Out)의 줄임말이다. 말 그대로 먼저 들어온 데이터가 먼저 나간다는 뜻이다.
+FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. 아래 예제를 통해 FIFO의 동작원리를 알아보자.
+2. Synchronous FIFO 예제 linkDEPTH가 8인 FIFO를 예제로 설명을 진행한다. DEPTH란 FIFO에 저장될 수 있는 데이터 개수를 의미한다." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_ac7a9334fadda809.png"/><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-05-22T00:44:31+01:00" />
+<meta property="article:modified_time" content="2023-05-22T00:44:31+01:00" /><meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_ac7a9334fadda809.png"/>
+<meta name="twitter:title" content="lib_sync_fifo.v"/>
+<meta name="twitter:description" content="
+
+
+모듈 설명 linkSynchronous FIFO에 대한 개념을 설명하고 RTL로 구현하는 과정을 기술한다.
+1. Synchronous FIFO 란? linkFIFO(First-In-First-Out)의 줄임말이다. 말 그대로 먼저 들어온 데이터가 먼저 나간다는 뜻이다.
+FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. 아래 예제를 통해 FIFO의 동작원리를 알아보자.
+2. Synchronous FIFO 예제 linkDEPTH가 8인 FIFO를 예제로 설명을 진행한다. DEPTH란 FIFO에 저장될 수 있는 데이터 개수를 의미한다."/>
 
     
     
@@ -130,17 +143,17 @@
                 
                     
                     
-                        <li class="sidebar-dropdown  ">
+                        <li class="sidebar-dropdown  current active">
                             <button class="btn">
                                 <i class="material-icons me-2">edit</i>
                                 RTL IP
                             </button>
-                            <div class="sidebar-submenu ">
+                            <div class="sidebar-submenu d-block">
                                 <ul>
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/">lib_sync_fifo.v</a></li>
+                                            <li class="current "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/">lib_sync_fifo.v</a></li>
                                         
                                     
                                         
@@ -218,12 +231,12 @@
                 
                     
                     
-                        <li class="sidebar-dropdown  current active">
+                        <li class="sidebar-dropdown  ">
                             <button class="btn">
                                 <i class="material-icons me-2">tune</i>
                                 Terms
                             </button>
-                            <div class="sidebar-submenu d-block">
+                            <div class="sidebar-submenu ">
                                 <ul>
                                     
                                         
@@ -395,10 +408,18 @@
                     <meta itemprop="position" content='1' />
                 </li>
             
+            
+                <li class="breadcrumb-item text-capitalize" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a itemprop="item" href="/docs/rtl-ip/">
+                        <span itemprop="name">RTL IP</span>
+                    </a>
+                    <meta itemprop="position" content='2' />
+                </li>
+            
         
             <li class="breadcrumb-item text-capitalize active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <span itemprop="name">Terms</span>
-                <meta itemprop="position" content='2' />
+                <span itemprop="name">lib_sync_fifo.v</span>
+                <meta itemprop="position" content='3' />
             </li>
         
     </ul>
@@ -406,88 +427,419 @@
                                     
                                     <div class="row flex-xl-nowrap">
                                         
-                                        <div class="docs-toc col-xl-3 visually-hidden visually-hidden  d-xl-block"><toc>
+                                        <div class="docs-toc col-xl-3    d-xl-block"><toc>
     <div class="fw-bold text-uppercase mb-2">On this page</div>
-    <nav id="TableOfContents"></nav>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#모듈-설명">모듈 설명</a></li>
+    <li><a href="#1-synchronous-fifo-란">1. Synchronous FIFO 란?</a></li>
+    <li><a href="#2-synchronous-fifo-예제">2. Synchronous FIFO 예제</a></li>
+    <li><a href="#3-verilog-rtl-구현">3. Verilog RTL 구현</a></li>
+  </ul>
+</nav>
     </toc></div>
                                         
                                         
-                                        <div class="docs-toc-mobile visually-hidden visually-hidden  d-print-none d-xl-none">
+                                        <div class="docs-toc-mobile    d-print-none d-xl-none">
                                             <button id="toc-dropdown-btn" class="btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-offset="0,0" aria-expanded="false">
                                                 Table of Contents
                                             </button>
-<nav id="toc-mobile"></nav></div>
-                                        <div class="docs-content col-12  mt-0">
+<nav id="toc-mobile">
+  <ul class="dropdown-menu">
+    <li><a href="#모듈-설명">모듈 설명</a></li>
+    <li><a href="#1-synchronous-fifo-란">1. Synchronous FIFO 란?</a></li>
+    <li><a href="#2-synchronous-fifo-예제">2. Synchronous FIFO 예제</a></li>
+    <li><a href="#3-verilog-rtl-구현">3. Verilog RTL 구현</a></li>
+  </ul>
+</nav></div>
+                                        <div class="docs-content col-12 col-xl-9 mt-0">
                                             <div class="mb-0 d-flex">
                                                 
-                                                <i class="material-icons title-icon me-2">tune</i>
+                                                <i class="material-icons title-icon me-2">code</i>
                                                 
                                                 <h1 class="content-title mb-0">
-                                                    Terms
+                                                    lib_sync_fifo.v
                                                     
                                                 </h1>
                                             </div>
                                             
                                             <div id="content" class="main-content" >
                                                 
-    <div class="row flex-xl-wrap">
-        
-        <div id="list-item" class="col-md-4 col-12 mt-4 pt-2">
-            <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/terms/pl_region/">
-                <div class="card h-100 features feature-full-bg rounded p-4 position-relative overflow-hidden border-1">
-                    <span class="icon-color d-flex my-3">
-                        <i class="material-icons align-middle">keyboard_double_arrow_right</i>
-                        
-                        
-                    </span>
-                    <div class="card-body p-0 content">
-                        <p class="fs-5 fw-semibold card-title mb-1">PL</p>
-                        <p class="para card-text mb-0">PL영역이란 FPGA에서 HW 부분을 의미한다. Verilog 또는 VHDL로 HW 병렬처리 로직을 구현할 수 있는 영역이다.</p>
-                    </div>
-                    
-                </div>
-            </a>
-        </div>
-        
-        <div id="list-item" class="col-md-4 col-12 mt-4 pt-2">
-            <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/terms/ps_region/">
-                <div class="card h-100 features feature-full-bg rounded p-4 position-relative overflow-hidden border-1">
-                    <span class="icon-color d-flex my-3">
-                        <i class="material-icons align-middle">keyboard_double_arrow_right</i>
-                        
-                        
-                    </span>
-                    <div class="card-body p-0 content">
-                        <p class="fs-5 fw-semibold card-title mb-1">PS</p>
-                        <p class="para card-text mb-0">PS영역이란 FPGA에서 SW 부분을 의미한다. C/C++ 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다.</p>
-                    </div>
-                    
-                </div>
-            </a>
-        </div>
-        
-        <div id="list-item" class="col-md-4 col-12 mt-4 pt-2">
-            <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/terms/wsl/">
-                <div class="card h-100 features feature-full-bg rounded p-4 position-relative overflow-hidden border-1">
-                    <span class="icon-color d-flex my-3">
-                        <i class="material-icons align-middle">keyboard_double_arrow_right</i>
-                        
-                        
-                    </span>
-                    <div class="card-body p-0 content">
-                        <p class="fs-5 fw-semibold card-title mb-1">WSL</p>
-                        <p class="para card-text mb-0">WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구 …</p>
-                    </div>
-                    
-                </div>
-            </a>
-        </div>
-        
+    
+    <div data-prismjs-copy="" data-prismjs-copy-success="" data-prismjs-copy-error="">
+        <!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h2 id="모듈-설명">모듈 설명 <a href="#%eb%aa%a8%eb%93%88-%ec%84%a4%eb%aa%85" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>Synchronous FIFO에 대한 개념을 설명하고 RTL로 구현하는 과정을 기술한다.</p>
+<h2 id="1-synchronous-fifo-란">1. Synchronous FIFO 란? <a href="#1-synchronous-fifo-%eb%9e%80" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>FIFO(First-In-First-Out)의 줄임말이다. 말 그대로 먼저 들어온 데이터가 먼저 나간다는 뜻이다.</p>
+<p>FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. 아래 예제를 통해 FIFO의 동작원리를 알아보자.</p>
+<h2 id="2-synchronous-fifo-예제">2. Synchronous FIFO 예제 <a href="#2-synchronous-fifo-%ec%98%88%ec%a0%9c" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>DEPTH가 8인 FIFO를 예제로 설명을 진행한다. DEPTH란 FIFO에 저장될 수 있는 데이터 개수를 의미한다.</p>
+<p>Verilog 특성상 FIFO는 데이터를 저장하는 F/F로 구현된다. F/F은 다음 클럭에서 값이 업데이트 된다는 것을 주목하면서 아래 예제를 따라가자.</p>
+<p> </p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex1.png" alt="Internal link preview tooltip" width="795" height="450" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>현재 wr_ptr의 index가 0이므로 FIFO의 0번 index에 x[0] 데이터가 저장되는 중이다.</p>
+</li>
+<li>
+<p>fifo index 0번에 데이터가 저장되고 있으므로 wr_ptr의 index를 1 증가 시켜 다음 데이터를 받을 준비를 한다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex2.png" alt="Internal link preview tooltip" width="790" height="453" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>다음 클럭이 되면 FIFO index 0에 x[0] 데이터가 최종 저장된다.</p>
+</li>
+<li>
+<p>다음 클럭이 되면 wr_ptr이 최종 1 증가되었다.</p>
+</li>
+<li>
+<p>동시에 현재 wr_ptr의 index가 1이므로 FIFO의 1번 index에 x[1] 데이터를 저장하는 중이다.</p>
+</li>
+<li>
+<p>FIFO index 1번에 데이터가 저장되고 있으므로 wr_ptr의 index를 1 증가시켜 다음 데이터를 받을 준비를 한다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex3.png" alt="Internal link preview tooltip" width="1028" height="586" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>다음 클럭이 되면 FIFO index 1에 x[1] 데이터가 최종 저장된다.</p>
+</li>
+<li>
+<p>다음 클럭이 되면 wr_ptr이 최종 1 증가되었다.</p>
+</li>
+<li>
+<p>동시에 현재 wr_ptr의 index가 2이므로 FIFO의 2번 index에 x[2] 데이터를 저장하는 중이다.</p>
+</li>
+<li>
+<p>FIFO index 1번에 데이터가 저장되고 있으므로 wr_ptr의 index를 1 증가시켜 다음 데이터를 받을 준비를 한다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex4.png" alt="Internal link preview tooltip" width="1028" height="590" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>데이터를 계속 저장하여 CLK6이 되었다. 다음 클럭이 되어 FIFO의 6번 index에 x[6]이 FIFO에 최종 저장되었다.</p>
+</li>
+<li>
+<p>동시에 현재 wr_ptr의 index가 7이므로 FIFO의 7번 index에 x[7] 데이터를 저장하는 중이다.</p>
+</li>
+<li>
+<p>FIFO index 7번에 데이터가 저장되고 있으므로 wr_ptr의 index를 1 증가시켜 다음 데이터를 받을 준비를 한다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex5.png" alt="Internal link preview tooltip" width="1120" height="585" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>다음 클럭이 되면 FIFO index 7에 x[7] 데이터가 최종 저장된다.</p>
+</li>
+<li>
+<p>다음 클럭이 되면 wr_ptr이 최종 1 증가되었다.</p>
+</li>
+<li>
+<p>현재 wr_ptr의 index는 8이다. 그리고 rd_ptr의 index는 0이다. 8(1000)과 0(0000)은 MSB가 다르고 MSB를 제외한 나머지 하위 비트가 같다. 이러한 경우 FIFO가 Full 상태임을 확인할 수 있다.</p>
+</li>
+<li>
+<p>FIFO가 Full 상태이므로 더 이상 데이터를 받을 수 없다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex6.png" alt="Internal link preview tooltip" width="1124" height="592" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>이제 데이터를 읽어보자.</p>
+</li>
+<li>
+<p>rd_ptr의 index는 0이다. 따라서 FIFO index 0에서 데이터를 읽는 중이다.</p>
+</li>
+<li>
+<p>FIFO index 0에서 데이터를 읽고 있으므로 rd_ptr index를 1 증가 시켜 다음 데이터를 읽을 준비를 한다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex7.png" alt="Internal link preview tooltip" width="1113" height="636" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>x[0] 데이터가 최종 read 되었다. 다만 FIFO에서 데이터를 읽는다고 해도 FIFO안에 저장된 데이터가 사라지지는 않는다. 그러나 x[0] 데이터가 덮어 써져도 문제 없는 상태다.</p>
+</li>
+<li>
+<p>다음 클럭이 되면 rd_ptr이 최종 1 증가한다. 현재 wr_ptr의 index는 8(1000)이고 rd_ptr의 index는 1(0001)이다. MSB는 다르지만, MSB를 제외한 나머지 비트가 모두 다르지 않기 때문에, 더 이상 full 상태가 아니다.</p>
+</li>
+<li>
+<p>다음 데이터를 읽기 위해 rd_ptr을 1 증가 시킨다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex8.png" alt="Internal link preview tooltip" width="869" height="499" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>x[1] 데이터가 최종 read 되었다.</p>
+</li>
+<li>
+<p>다음 클럭에서 rd_ptr이 최종 1 증가 되었다.</p>
+</li>
+<li>
+<p>현재 rd_ptr의 index는 2이므로 FIFO index 2번에서 데이터를 읽는 중이다.</p>
+</li>
+<li>
+<p>rd_ptr을 1 증가 시켜 다음 데이터를 읽을 준비를 한다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex9.png" alt="Internal link preview tooltip" width="868" height="500" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>x[6] 데이터가 최종 read 되었다.</p>
+</li>
+<li>
+<p>다음 클럭에서 rd_ptr이 최종 1 증가 되었다.</p>
+</li>
+<li>
+<p>현재 rd_ptr의 index는 7이므로 FIFO index 7번에서 데이터를 읽는 중이다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex10.png" alt="Internal link preview tooltip" width="871" height="500" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>x[7] 데이터가 최종 read 되었다.</p>
+</li>
+<li>
+<p>다음 클럭에서 rd_ptr이 최종 1 증가 되었다.</p>
+</li>
+<li>
+<p>현재 rd_ptr의 index는 8이다. 그리고 rd_ptr과 wr_ptr의 index가 서로 같다. 이 경우 FIFO는 empty 상태에 있다.</p>
+</li>
+<li>
+<p>다음 데이터를 쓰기 위해 wr_ptr의 데이터를 1 증가 시킨다.</p>
+</li>
+<li>
+<p>x[8] 데이터를 FIFO에 쓰는 중이다. 현재 wr_ptr의 index는 8(1000)인데 사실 wr_ptr의 하위 3비트를 보고 FIFO index를 결정한다. MSB 비트는 Full 상태를 판단하기 위한 추가 비트다. 따라서 FIFO index 0에 wr_ptr을 쓴다.</p>
+</li>
+</ul>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/sync_fifo/ex11.png" alt="Internal link preview tooltip" width="865" height="500" loading="lazy">
+    
+  
+</p>
+<ul>
+<li>
+<p>x[8] 데이터가 최종 write 되었다.</p>
+</li>
+<li>
+<p>다음 클럭에서 wr_ptr이 최종 1 증가 되었다.</p>
+</li>
+<li>
+<p>동시에 현재 wr_ptr에 x[9] 데이터를 write하는 중이다.</p>
+</li>
+<li>
+<p>다음 데이터를 쓰기 위해 wr_ptr을 1 증가 시킨다.</p>
+</li>
+</ul>
+<h2 id="3-verilog-rtl-구현">3. Verilog RTL 구현 <a href="#3-verilog-rtl-%ea%b5%ac%ed%98%84" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>위 예제를 참고하여 RTL로 구현해보자. 구현하면서 주목할 점은 아래와 같다.</p>
+<ol>
+<li>
+<p>rd_ptr, wr_ptr의 Bitwidth는 log2(FIFO_DEPTH) + 1로 설정해야한다. 원래는 log2(FIFO_DEPTH)의 길이만 해도 충분하나, 1비트를 추가해서 FULL 상태를 판단할 수 있다.</p>
+</li>
+<li>
+<p>rd_ptr또는 wr_ptr의 MSB를 제외한 비트를 FIFO index로 사용한다. 왜냐면 가장 상위 비트는 FULL 상태를 나타내는 비트기 떄문이다.</p>
+</li>
+<li>
+<p>FULL 상태를 판단하기 위해서는 rd_ptr과 wr_ptr의 MSB가 다르고, MSB를 제외한 나머지 비트가 같다.</p>
+</li>
+<li>
+<p>Empty 상태를 판단하기 위해서는 rd_ptr과 wr_ptr이 서로 같을 때다.</p>
+</li>
+</ol>
+
     </div>
 
+    
+
+    
                                             </div>
                                             <div><hr class="doc-hr">
 <div id="doc-nav" class="d-print-none">
+
+	<div class="row flex-xl-nowrap ">
+	<div class="col-sm-6 pt-2 doc-next">
+		<a href="/docs/dsp/interpolation_upsampling/">
+			<div class="card h-100 my-1">
+				<div class="card-body py-2">
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0"><i class="material-icons align-middle">navigate_before</i> Interpolation vs Upsampling</p>
+					<p class="card-text ms-2"></p>
+					
+				</div>
+			</div>
+		</a>
+        </div>
+	<div class="col-sm-6 pt-2 doc-prev">
+		<a class="ms-auto" href="/docs/fpga-demo/petalinux_build_demo/">
+			<div class="card h-100 my-1 text-end">
+				<div class="card-body py-2">
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0">Petalinux Build Demo (Zybo-z7-10) <i class="material-icons align-middle">navigate_next</i></p>
+					<p class="card-text me-2"></p>
+					
+				</div>
+			</div>
+		</a>
+        </div>
+	</div>
 </div></div>
                                         </div>
                                     </div>
