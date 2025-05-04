@@ -16,7 +16,7 @@
 
 <html lang="en"><head>
     <meta charset="utf-8" />
-    <title>lib_axis_fifo_sync.v | </title>
+    <title>lib_axis_fifo_async.v | </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="Documentation, Hugo, Hugo Theme, Bootstrap" />
     <meta name="author" content="Colin Wilson - Lotus Labs" />
@@ -30,27 +30,23 @@
 <link rel="icon" type="image/png" sizes="32x32" href="https://egghwan.github.io/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="https://egghwan.github.io/favicon-16x16.png">
 <link rel="manifest" crossorigin="use-credentials" href="https://egghwan.github.io/site.webmanifest">
-<meta property="og:title" content="lib_axis_fifo_sync.v" />
+<meta property="og:title" content="lib_axis_fifo_async.v" />
 <meta property="og:description" content="
 
 
-모듈 설명 linkSynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.
-1. Synchronous FIFO 란? linkFIFO(First-In-First-Out)의 줄임말이다. 말 그대로 먼저 들어온 데이터가 먼저 나간다는 뜻이다.
-FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. 아래 예제를 통해 FIFO의 동작원리를 알아보자.
-2. Synchronous FIFO 예제 linkDEPTH가 8인 FIFO를 예제로 설명을 진행한다. DEPTH란 FIFO에 저장될 수 있는 데이터 개수를 의미한다." />
+모듈 설명 linkAsynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.
+Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 안 갈 것이므로, 왼쪽 링크에서 먼저 Sync FIFO의 개념을 이해하고 오자. (Synchornous FIFO 참고 링크)" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_be6109459f7707e9.png"/><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://egghwan.github.io/docs/rtl-ip/lib_async_fifo/" /><meta property="og:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_d0f75f52cdd7bb60.png"/><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-05-22T00:44:31+01:00" />
 <meta property="article:modified_time" content="2023-05-22T00:44:31+01:00" /><meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_be6109459f7707e9.png"/>
-<meta name="twitter:title" content="lib_axis_fifo_sync.v"/>
+<meta name="twitter:image" content="https://egghwan.github.io/opengraph/card-base-2_hu_d0f75f52cdd7bb60.png"/>
+<meta name="twitter:title" content="lib_axis_fifo_async.v"/>
 <meta name="twitter:description" content="
 
 
-모듈 설명 linkSynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.
-1. Synchronous FIFO 란? linkFIFO(First-In-First-Out)의 줄임말이다. 말 그대로 먼저 들어온 데이터가 먼저 나간다는 뜻이다.
-FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. 아래 예제를 통해 FIFO의 동작원리를 알아보자.
-2. Synchronous FIFO 예제 linkDEPTH가 8인 FIFO를 예제로 설명을 진행한다. DEPTH란 FIFO에 저장될 수 있는 데이터 개수를 의미한다."/>
+모듈 설명 linkAsynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.
+Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 안 갈 것이므로, 왼쪽 링크에서 먼저 Sync FIFO의 개념을 이해하고 오자. (Synchornous FIFO 참고 링크)"/>
 
     
     
@@ -153,12 +149,12 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/lib_async_fifo/">lib_axis_fifo_async.v</a></li>
+                                            <li class="current "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/lib_async_fifo/">lib_axis_fifo_async.v</a></li>
                                         
                                     
                                         
                                         
-                                            <li class="current "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/">lib_axis_fifo_sync.v</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/">lib_axis_fifo_sync.v</a></li>
                                         
                                     
                                         
@@ -423,7 +419,7 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
             
         
             <li class="breadcrumb-item text-capitalize active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <span itemprop="name">lib_axis_fifo_sync.v</span>
+                <span itemprop="name">lib_axis_fifo_async.v</span>
                 <meta itemprop="position" content='3' />
             </li>
         
@@ -437,19 +433,22 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
     <nav id="TableOfContents">
   <ul>
     <li><a href="#모듈-설명">모듈 설명</a></li>
-    <li><a href="#1-synchronous-fifo-란">1. Synchronous FIFO 란?</a></li>
-    <li><a href="#2-synchronous-fifo-예제">2. Synchronous FIFO 예제</a></li>
-    <li><a href="#3-verilog-rtl-구현">3. Verilog RTL 구현</a></li>
-    <li><a href="#5-example-design">5. Example Design</a>
+    <li><a href="#1-cdcclock-domaing-crossing-개념">1. CDC(Clock-Domaing-Crossing) 개념</a></li>
+    <li><a href="#2-2-ff-synchronizer">2. 2-FF Synchronizer</a></li>
+    <li><a href="#3-gray-pointer-vs-binary-pointer">3. Gray Pointer vs Binary Pointer</a></li>
+    <li><a href="#4-gray-pointer의-cdc-처리">4. Gray Pointer의 CDC 처리</a></li>
+    <li><a href="#5-full-과-empty-상태-판단">5. FULL 과 EMPTY 상태 판단</a></li>
+    <li><a href="#6-rtl-설계-고려-사항">6. RTL 설계 고려 사항</a></li>
+    <li><a href="#7-verilog-rtl-구현">7. Verilog RTL 구현</a></li>
+    <li><a href="#8-example-design">8. Example Design</a>
       <ul>
-        <li><a href="#51-tbv">5.1 tb.v</a></li>
-        <li><a href="#52-lib_clk_rst_genv">5.2 lib_clk_rst_gen.v</a></li>
-        <li><a href="#53-fifo_data_genv">5.3 fifo_data_gen.v</a></li>
-        <li><a href="#54-export_datav">5.4 export_data.v</a></li>
+        <li><a href="#81-tbv">8.1 tb.v</a></li>
+        <li><a href="#82-lib_clk_rst_genv">8.2 lib_clk_rst_gen.v</a></li>
+        <li><a href="#83-fifo_data_genv">8.3 fifo_data_gen.v</a></li>
+        <li><a href="#84-export_datav">8.4 export_data.v</a></li>
       </ul>
     </li>
-    <li><a href="#6-axi4-stream-timing-분석">6. AXI4-Stream Timing 분석</a></li>
-    <li><a href="#7-vivado-합성-결과-logic">7. Vivado 합성 결과 Logic</a></li>
+    <li><a href="#9-vivado-합성-결과-logic">9. Vivado 합성 결과 Logic</a></li>
   </ul>
 </nav>
     </toc></div>
@@ -462,19 +461,22 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 <nav id="toc-mobile">
   <ul class="dropdown-menu">
     <li><a href="#모듈-설명">모듈 설명</a></li>
-    <li><a href="#1-synchronous-fifo-란">1. Synchronous FIFO 란?</a></li>
-    <li><a href="#2-synchronous-fifo-예제">2. Synchronous FIFO 예제</a></li>
-    <li><a href="#3-verilog-rtl-구현">3. Verilog RTL 구현</a></li>
-    <li><a href="#5-example-design">5. Example Design</a>
+    <li><a href="#1-cdcclock-domaing-crossing-개념">1. CDC(Clock-Domaing-Crossing) 개념</a></li>
+    <li><a href="#2-2-ff-synchronizer">2. 2-FF Synchronizer</a></li>
+    <li><a href="#3-gray-pointer-vs-binary-pointer">3. Gray Pointer vs Binary Pointer</a></li>
+    <li><a href="#4-gray-pointer의-cdc-처리">4. Gray Pointer의 CDC 처리</a></li>
+    <li><a href="#5-full-과-empty-상태-판단">5. FULL 과 EMPTY 상태 판단</a></li>
+    <li><a href="#6-rtl-설계-고려-사항">6. RTL 설계 고려 사항</a></li>
+    <li><a href="#7-verilog-rtl-구현">7. Verilog RTL 구현</a></li>
+    <li><a href="#8-example-design">8. Example Design</a>
       <ul>
-        <li><a href="#51-tbv">5.1 tb.v</a></li>
-        <li><a href="#52-lib_clk_rst_genv">5.2 lib_clk_rst_gen.v</a></li>
-        <li><a href="#53-fifo_data_genv">5.3 fifo_data_gen.v</a></li>
-        <li><a href="#54-export_datav">5.4 export_data.v</a></li>
+        <li><a href="#81-tbv">8.1 tb.v</a></li>
+        <li><a href="#82-lib_clk_rst_genv">8.2 lib_clk_rst_gen.v</a></li>
+        <li><a href="#83-fifo_data_genv">8.3 fifo_data_gen.v</a></li>
+        <li><a href="#84-export_datav">8.4 export_data.v</a></li>
       </ul>
     </li>
-    <li><a href="#6-axi4-stream-timing-분석">6. AXI4-Stream Timing 분석</a></li>
-    <li><a href="#7-vivado-합성-결과-logic">7. Vivado 합성 결과 Logic</a></li>
+    <li><a href="#9-vivado-합성-결과-logic">9. Vivado 합성 결과 Logic</a></li>
   </ul>
 </nav></div>
                                         <div class="docs-content col-12 col-xl-9 mt-0">
@@ -483,7 +485,7 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
                                                 <i class="material-icons title-icon me-2">code</i>
                                                 
                                                 <h1 class="content-title mb-0">
-                                                    lib_axis_fifo_sync.v
+                                                    lib_axis_fifo_async.v
                                                     
                                                 </h1>
                                             </div>
@@ -495,11 +497,10 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
         <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
 <!-- raw HTML omitted -->
-<h2 id="모듈-설명">모듈 설명 <a href="#%eb%aa%a8%eb%93%88-%ec%84%a4%eb%aa%85" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>Synchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.</p>
-<h2 id="1-synchronous-fifo-란">1. Synchronous FIFO 란? <a href="#1-synchronous-fifo-%eb%9e%80" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>FIFO(First-In-First-Out)의 줄임말이다. 말 그대로 먼저 들어온 데이터가 먼저 나간다는 뜻이다.</p>
-<p>FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. 아래 예제를 통해 FIFO의 동작원리를 알아보자.</p>
-<h2 id="2-synchronous-fifo-예제">2. Synchronous FIFO 예제 <a href="#2-synchronous-fifo-%ec%98%88%ec%a0%9c" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>DEPTH가 8인 FIFO를 예제로 설명을 진행한다. DEPTH란 FIFO에 저장될 수 있는 데이터 개수를 의미한다.</p>
-<p>Verilog 특성상 FIFO는 데이터를 저장하는 F/F로 구현된다. F/F은 다음 클럭에서 값이 업데이트 된다는 것을 주목하면서 아래 예제를 따라가자.</p>
+<h2 id="모듈-설명">모듈 설명 <a href="#%eb%aa%a8%eb%93%88-%ec%84%a4%eb%aa%85" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>Asynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.</p>
+<p>Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 안 갈 것이므로, 왼쪽 링크에서 먼저 Sync FIFO의 개념을 이해하고 오자. (<a href="https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/" rel="external" target="_blank">Synchornous FIFO 참고 링크)<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M14 5c-.552 0-1-.448-1-1s.448-1 1-1h6c.552 0 1 .448 1 1v6c0 .552-.448 1-1 1s-1-.448-1-1v-3.586l-7.293 7.293c-.391.39-1.024.39-1.414 0-.391-.391-.391-1.024 0-1.414l7.293-7.293h-3.586zm-9 2c-.552 0-1 .448-1 1v11c0 .552.448 1 1 1h11c.552 0 1-.448 1-1v-4.563c0-.552.448-1 1-1s1 .448 1 1v4.563c0 1.657-1.343 3-3 3h-11c-1.657 0-3-1.343-3-3v-11c0-1.657 1.343-3 3-3h4.563c.552 0 1 .448 1 1s-.448 1-1 1h-4.563z"/></svg></a></p>
+<h2 id="1-cdcclock-domaing-crossing-개념">1. CDC(Clock-Domaing-Crossing) 개념 <a href="#1-cdcclock-domaing-crossing-%ea%b0%9c%eb%85%90" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>데이터를 처리하는 클럭의 속도가 달라질 때, CDC가 발생한다고 말한다.</p>
+<p>CDC가 생길 때 가장 큰 문제가 발생하는 부분은, Metastability가 발생한다는 점이다. 아래 그림을 통해 CDC의 개념을 알아보자.</p>
 <p> </p>
 <p>
 
@@ -513,18 +514,15 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 
   
     
-      <img src="/images/content/sync_fifo/ex1.png" alt="Internal link preview tooltip" width="795" height="450" loading="lazy">
+      <img src="/images/content/async_fifo/meta.png" alt="Internal link preview tooltip" width="702" height="349" loading="lazy">
     
   
 </p>
-<ul>
-<li>
-<p>현재 wr_ptr의 index가 0이므로 FIFO의 0번 index에 x[0] 데이터가 저장되는 중이다.</p>
-</li>
-<li>
-<p>fifo index 0번에 데이터가 저장되고 있으므로 다음 클럭에 wr_ptr의 index를 1 증가 시켜 다음 데이터를 받을 준비를 한다.</p>
-</li>
-</ul>
+<p>CLKA와 CLKB는 서로 다른 주파수의 클럭이다. DA데이터는 CLKA에 동기화 되어 있다. DA를 낮은 주파수의 CLKB로 처리하기 위해서 CDC가 발생하는 가정을 들어보자.</p>
+<p>DA는 CLKA의 1클럭동안 유효한 데이터이고 1클럭이 지나면 0으로 떨어진다. 이 때, DA가 0으로 값이 떨어지는 도중에 CLKB의 상승 엣지가 발생했다.</p>
+<p>이 때 CLKB 도메인으로 옮겨진 DA 데이터는 0일까? 1일까? 답은 애매하다. 이러한 상태를 Metastability(Meta)라고 표현한다.</p>
+<p>Meta를 해결하기 위해 다양한 CDC 기법이 존재한다.</p>
+<h2 id="2-2-ff-synchronizer">2. 2-FF Synchronizer <a href="#2-2-ff-synchronizer" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>가장 대표적으로 데이터를 CDC할 수 있는 2-FF Synchronizer에 대해 알아보자.</p>
 <p>
 
 
@@ -537,24 +535,19 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 
   
     
-      <img src="/images/content/sync_fifo/ex2.png" alt="Internal link preview tooltip" width="790" height="453" loading="lazy">
+      <img src="/images/content/async_fifo/2ff.png" alt="Internal link preview tooltip" width="444" height="146" loading="lazy">
     
   
 </p>
-<ul>
-<li>
-<p>CLK1에서 CLK2가 되면서 FIFO index 0에 x[0] 데이터가 최종 저장된다.</p>
-</li>
-<li>
-<p>CLK1에서 CLK2가 되면서 wr_ptr이 0에서 1로 최종 증가되었다.</p>
-</li>
-<li>
-<p>동시에 현재 wr_ptr의 index가 1이므로 FIFO의 1번 index에 x[1] 데이터를 저장하는 중이다.</p>
-</li>
-<li>
-<p>FIFO index 1번에 데이터가 저장되고 있으므로 다음 클럭에 wr_ptr의 index를 1 증가시켜 다음 데이터를 받을 준비를 한다.</p>
-</li>
-</ul>
+<p>F/F은 데이터를 저장할 수 있는 하드웨어다. Old Clock domain에서 New Clock Domain으로 데이터를 CDC 처리할 때, 단순히 F/F을 2개 연달아서 배치하면 된다.</p>
+<p>이럴 경우 새로운 클럭으로 2clk이 delay된 신호를 최종 사용하기 때문에 Metastabilty 상태에서 벗어난 데이터를 안정적으로 사용할 수 있다.</p>
+<p>2-F/F Synchronizer를 활용해 Async FIFO를 설계할 수 있다.</p>
+<h2 id="3-gray-pointer-vs-binary-pointer">3. Gray Pointer vs Binary Pointer <a href="#3-gray-pointer-vs-binary-pointer" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>여러 비트 넓이의 데이터를 CDC 처리를 하기 위해 Asynchronous FIFO가 가장 많이 사용된다.</p>
+<p>Asynchronous FIFO와 Synchronous FIFO의 가장 큰 차이는 데이터를 Write하는 클럭과 데이터를 Read하는 클럭이 서로 다르다는 것이다.</p>
+<p>Synchronous FIFO에 사용된 포인터는 Binary Pointer이다. 말 그대로 포인터를 이진법으로 나타낸 것이다.</p>
+<p>4비트 포인터 기준으로, 0은 0000, 1은 0001, 2는 0010, 3은 0011 순이다. 그러나 Binary Pointer를 사용하면 1에서 2로 넘어갈 때, 3번째, 4번째 비트가 바뀐다.</p>
+<p>즉 총 2개의 비트가 바뀌게 된다. 이렇게 포인터가 증가함에 따라 많은 비트가 바뀐다면 CDC처리에서 오류가 발생할 확률이 높아진다.</p>
+<p>이를 해결하기 위해서 Async FIFO에서는 Gray Pointer를 사용한다. 아래 그림은 Gray Pointer의 예다.</p>
 <p>
 
 
@@ -567,24 +560,21 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 
   
     
-      <img src="/images/content/sync_fifo/ex3.png" alt="Internal link preview tooltip" width="1028" height="586" loading="lazy">
+      <img src="/images/content/async_fifo/gray_pointer.png" alt="Internal link preview tooltip" width="732" height="463" loading="lazy">
     
   
 </p>
-<ul>
-<li>
-<p>CLK2에서 CLK3이 되면서 FIFO index 1에 x[1] 데이터가 최종 저장된다.</p>
-</li>
-<li>
-<p>CLK2에서 CLK3이 되면서 wr_ptr의 index가 1에서 2로 최종 증가되었다.</p>
-</li>
-<li>
-<p>동시에 현재 wr_ptr의 index가 2이므로 FIFO의 2번 index에 x[2] 데이터를 저장하는 중이다.</p>
-</li>
-<li>
-<p>FIFO index 2번에 데이터가 저장되고 있으므로 다음 클럭에 wr_ptr의 index를 1 증가시켜 다음 데이터를 받을 준비를 한다.</p>
-</li>
-</ul>
+<p>0은 0000, 1은 0001, 2는 0011, 3은 0010 순으로 값이 바뀌게 된다.</p>
+<p>Binary Pointer와 가장 큰 차이는 값이 바뀜에 따라 비트가 1개만 바뀐다. 이렇게 변화하는 비트의 개수를 최소화하여 CDC 처리에 위험을 줄일 수 있다.</p>
+<p>그러면 Binary Pointer를 Gray Pointer로 바꾸기 위해서 어떻게 해야 할 까?</p>
+<p>답은 간단하다. Binary Pointer를 1비트 왼쪽으로 비트 이동을 한 것과 원래의 Binary Pointer를 xor 취하면 된다.</p>
+<p>Bianry Pointer 2를 예로 들어보자.</p>
+<p>원래의 Binary Pointer는 0010이고, 1비트 왼쪽으로 비트 이동한 것은 0001이다.</p>
+<p>0010 (xor) 0001 = 0011이 된다.</p>
+<p>이제 Async FIFO에 사용하는 모든 Pointer는 Gray Pointer를 사용해 값을 쓰거나 읽게 된다.</p>
+<h2 id="4-gray-pointer의-cdc-처리">4. Gray Pointer의 CDC 처리 <a href="#4-gray-pointer%ec%9d%98-cdc-%ec%b2%98%eb%a6%ac" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>Binary Pointer를 Gray Pointer로 바꾼 뒤 Metastabilty 상태를 없애기 위해서 2-ff Synchronizer를 사용한다.</p>
+<p>Old Clock(Write Clock) domain의 쓰기 Gray 포인터를 2-ff synchronizer를 거쳐 New Clock(Read Clock) Domain의 쓰기 Gray 포인터를 만들어 준다.</p>
+<p>반대로 New Clock(Read Clock) Domain의 읽기 Gray 포인터를 2-ff synchronizer를 거쳐 Old Clock(Write Clock) Domain으로 바꿔준다. 아래 그림을 참고하자.</p>
 <p>
 
 
@@ -597,371 +587,221 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 
   
     
-      <img src="/images/content/sync_fifo/ex4.png" alt="Internal link preview tooltip" width="1028" height="590" loading="lazy">
+      <img src="/images/content/async_fifo/2ff_pointer.png" alt="Internal link preview tooltip" width="1304" height="548" loading="lazy">
     
   
 </p>
-<ul>
+<p>이제 Write Clock Domain과 Read Clock Domain에서 쓰기 포인터와 읽기 포인터의 값을 비교할 수 있다.</p>
+<p>이를 활용해서 Asnyc FIFO full과 empty상태를 판단할 수 있다.</p>
+<h2 id="5-full-과-empty-상태-판단">5. FULL 과 EMPTY 상태 판단 <a href="#5-full-%ea%b3%bc-empty-%ec%83%81%ed%83%9c-%ed%8c%90%eb%8b%a8" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>먼저 FULL상태를 판단해보자.</p>
+<p>FULL은 FIFO에 데이터를 쓰는 행위와 관련이 있다. FULL일 때 더 이상 데이터를 쓰지 못하기 때문이다.</p>
+<p>따라서 읽기 포인터와 쓰기 포인터를 Write Clock Domain에서 비교한다. 비교를 위해 읽기 포인터를 Write Clock Domain으로 바꾼다.</p>
+<p>즉 wr_ptr_wclk과 rd_ptr_wclk을 비교하여 FULL 상태를 비교한다.</p>
+<p>Sync FIFO와 다른점은 포인터의 형태가 Gray 포인터 형태기 때문에, 포인터를 다시 Binary Pointer로 바꿔서 비교하거나, 다른 방법을 사용해야 한다.</p>
+<p>Gray Pointer를 Binary Pointer로 다시 바꾸는 것은 하드웨어 구현시 추가 로직이 발생하므로, Gray Pointer 상에서 비교한다.</p>
+<p>Sync FIFO에서 FULL은 Binary Pointer의 MSB가 다르고 MSB를 제외한 비트가 모두 같을 때다.</p>
+<p>예를 들어 Sync FIFO의 읽기 포인터가 0010이고 쓰기 포인터가 1010일 때 FIFO는 full이다.</p>
+<p>만약 Sync FIFO가 Gray Pointer를 사용했다면 0010은 0011이고, 1010은 1111이다.</p>
+<p>0011과 1111을 비교해보면 상위 2비트는 다르고 나머지 2비트는 같다.</p>
+<p>즉 Gray Pointer에서는 Binary Pointer와 달리, 상위 2비트가 다르고, 상위 2비트를 제외한 나머지 비트가 같을 때 FULL 상태다.</p>
+<p>다음으로 EMPTY 상태를 판단해보자.</p>
+<p>EMPTY는 FIFO에 데이터를 읽는 행위와 관련이 있다. 따라서 Read Clock Domain에서 읽기 포인터와 쓰기 포인터를 비교한다.</p>
+<p>Sync FIFO의 경우 읽기 포인터와 쓰기 포인터가 같을 때, EMPTY상태다.</p>
+<p>Async FIFO도 마찬가지다. Gray포인터의 형태의 쓰기 포인터와 읽기 포인터가 같을 때 EMPTY 상태다.</p>
+<p>다만 포인터를 비교할 때 Read Clock Domain에서 비교해야 한다. 이를 위해 쓰기 포인터를 Read Clock Domain으로 CDC 처리를 한 후, 비교를 진행한다.</p>
+<h2 id="6-rtl-설계-고려-사항">6. RTL 설계 고려 사항 <a href="#6-rtl-%ec%84%a4%ea%b3%84-%ea%b3%a0%eb%a0%a4-%ec%82%ac%ed%95%ad" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>위 내용을 정리하면 아래와 같다.</p>
+<ol>
 <li>
-<p>데이터를 계속 저장하여 CLK6이 되었다. CLK5에서 CLK6이 되면서 FIFO의 6번 index에 x[6]이 FIFO에 최종 저장되었다.</p>
+<p>FIFO의 Write 포인터와 Read 포인터를 Gray 포인터 형태로 바꾼다.</p>
 </li>
 <li>
-<p>동시에 현재 wr_ptr의 index가 7이므로 FIFO의 7번 index에 x[7] 데이터를 저장하는 중이다.</p>
+<p>FIFO의 FULL상태는 Write Clock Domain에서 비교해아한다. 이를 위해 Gray Pointer 형태의 Read Pointer를 2-ff Synchronizer를 통해 Write Clock Domain으로 바꾼다.</p>
 </li>
 <li>
-<p>FIFO index 7번에 데이터가 저장되고 있으므로 다음 클럭에 wr_ptr의 index를 1 증가시켜 다음 데이터를 받을 준비를 한다.</p>
-</li>
-</ul>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/ex5.png" alt="Internal link preview tooltip" width="1120" height="585" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>
-<p>CLK6에서 CLK7이 되면서 FIFO index 7에 x[7] 데이터가 최종 저장된다.</p>
+<p>Gray Pointer 형태의 Write 포인터와 Read 포인터의 상위 2비트를 비교해 그 2비트가 서로 달라야하고, 나머지 비트는 서로 같을 때 FULL이다.</p>
 </li>
 <li>
-<p>CLK6에서 CLK7이 되면서 wr_ptr이 최종 1 증가되었다.</p>
+<p>FIFO의 EMPTY 상태는 Read Clock Domain에서 비교해야한다. 이를 위해 Gray Pointer 형태의 Write Pointer를 2-ff Synchronizer를 통해 Read Clock Domain으로 바꾼다.</p>
 </li>
 <li>
-<p>현재 wr_ptr의 index는 8이다. 그리고 rd_ptr의 index는 0이다. 8(1000)과 0(0000)은 MSB가 다르고 MSB를 제외한 나머지 하위 비트가 같다. 이러한 경우 FIFO가 Full 상태임을 확인할 수 있다.</p>
+<p>Gray Pointer 형태의 Write 포인터와 Read 포인터가 서로 같을 때, EMPTY다.</p>
 </li>
-<li>
-<p>FIFO가 Full 상태이므로 더 이상 데이터를 받을 수 없다.</p>
-</li>
-</ul>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/ex6.png" alt="Internal link preview tooltip" width="1124" height="592" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>
-<p>이제 데이터를 읽어보자.</p>
-</li>
-<li>
-<p>rd_ptr의 index는 0이다. 따라서 FIFO index 0에서 데이터를 읽는 중이다.</p>
-</li>
-<li>
-<p>FIFO index 0에서 데이터를 읽고 있으므로 다음 클럭에 rd_ptr index를 1 증가 시켜 다음 데이터를 읽을 준비를 한다.</p>
-</li>
-</ul>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/ex7.png" alt="Internal link preview tooltip" width="1113" height="636" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>
-<p>CLK8에서 CLK9가 되면서 x[0] 데이터가 최종 read 되었다. 다만 FIFO에서 데이터를 읽는다고 해도 FIFO안에 저장된 데이터가 사라지지는 않는다. 그러나 x[0] 데이터가 덮어 써져도 문제 없는 상태다.</p>
-</li>
-<li>
-<p>CLK8에서 CLK9가 되면서 rd_ptr이 최종 1 증가한다. 현재 wr_ptr의 index는 8(1000)이고 rd_ptr의 index는 1(0001)이다. MSB는 다르지만, MSB를 제외한 나머지 비트가 모두 다르지 않기 때문에, 더 이상 full 상태가 아니다.</p>
-</li>
-<li>
-<p>다음 데이터를 읽기 위해 다음 클럭에 rd_ptr을 1 증가 시킨다.</p>
-</li>
-</ul>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/ex8.png" alt="Internal link preview tooltip" width="869" height="499" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>
-<p>CLK9에서 CLK10이 되면서 x[1] 데이터가 최종 read 되었다.</p>
-</li>
-<li>
-<p>CLK9에서 CLK10이 되면서 rd_ptr이 최종 1 증가 되었다.</p>
-</li>
-<li>
-<p>현재 rd_ptr의 index는 2이므로 FIFO index 2번에서 데이터를 읽는 중이다.</p>
-</li>
-<li>
-<p>다음 클럭에 rd_ptr을 1 증가 시켜 다음 데이터를 읽을 준비를 한다.</p>
-</li>
-</ul>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/ex9.png" alt="Internal link preview tooltip" width="868" height="500" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>
-<p>CLK14에서 CLK15가 되면서 x[6] 데이터가 최종 read 되었다.</p>
-</li>
-<li>
-<p>CLK14에서 CLK15가 되면서 rd_ptr이 최종 1 증가 되었다.</p>
-</li>
-<li>
-<p>현재 rd_ptr의 index는 7이므로 FIFO index 7번에서 데이터를 읽는 중이다.</p>
-</li>
-</ul>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/ex10.png" alt="Internal link preview tooltip" width="871" height="500" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>
-<p>CLK15에서 CLK16이 되면서 x[7] 데이터가 최종 read 되었다.</p>
-</li>
-<li>
-<p>CLK15에서 CLK16이 되면서 rd_ptr이 최종 1 증가 되었다.</p>
-</li>
-<li>
-<p>현재 rd_ptr의 index는 8이다. 그리고 rd_ptr과 wr_ptr의 index가 서로 같다. 이 경우 FIFO는 empty 상태에 있다.</p>
-</li>
-<li>
-<p>다음 데이터를 쓰기 위해 다음 클럭에 wr_ptr의 데이터를 1 증가 시킨다.</p>
-</li>
-<li>
-<p>x[8] 데이터를 FIFO에 쓰는 중이다. 현재 wr_ptr의 index는 8(1000)인데 사실 wr_ptr의 하위 3비트를 보고 FIFO index를 결정한다. MSB 비트는 Full 상태를 판단하기 위한 추가 비트다. 따라서 FIFO index 0에 wr_ptr을 쓰는중이다.</p>
-</li>
-</ul>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/ex11.png" alt="Internal link preview tooltip" width="865" height="500" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>
-<p>CLK16에서 CLK17이 되면서 x[8] 데이터가 최종 write 되었다.</p>
-</li>
-<li>
-<p>CLK16에서 CLK17이 되면서 wr_ptr이 최종 1 증가 되었다.</p>
-</li>
-<li>
-<p>동시에 현재 wr_ptr에 x[9] 데이터를 write하는 중이다.</p>
-</li>
-<li>
-<p>다음 데이터를 쓰기 위해 다음 클럭에 wr_ptr을 1 증가 시킨다.</p>
-</li>
-</ul>
-<h2 id="3-verilog-rtl-구현">3. Verilog RTL 구현 <a href="#3-verilog-rtl-%ea%b5%ac%ed%98%84" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>위 예제를 참고하여 RTL로 구현해보자.</p>
-
+</ol>
+<h2 id="7-verilog-rtl-구현">7. Verilog RTL 구현 <a href="#7-verilog-rtl-%ea%b5%ac%ed%98%84" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2>
 
     
-    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-Verilog" data-lang="Verilog"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1</span><span><span style="color:#ff79c6">module</span> lib_axis_fifo_sync
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2</span><span>#(  <span style="color:#ff79c6">parameter</span> DW <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">8</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3</span><span>    <span style="color:#ff79c6">parameter</span> FIFO_DEPTH <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">8</span>,    <span style="color:#6272a4">// FIFO DEPTH must be power of 2
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">parameter</span> MASTER_DELAY <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>   <span style="color:#6272a4">// Operating like skid buffer
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5</span><span><span style="color:#6272a4"></span>                                 <span style="color:#6272a4">// Master data transfer operate depends on s_axis_tready
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6</span><span><span style="color:#6272a4"></span>                                 <span style="color:#6272a4">// MASTER_DELAY is 1
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7</span><span><span style="color:#6272a4"></span>                                 <span style="color:#6272a4">// Master data transfer operate depends on s_axis_tready -1d
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8</span><span><span style="color:#6272a4"></span>                                 <span style="color:#6272a4">// MASTER_DELAY is 2
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9</span><span><span style="color:#6272a4"></span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10</span><span>(
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11</span><span>    <span style="color:#ff79c6">input</span>                   s_axis_clk,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12</span><span>    <span style="color:#ff79c6">input</span>                   s_axis_resetn,
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1</span><span><span style="color:#ff79c6">module</span> lib_axis_fifo_async
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2</span><span>#(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3</span><span>    <span style="color:#ff79c6">parameter</span> DW <span style="color:#ff79c6">=</span><span style="color:#bd93f9">8</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4</span><span>    <span style="color:#ff79c6">parameter</span> FIFO_DEPTH <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">8</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5</span><span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6</span><span>(    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7</span><span>    <span style="color:#6272a4">// Master Interfaces
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">input</span>                   s_axis_wclk,        <span style="color:#6272a4">// Write CLK
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">input</span>                   s_axis_resetn,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10</span><span>    <span style="color:#ff79c6">input</span>                   s_axis_tvalid,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11</span><span>    <span style="color:#ff79c6">input</span> <span style="color:#ff79c6">signed</span> [DW<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]   s_axis_tdata,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12</span><span>    <span style="color:#ff79c6">output</span>                  s_axis_tready,
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14</span><span>    <span style="color:#6272a4">// Master Interface
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">input</span>                   s_axis_tvalid,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16</span><span>    <span style="color:#ff79c6">input</span> <span style="color:#ff79c6">signed</span> [DW<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]   s_axis_tdata,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17</span><span>    <span style="color:#ff79c6">output</span>                  s_axis_tready,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19</span><span>    <span style="color:#6272a4">// Slave Interface
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">output</span>                  m_axis_tvalid,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21</span><span>    <span style="color:#ff79c6">output</span> <span style="color:#ff79c6">signed</span> [DW<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]  m_axis_tdata,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22</span><span>    <span style="color:#ff79c6">input</span>                   m_axis_tready,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24</span><span>    <span style="color:#6272a4">//Status
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">output</span>                  o_empty,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26</span><span>    <span style="color:#ff79c6">output</span>                  o_full,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27</span><span>    <span style="color:#ff79c6">output</span>                  o_almost_full, <span style="color:#6272a4">// This Signal is asserted when FIFO becomes full before 1 clock
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">output</span>                  o_overflow
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29</span><span>);
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31</span><span><span style="color:#8be9fd">reg</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] rd_ptr;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32</span><span><span style="color:#8be9fd">reg</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] wr_ptr;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34</span><span><span style="color:#8be9fd">reg</span> <span style="color:#ff79c6">signed</span> [DW<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] fifo [<span style="color:#bd93f9">0</span><span style="color:#ff79c6">:</span>FIFO_DEPTH<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>];
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35</span><span><span style="color:#8be9fd">reg</span> r_overflow;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38</span><span><span style="color:#ff79c6">integer</span> j;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42</span><span>        rd_ptr <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(m_axis_tready <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>o_empty) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45</span><span>        rd_ptr <span style="color:#ff79c6">&lt;=</span> rd_ptr <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47</span><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51</span><span>        wr_ptr <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(s_axis_tvalid <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>o_full <span style="color:#ff79c6">&amp;&amp;</span> s_axis_tready) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54</span><span>        wr_ptr <span style="color:#ff79c6">&lt;=</span> wr_ptr <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56</span><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58</span><span><span style="color:#8be9fd">wire</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] wr_ptr_next <span style="color:#ff79c6">=</span> wr_ptr <span style="color:#ff79c6">+</span> $unsigned(MASTER_DELAY);
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62</span><span>        r_overflow <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(s_axis_tvalid <span style="color:#ff79c6">&amp;&amp;</span> s_axis_tready <span style="color:#ff79c6">&amp;&amp;</span> o_full) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65</span><span>        r_overflow <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68</span><span>        r_overflow <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70</span><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73</span><span>        <span style="color:#ff79c6">for</span>(j <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; j <span style="color:#ff79c6">&lt;</span> FIFO_DEPTH; j <span style="color:#ff79c6">=</span> j<span style="color:#ff79c6">+</span><span style="color:#bd93f9">1</span>) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74</span><span>            fifo[j] <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75</span><span>        <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(s_axis_tvalid <span style="color:#ff79c6">&amp;&amp;</span> s_axis_tready) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78</span><span>        fifo[wr_ptr[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]] <span style="color:#ff79c6">&lt;=</span> s_axis_tdata;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80</span><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82</span><span><span style="color:#8be9fd">reg</span> <span style="color:#ff79c6">signed</span> [DW<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] r_rdata;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85</span><span>        r_rdata <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(m_axis_tready) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88</span><span>        r_rdata <span style="color:#ff79c6">&lt;=</span> fifo[rd_ptr[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]];
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90</span><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92</span><span><span style="color:#8be9fd">reg</span> m_axis_tready_1d;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93</span><span><span style="color:#8be9fd">reg</span> o_empty_1d;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96</span><span>        m_axis_tready_1d <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97</span><span>        o_empty_1d <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14</span><span>    <span style="color:#6272a4">// Slave Interfaces
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">input</span>                   m_axis_rclk,        <span style="color:#6272a4">// Read CLK
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">input</span>                   m_axis_resetn,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17</span><span>    <span style="color:#ff79c6">output</span>                  m_axis_tvalid,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18</span><span>    <span style="color:#ff79c6">output</span> <span style="color:#ff79c6">signed</span> [DW<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]  m_axis_tdata,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19</span><span>    <span style="color:#ff79c6">input</span>                   m_axis_tready,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21</span><span>    <span style="color:#6272a4">// Status
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22</span><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">output</span>                  o_empty,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23</span><span>    <span style="color:#ff79c6">output</span>                  o_full,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24</span><span>    <span style="color:#ff79c6">output</span>                  o_overflow
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25</span><span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27</span><span><span style="color:#8be9fd">reg</span> <span style="color:#ff79c6">signed</span> [DW<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] fifo [<span style="color:#bd93f9">0</span><span style="color:#ff79c6">:</span>FIFO_DEPTH<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>];
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28</span><span><span style="color:#8be9fd">reg</span> r_overflow;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_wclk) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32</span><span>        r_overflow <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(s_axis_tvalid <span style="color:#ff79c6">&amp;&amp;</span> s_axis_tready <span style="color:#ff79c6">&amp;&amp;</span> o_full) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35</span><span>        r_overflow <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38</span><span>        r_overflow <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42</span><span><span style="color:#6272a4">// Write CLK Domain
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43</span><span><span style="color:#6272a4"></span><span style="color:#8be9fd">reg</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] wr_ptr_bin;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44</span><span><span style="color:#8be9fd">wire</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] wr_ptr_gray;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45</span><span><span style="color:#8be9fd">reg</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] rd_ptr_gray_meta;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46</span><span><span style="color:#8be9fd">reg</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] rd_ptr_gray_wclk;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_wclk) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50</span><span>        wr_ptr_bin <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(s_axis_tvalid <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>o_full <span style="color:#ff79c6">&amp;&amp;</span> s_axis_tready) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53</span><span>        wr_ptr_bin <span style="color:#ff79c6">&lt;=</span> wr_ptr_bin <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57</span><span><span style="color:#ff79c6">assign</span> wr_ptr_gray <span style="color:#ff79c6">=</span> bin2gray(wr_ptr_bin);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59</span><span><span style="color:#6272a4">// Read CLK Domain
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60</span><span><span style="color:#6272a4"></span><span style="color:#8be9fd">reg</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] rd_ptr_bin;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61</span><span><span style="color:#8be9fd">wire</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] rd_ptr_gray;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62</span><span><span style="color:#8be9fd">reg</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] wr_ptr_gray_meta;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63</span><span><span style="color:#8be9fd">reg</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] wr_ptr_gray_rclk;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65</span><span><span style="color:#6272a4">// CDC - wr_ptr
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66</span><span><span style="color:#6272a4"></span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> m_axis_rclk) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>m_axis_resetn) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68</span><span>        wr_ptr_gray_meta <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69</span><span>        wr_ptr_gray_rclk <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72</span><span>        wr_ptr_gray_meta <span style="color:#ff79c6">&lt;=</span> wr_ptr_gray;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73</span><span>        wr_ptr_gray_rclk <span style="color:#ff79c6">&lt;=</span> wr_ptr_gray_meta;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77</span><span><span style="color:#6272a4">// Read Clock Domain
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78</span><span><span style="color:#6272a4"></span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> m_axis_rclk) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>m_axis_resetn) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80</span><span>        rd_ptr_bin <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(m_axis_tready <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>o_empty) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83</span><span>        rd_ptr_bin <span style="color:#ff79c6">&lt;=</span> rd_ptr_bin <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87</span><span><span style="color:#ff79c6">assign</span> rd_ptr_gray <span style="color:#ff79c6">=</span> bin2gray(rd_ptr_bin);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89</span><span><span style="color:#6272a4">// CDC - rd_ptr
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90</span><span><span style="color:#6272a4"></span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_wclk) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>m_axis_resetn) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92</span><span>        rd_ptr_gray_meta <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93</span><span>        rd_ptr_gray_wclk <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96</span><span>        rd_ptr_gray_meta <span style="color:#ff79c6">&lt;=</span> rd_ptr_gray;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97</span><span>        rd_ptr_gray_wclk <span style="color:#ff79c6">&lt;=</span> rd_ptr_gray_meta;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100</span><span>        m_axis_tready_1d <span style="color:#ff79c6">&lt;=</span> m_axis_tready;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101</span><span>        o_empty_1d <span style="color:#ff79c6">&lt;=</span> o_empty;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103</span><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105</span><span><span style="color:#ff79c6">assign</span> m_axis_tdata <span style="color:#ff79c6">=</span> r_rdata;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106</span><span><span style="color:#ff79c6">assign</span> m_axis_tvalid <span style="color:#ff79c6">=</span> m_axis_tready_1d <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>o_empty_1d;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107</span><span><span style="color:#ff79c6">assign</span> o_empty <span style="color:#ff79c6">=</span> (rd_ptr <span style="color:#ff79c6">==</span> wr_ptr);
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108</span><span><span style="color:#ff79c6">assign</span> o_full <span style="color:#ff79c6">=</span> (rd_ptr[$clog2(FIFO_DEPTH)]<span style="color:#ff79c6">!=</span>wr_ptr[$clog2(FIFO_DEPTH)]) <span style="color:#ff79c6">&amp;</span> (rd_ptr[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> wr_ptr[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]);
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109</span><span><span style="color:#ff79c6">assign</span> o_overflow <span style="color:#ff79c6">=</span> r_overflow;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110</span><span><span style="color:#ff79c6">assign</span> o_almost_full <span style="color:#ff79c6">=</span> (rd_ptr[$clog2(FIFO_DEPTH)]<span style="color:#ff79c6">!=</span>wr_ptr_next[$clog2(FIFO_DEPTH)]) <span style="color:#ff79c6">&amp;</span> (rd_ptr[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">==</span> wr_ptr_next[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]);
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111</span><span><span style="color:#ff79c6">assign</span> s_axis_tready <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">!</span>o_full;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113</span><span><span style="color:#ff79c6">endmodule</span></span></span></code></pre></div>
-<h2 id="5-example-design">5. Example Design <a href="#5-example-design" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>axis_fifo_sync를 활용하여 Example Design을 설계해보자.</p>
-<p>Design Example을 구성하는 모듈은 총 5개이다.</p>
-<ul>
-<li>
-<p>fifo_data_gen.v : FIFO에게 쓸 데이터를 생성하는 MASTER 모듈이다.</p>
-</li>
-<li>
-<p>lib_axis_fifo_sync.v : FIFO가 구현된 모듈이다.</p>
-</li>
-<li>
-<p>export_data.v : FIFO에서 데이터를 읽는 FIFO의 SLAVE 모듈이다.</p>
-</li>
-<li>
-<p>tb.v : Testbench 파일이다.</p>
-</li>
-<li>
-<p>lib_clk_rst_gen.v : 클럭 및 초기 reset을 생성하는 모듈이다.</p>
-</li>
-</ul>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101</span><span><span style="color:#6272a4">// Write Clock Domain
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102</span><span><span style="color:#6272a4"></span><span style="color:#ff79c6">integer</span> k;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> s_axis_wclk) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>s_axis_resetn) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106</span><span>        <span style="color:#ff79c6">for</span>(k <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; k <span style="color:#ff79c6">&lt;</span> FIFO_DEPTH; k <span style="color:#ff79c6">=</span> k<span style="color:#ff79c6">+</span><span style="color:#bd93f9">1</span>) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107</span><span>            fifo[k] <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108</span><span>        <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(s_axis_tvalid <span style="color:#ff79c6">&amp;&amp;</span> s_axis_tready) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111</span><span>        fifo[wr_ptr_bin[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]] <span style="color:#ff79c6">&lt;=</span> s_axis_tdata;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115</span><span><span style="color:#6272a4">// Read Clock Domain
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116</span><span><span style="color:#6272a4"></span><span style="color:#8be9fd">reg</span> <span style="color:#ff79c6">signed</span> [DW<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] r_rdata;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> m_axis_rclk) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>m_axis_resetn) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119</span><span>        r_rdata <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(m_axis_tready) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122</span><span>        r_rdata <span style="color:#ff79c6">&lt;=</span> fifo[rd_ptr_bin[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]];
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126</span><span><span style="color:#8be9fd">reg</span> m_axis_tready_1d;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127</span><span><span style="color:#8be9fd">reg</span> o_empty_1d;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> m_axis_rclk) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129</span><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>m_axis_resetn) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130</span><span>        m_axis_tready_1d <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131</span><span>        o_empty_1d <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">133</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">134</span><span>        m_axis_tready_1d <span style="color:#ff79c6">&lt;=</span> m_axis_tready;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">135</span><span>        o_empty_1d <span style="color:#ff79c6">&lt;=</span> o_empty;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">136</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">137</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">138</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">139</span><span><span style="color:#ff79c6">assign</span> m_axis_tdata <span style="color:#ff79c6">=</span> r_rdata;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">140</span><span><span style="color:#ff79c6">assign</span> m_axis_tvalid <span style="color:#ff79c6">=</span> m_axis_tready_1d <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>o_empty_1d;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">141</span><span><span style="color:#ff79c6">assign</span> o_empty <span style="color:#ff79c6">=</span> (rd_ptr_gray <span style="color:#ff79c6">==</span> wr_ptr_gray_rclk);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">142</span><span><span style="color:#ff79c6">assign</span> o_full <span style="color:#ff79c6">=</span> (wr_ptr_gray[$clog2(FIFO_DEPTH)] <span style="color:#ff79c6">!=</span> rd_ptr_gray_wclk[$clog2(FIFO_DEPTH)]) <span style="color:#ff79c6">&amp;&amp;</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">143</span><span>                (wr_ptr_gray[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">!=</span> rd_ptr_gray_wclk[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>]) <span style="color:#ff79c6">&amp;&amp;</span> 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">144</span><span>                (wr_ptr_gray[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>]) <span style="color:#ff79c6">==</span> rd_ptr_gray_wclk[$clog2(FIFO_DEPTH)<span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>];
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">145</span><span><span style="color:#ff79c6">assign</span> s_axis_tready <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">!</span>o_full;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">146</span><span><span style="color:#ff79c6">assign</span> o_overflow <span style="color:#ff79c6">=</span> r_overflow;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">147</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">148</span><span><span style="color:#ff79c6">function</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] bin2gray;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">149</span><span>    <span style="color:#ff79c6">input</span> [$clog2(FIFO_DEPTH)<span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] bin;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">150</span><span>    <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">151</span><span>       bin2gray <span style="color:#ff79c6">=</span> (bin<span style="color:#ff79c6">&gt;&gt;</span><span style="color:#bd93f9">1</span>) <span style="color:#ff79c6">^</span> bin;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">152</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">153</span><span> <span style="color:#ff79c6">endfunction</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">154</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">155</span><span><span style="color:#ff79c6">endmodule</span></span></span></code></pre></div>
+<h2 id="8-example-design">8. Example Design <a href="#8-example-design" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>axis_fifo_async를 활용해서 Example Design을 설계해보자.</p>
+<p>Design Example을 구성하는 모듈은 총 5개다.</p>
+<p>&ndash; fifo_data_gen.v : FIFO에게 쓸 데이터를 생성하는 MASTER 모듈이다.</p>
+<p>&ndash; lib_axis_fifo_async.v : Async FIFO가 구현된 모듈이다.</p>
+<p>&ndash; export_data.v : FIFO에서 데이터를 읽는 FIFO SLAVE 모듈이다.</p>
+<p>&ndash; tb.v : Testbench 파일이다.</p>
+<p>&ndash; lib_clk_rst_gen.v : Write CLK, Read CLK 및 초기 reset을 생성하는 모듈이다.</p>
 <p>위 5개의 모듈을 Vivado 프로젝트에 복사해서 Example Design을 만들 수 있다.</p>
-<h3 id="51-tbv">5.1 tb.v <a href="#51-tbv" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
+<h3 id="81-tbv">8.1 tb.v <a href="#81-tbv" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
 
     
     <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>`timescale <span style="color:#bd93f9">1</span>ns<span style="color:#ff79c6">/</span><span style="color:#bd93f9">1</span>ps
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#ff79c6">module</span> tb_lib_sync_fifo;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#8be9fd">wire</span> clk;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#8be9fd">wire</span> rst;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#8be9fd">wire</span> clk_wr;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#8be9fd">wire</span> rst_wr;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    <span style="color:#8be9fd">reg</span> i_wen;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    <span style="color:#8be9fd">reg</span> i_ren;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    <span style="color:#8be9fd">reg</span> <span style="color:#ff79c6">signed</span> [<span style="color:#bd93f9">3</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] i_wdata;
@@ -979,8 +819,8 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    <span style="color:#6272a4">//Data Gen Module
 </span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span><span style="color:#6272a4"></span>    fifo_data_gen u_fifo_data_gen
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    (
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>        .clk(clk),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>        .rst(rst),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>        .clk_wr(clk_wr),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>        .rst_wr(rst_wr),
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>        .i_fifo_ready(w_fifo_ready),
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>        .o_fifo_valid(w_fifo_valid),
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>        .o_fifo_data(w_fifo_data)
@@ -989,47 +829,56 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>    <span style="color:#6272a4">//FIFO
 </span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd">wire</span> w_fifo_ren;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>    lib_axis_fifo_sync 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>    lib_axis_fifo_async 
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>    #(.DW(<span style="color:#bd93f9">4</span>), .FIFO_DEPTH(<span style="color:#bd93f9">8</span>), .MASTER_DELAY(<span style="color:#bd93f9">1</span>))
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>    u_fifo (
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>        .s_axis_clk(clk),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>        .s_axis_resetn(<span style="color:#ff79c6">!</span>rst),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>        .s_axis_wclk(clk_wr),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>        .s_axis_resetn(<span style="color:#ff79c6">!</span>rst_wr),
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>        .s_axis_tvalid(w_fifo_valid),
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>        .s_axis_tdata(w_fifo_data),
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>        .s_axis_tready(w_fifo_ready),
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>        .m_axis_tvalid(w_valid),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>        .m_axis_tdata(o_rdata),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>        .m_axis_tready(w_fifo_ren),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>        .o_empty(w_empty),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>        .o_full(w_full),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>        .o_almost_full(w_almost_full),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span>        .o_overflow()
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span><span>    );
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54</span><span>    <span style="color:#6272a4">//Data Export Module
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55</span><span><span style="color:#6272a4"></span>    export_data u_export_data
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56</span><span>    (
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57</span><span>        .clk(clk),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58</span><span>        .rst(rst),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59</span><span>        .i_valid(w_valid),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60</span><span>        .i_data(o_rdata),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61</span><span>        .i_fifo_empty(w_empty),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62</span><span>        .o_fifo_ren(w_fifo_ren)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63</span><span>    );
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65</span><span>    <span style="color:#6272a4">// Clock 생성
-</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66</span><span><span style="color:#6272a4"></span>    lib_clk_rst_gen
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67</span><span>    #(.CLK_RATE(<span style="color:#bd93f9">200</span>), .RST_CYCLE(<span style="color:#bd93f9">2.4</span>))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68</span><span>    u_clk_rst_gen
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69</span><span>    (
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70</span><span>        .o_clk(clk),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71</span><span>        .o_rst(rst)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72</span><span>    );
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73</span><span><span style="color:#ff79c6">endmodule</span></span></span></code></pre></div>
-<h3 id="52-lib_clk_rst_genv">5.2 lib_clk_rst_gen.v <a href="#52-lib_clk_rst_genv" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>        .m_axis_rclk(clk_rd),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>        .m_axis_resetn(<span style="color:#ff79c6">!</span>rst_rd),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>        .m_axis_tvalid(w_valid),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>        .m_axis_tdata(o_rdata),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>        .m_axis_tready(w_fifo_ren),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>        .o_empty(w_empty),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span>        .o_full(w_full),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span><span>        .o_overflow()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53</span><span>    );
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55</span><span>    <span style="color:#6272a4">//Data Export Module
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56</span><span><span style="color:#6272a4"></span>    export_data u_export_data
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57</span><span>    (
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58</span><span>        .clk_rd(clk_rd),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59</span><span>        .rst_rd(rst_rd),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60</span><span>        .i_valid(w_valid),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61</span><span>        .i_data(o_rdata),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62</span><span>        .i_fifo_empty(w_empty),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63</span><span>        .o_fifo_ren(w_fifo_ren)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64</span><span>    );
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66</span><span>    <span style="color:#6272a4">// Clock 생성
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67</span><span><span style="color:#6272a4"></span>    lib_clk_rst_gen
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68</span><span>    #(.CLK_RATE(<span style="color:#bd93f9">200</span>), .RST_CYCLE(<span style="color:#bd93f9">2.4</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69</span><span>    u_clk_wr_rst_gen
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70</span><span>    (
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71</span><span>        .o_clk(clk_wr),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72</span><span>        .o_rst(rst_wr)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73</span><span>    );
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75</span><span>    lib_clk_rst_gen
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76</span><span>    #(.CLK_RATE(<span style="color:#bd93f9">140</span>), .RST_CYCLE(<span style="color:#bd93f9">2.4</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77</span><span>    u_clk_rd_rst_gen
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78</span><span>    (
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79</span><span>        .o_clk(clk_rd),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">80</span><span>        .o_rst(rst_rd)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">81</span><span>    );
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">82</span><span><span style="color:#ff79c6">endmodule</span></span></span></code></pre></div>
+<h3 id="82-lib_clk_rst_genv">8.2 lib_clk_rst_gen.v <a href="#82-lib_clk_rst_genv" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
 
     
     <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">module</span> lib_clk_rst_gen
@@ -1057,56 +906,80 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span><span style="color:#ff79c6">assign</span> o_rst <span style="color:#ff79c6">=</span> r_rst;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span><span style="color:#ff79c6">endmodule</span></span></span></code></pre></div>
-<h3 id="53-fifo_data_genv">5.3 fifo_data_gen.v <a href="#53-fifo_data_genv" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
+<h3 id="83-fifo_data_genv">8.3 fifo_data_gen.v <a href="#83-fifo_data_genv" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
 
     
-    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">module</span> fifo_data_gen(
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ff79c6">input</span> clk,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ff79c6">input</span> rst,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#ff79c6">input</span> i_fifo_ready,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#ff79c6">output</span> <span style="color:#8be9fd">reg</span> o_fifo_valid,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#ff79c6">output</span> <span style="color:#8be9fd">reg</span> <span style="color:#ff79c6">signed</span> [<span style="color:#bd93f9">4</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] o_fifo_data
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>);
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span><span style="color:#8be9fd">reg</span> [<span style="color:#bd93f9">14</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] cnt;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    <span style="color:#ff79c6">if</span>(rst) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        cnt <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>        cnt <span style="color:#ff79c6">&lt;=</span> cnt <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span><span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    <span style="color:#ff79c6">if</span>(rst) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>        o_fifo_valid <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(cnt <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">70</span>) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>        o_fifo_valid <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>        o_fifo_valid <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span><span style="color:#ff79c6">end</span>
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>`timescale <span style="color:#bd93f9">1</span>ns <span style="color:#ff79c6">/</span> <span style="color:#bd93f9">1</span>ps
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#6272a4">//////////////////////////////////////////////////////////////////////////////////
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#6272a4">// Company: 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span><span style="color:#6272a4">// Engineer: 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span><span style="color:#6272a4">// 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span><span style="color:#6272a4">// Create Date: 2025/04/27 15:08:47
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span><span style="color:#6272a4">// Design Name: 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span><span style="color:#6272a4">// Module Name: fifo_data_gen
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span><span style="color:#6272a4">// Project Name: 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#6272a4">// Target Devices: 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#6272a4">// Tool Versions: 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span><span style="color:#6272a4">// Description: 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span><span style="color:#6272a4">// 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span><span style="color:#6272a4">// Dependencies: 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span><span style="color:#6272a4">// 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span><span style="color:#6272a4">// Revision:
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span><span style="color:#6272a4">// Revision 0.01 - File Created
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span><span style="color:#6272a4">// Additional Comments:
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span><span style="color:#6272a4">// 
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span><span style="color:#6272a4">//////////////////////////////////////////////////////////////////////////////////
+</span></span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span><span style="color:#ff79c6">module</span> fifo_data_gen(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>    <span style="color:#ff79c6">input</span> clk_wr,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    <span style="color:#ff79c6">input</span> rst_wr,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>    <span style="color:#ff79c6">input</span> i_fifo_ready,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>    <span style="color:#ff79c6">output</span> <span style="color:#8be9fd">reg</span> o_fifo_valid,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>    <span style="color:#ff79c6">output</span> <span style="color:#8be9fd">reg</span> <span style="color:#ff79c6">signed</span> [<span style="color:#bd93f9">4</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] o_fifo_data
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>);
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>    <span style="color:#ff79c6">if</span>(rst) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>        o_fifo_data <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(i_fifo_ready) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>        o_fifo_data <span style="color:#ff79c6">&lt;=</span> o_fifo_data <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>        o_fifo_data <span style="color:#ff79c6">&lt;=</span> o_fifo_data;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span><span style="color:#ff79c6">end</span></span></span></code></pre></div>
-<h3 id="54-export_datav">5.4 export_data.v <a href="#54-export_datav" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span><span style="color:#8be9fd">reg</span> [<span style="color:#bd93f9">14</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] cnt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk_wr) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>    <span style="color:#ff79c6">if</span>(rst_wr) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>        cnt <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>        cnt <span style="color:#ff79c6">&lt;=</span> cnt <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk_wr) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>    <span style="color:#ff79c6">if</span>(rst_wr) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>        o_fifo_valid <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(cnt <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">170</span>) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>        o_fifo_valid <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>        o_fifo_valid <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk_wr) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54</span><span>    <span style="color:#ff79c6">if</span>(rst_wr) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55</span><span>        o_fifo_data <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(i_fifo_ready) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58</span><span>        o_fifo_data <span style="color:#ff79c6">&lt;=</span> o_fifo_data <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61</span><span>        o_fifo_data <span style="color:#ff79c6">&lt;=</span> o_fifo_data;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65</span><span><span style="color:#ff79c6">endmodule</span></span></span></code></pre></div>
+<h3 id="84-export_datav">8.4 export_data.v <a href="#84-export_datav" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3>
 
     
     <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ff79c6">module</span> export_data(
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ff79c6">input</span> clk,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ff79c6">input</span> rst,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ff79c6">input</span> clk_rd,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ff79c6">input</span> rst_rd,
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#ff79c6">input</span> i_valid,
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#ff79c6">input</span> <span style="color:#ff79c6">signed</span> [<span style="color:#bd93f9">3</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] i_data,
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#ff79c6">input</span> i_fifo_empty,
@@ -1114,8 +987,8 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>);
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#8be9fd">reg</span> [<span style="color:#bd93f9">13</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] cnt <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    <span style="color:#ff79c6">if</span>(rst) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk_rd) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    <span style="color:#ff79c6">if</span>(rst_rd) <span style="color:#ff79c6">begin</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>        cnt <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#ff79c6">end</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">begin</span>
@@ -1123,8 +996,8 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    <span style="color:#ff79c6">end</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span><span style="color:#ff79c6">end</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    <span style="color:#ff79c6">if</span>(rst) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk_rd) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    <span style="color:#ff79c6">if</span>(rst_rd) <span style="color:#ff79c6">begin</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>        o_fifo_ren <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    <span style="color:#ff79c6">end</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(cnt <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">60</span> <span style="color:#ff79c6">&amp;&amp;</span> cnt[<span style="color:#bd93f9">5</span>] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>) <span style="color:#ff79c6">begin</span>
@@ -1142,15 +1015,17 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span><span style="color:#ff79c6">end</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span><span style="color:#8be9fd">reg</span> <span style="color:#ff79c6">signed</span> [<span style="color:#bd93f9">4</span><span style="color:#ff79c6">:</span><span style="color:#bd93f9">0</span>] r_fifo_1d;
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk) <span style="color:#ff79c6">begin</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>    <span style="color:#ff79c6">if</span>(rst) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span><span style="color:#ff79c6">always</span> @(<span style="color:#ff79c6">posedge</span> clk_rd) <span style="color:#ff79c6">begin</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>    <span style="color:#ff79c6">if</span>(rst_rd) <span style="color:#ff79c6">begin</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>        r_fifo_1d <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>    <span style="color:#ff79c6">end</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span>(i_valid) <span style="color:#ff79c6">begin</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>        r_fifo_1d <span style="color:#ff79c6">&lt;=</span> i_data;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>    <span style="color:#ff79c6">end</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span><span style="color:#ff79c6">end</span></span></span></code></pre></div>
-<h2 id="6-axi4-stream-timing-분석">6. AXI4-Stream Timing 분석 <a href="#6-axi4-stream-timing-%eb%b6%84%ec%84%9d" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span><span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span><span style="color:#ff79c6">endmodule</span></span></span></code></pre></div>
+<h2 id="9-vivado-합성-결과-logic">9. Vivado 합성 결과 Logic <a href="#9-vivado-%ed%95%a9%ec%84%b1-%ea%b2%b0%ea%b3%bc-logic" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p>
 
 
 
@@ -1162,61 +1037,7 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 
   
     
-      <img src="/images/content/sync_fifo/timing1.png" alt="Internal link preview tooltip" width="1407" height="506" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>
-<p>o_fifo_valid는 MASTER 모듈에서 FIFO로 전달되는 데이터의 유효성을 나타낸다. MASTER의 valid신호는 SLAVE의 s_axis_tready와 무관하게 동작해야 한다. MASTER가 유효한 데이터를 만들면 그대로 valid신호를 만들어야 한다.</p>
-</li>
-<li>
-<p>o_fifo_data는 s_axis_tready와 유관하게 동작해야 한다. s_axis_tready가 1이 되면 값을 증가시킨다. 그렇지 않으면 값을 변화시키지 않고 들고 있어야 한다.</p>
-</li>
-<li>
-<p>FIFO에 저장되는 데이터는 s_axis_tvalid와 s_axis_tready가 동시에 1일 때 Handshake가 발생하여 다음 클럭에 FIFO에 최종 저장된다.
-데이터 9는 Handshake가 발생하지 않아, FIFO에 저장되지 않는다.</p>
-</li>
-<li>
-<p>o_full = 1 일 때, FIFO는 full이다. 따라서 같은 타이밍에 s_axis_tready = 0이 된다. MASTER는 s_axis_tready를 보고 데이터를 증가시키는데, s_axis_tready가 0이므로 다음 클럭에 더 이상 데이터가 증가하지 않는다. 그리고 데이터 9를 계속 유지한다. 유지하는 데이터 역시 유효하므로 o_fifo_valid가 1로 유지된다.</p>
-</li>
-<li>
-<p>FIFO의 full이 풀린 순간, s_axis_tready는 동시에 1이 되어 data_gen에서 유지하고 있던 값 9를 다시 FIFO에 넣고, 다음 클럭에 데이터를 9에서 10으로 증가시킨다.</p>
-</li>
-</ul>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/timing2.png" alt="Internal link preview tooltip" width="1301" height="653" loading="lazy">
-    
-  
-</p>
-<ul>
-<li>m_axis_tready는 export_data가 데이터를 받을 준비가 되었다는 신호다. FIFO는 m_axis_tready를 보고 다음 클럭에 fifo에서 데이터를 빼 m_axis_tvalid를 1로 만든다.</li>
-</ul>
-<h2 id="7-vivado-합성-결과-logic">7. Vivado 합성 결과 Logic <a href="#7-vivado-%ed%95%a9%ec%84%b1-%ea%b2%b0%ea%b3%bc-logic" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h2><p> </p>
-<p>
-
-
-
-
-
-  
-
-
-
-  
-    
-      <img src="/images/content/sync_fifo/syn_fifo.png" alt="Internal link preview tooltip" width="578" height="65" loading="lazy">
+      <img src="/images/content/async_fifo/logci.png" alt="Internal link preview tooltip" width="592" height="72" loading="lazy">
     
   
 </p>
@@ -1232,10 +1053,10 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 
 	<div class="row flex-xl-nowrap ">
 	<div class="col-sm-6 pt-2 doc-next">
-		<a href="/docs/rtl-ip/lib_async_fifo/">
+		<a href="/docs/dsp/interpolation_upsampling/">
 			<div class="card h-100 my-1">
 				<div class="card-body py-2">
-                    <p class="card-title fs-5 fw-semibold lh-base mb-0"><i class="material-icons align-middle">navigate_before</i> lib_axis_fifo_async.v</p>
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0"><i class="material-icons align-middle">navigate_before</i> Interpolation vs Upsampling</p>
 					<p class="card-text ms-2"></p>
 					
 				</div>
@@ -1243,10 +1064,10 @@ FIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. �
 		</a>
         </div>
 	<div class="col-sm-6 pt-2 doc-prev">
-		<a class="ms-auto" href="/docs/fpga-demo/petalinux_build_demo/">
+		<a class="ms-auto" href="/docs/rtl-ip/lib_sync_fifo/">
 			<div class="card h-100 my-1 text-end">
 				<div class="card-body py-2">
-                    <p class="card-title fs-5 fw-semibold lh-base mb-0">Petalinux Build Demo (Zybo-z7-10) <i class="material-icons align-middle">navigate_next</i></p>
+                    <p class="card-title fs-5 fw-semibold lh-base mb-0">lib_axis_fifo_sync.v <i class="material-icons align-middle">navigate_next</i></p>
 					<p class="card-text me-2"></p>
 					
 				</div>

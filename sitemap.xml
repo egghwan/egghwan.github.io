@@ -38,6 +38,9 @@
     <loc>https://egghwan.github.io/docs/dsp/interpolation_upsampling/</loc>
     <lastmod>2023-05-22T00:44:31+01:00</lastmod>
   </url><url>
+    <loc>https://egghwan.github.io/docs/rtl-ip/lib_async_fifo/</loc>
+    <lastmod>2023-05-22T00:44:31+01:00</lastmod>
+  </url><url>
     <loc>https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/</loc>
     <lastmod>2023-05-22T00:44:31+01:00</lastmod>
   </url><url>
@@ -65,10 +68,10 @@
     <loc>https://egghwan.github.io/docs/terms/</loc>
     <lastmod>2023-08-11T17:38:15+00:00</lastmod>
   </url><url>
-    <loc>https://egghwan.github.io/docs/theme-options/</loc>
+    <loc>https://egghwan.github.io/docs/wireless_communication/</loc>
     <lastmod>2023-08-11T17:38:15+00:00</lastmod>
   </url><url>
-    <loc>https://egghwan.github.io/docs/theme-options/breadcrumbs/</loc>
+    <loc>https://egghwan.github.io/docs/wireless_communication/breadcrumbs/</loc>
     <lastmod>2023-08-16T02:49:15+00:00</lastmod>
   </url><url>
     <loc>https://egghwan.github.io/docs/terms/pl_region/</loc>
@@ -80,7 +83,7 @@
     <loc>https://egghwan.github.io/docs/terms/wsl/</loc>
     <lastmod>2023-08-16T02:49:15+00:00</lastmod>
   </url><url>
-    <loc>https://egghwan.github.io/docs/theme-options/link-behaviour/</loc>
+    <loc>https://egghwan.github.io/docs/wireless_communication/link-behaviour/</loc>
     <lastmod>2023-09-14T19:10:58+01:00</lastmod>
   </url><url>
     <loc>https://egghwan.github.io/</loc>

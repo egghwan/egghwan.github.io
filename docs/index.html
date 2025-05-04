@@ -139,6 +139,11 @@
                                     
                                         
                                         
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/lib_async_fifo/">lib_axis_fifo_async.v</a></li>
+                                        
+                                    
+                                        
+                                        
                                             <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/rtl-ip/lib_sync_fifo/">lib_axis_fifo_sync.v</a></li>
                                         
                                     
@@ -250,19 +255,19 @@
                         <li class="sidebar-dropdown  ">
                             <button class="btn">
                                 <i class="material-icons me-2">tune</i>
-                                Theme Options
+                                Wireless Communications
                             </button>
                             <div class="sidebar-submenu ">
                                 <ul>
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/theme-options/breadcrumbs/">Breadcrumb Navigation</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/wireless_communication/breadcrumbs/">Breadcrumb Navigation</a></li>
                                         
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/theme-options/link-behaviour/">Link behaviour</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/wireless_communication/link-behaviour/">Link behaviour</a></li>
                                         
                                     
                                 </ul>
@@ -509,7 +514,7 @@
         </div>
         
         <div id="list-item" class="col-md-4 col-12 mt-4 pt-2">
-            <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/theme-options/">
+            <a class="text-decoration-none text-reset" href="https://egghwan.github.io/docs/wireless_communication/">
                 <div class="card h-100 features feature-full-bg rounded p-4 position-relative overflow-hidden border-1">
                     <span class="icon-color d-flex my-3">
                         <i class="material-icons align-middle">tune</i>
@@ -517,7 +522,7 @@
                         <i class="material-icons icon-faint align-middle ms-auto" title="Directory">folder</i>
                     </span>
                     <div class="card-body p-0 content">
-                        <p class="fs-5 fw-semibold card-title mb-1">Theme Options</p>
+                        <p class="fs-5 fw-semibold card-title mb-1">Wireless Communications</p>
                         <p class="para card-text mb-0">Optional features in Lotus Docs.</p>
                     </div>
                     
@@ -850,6 +855,13 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
 
 
     
@@ -922,6 +934,15 @@
     index.add(
             {
                 id:  7 ,
+                href: "\/docs\/rtl-ip\/lib_async_fifo\/",
+                title: "lib_axis_fifo_async.v",
+                description: " 모듈 설명 linkAsynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.\nSynchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 안 갈 것이므로, 왼쪽 링크에서 먼저 Sync FIFO의 개념을 이해하고 오자. (Synchornous FIFO 참고 링크)\n",
+                content: " 모듈 설명 linkAsynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.\nSynchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 안 갈 것이므로, 왼쪽 링크에서 먼저 Sync FIFO의 개념을 이해하고 오자. (Synchornous FIFO 참고 링크)\n1. CDC(Clock-Domaing-Crossing) 개념 link데이터를 처리하는 클럭의 속도가 달라질 때, CDC가 발생한다고 말한다.\nCDC가 생길 때 가장 큰 문제가 발생하는 부분은, Metastability가 발생한다는 점이다. 아래 그림을 통해 CDC의 개념을 알아보자.\nCLKA와 CLKB는 서로 다른 주파수의 클럭이다. DA데이터는 CLKA에 동기화 되어 있다. DA를 낮은 주파수의 CLKB로 처리하기 위해서 CDC가 발생하는 가정을 들어보자.\nDA는 CLKA의 1클럭동안 유효한 데이터이고 1클럭이 지나면 0으로 떨어진다. 이 때, DA가 0으로 값이 떨어지는 도중에 CLKB의 상승 엣지가 발생했다.\n이 때 CLKB 도메인으로 옮겨진 DA 데이터는 0일까? 1일까? 답은 애매하다. 이러한 상태를 Metastability(Meta)라고 표현한다.\nMeta를 해결하기 위해 다양한 CDC 기법이 존재한다.\n2. 2-FF Synchronizer link가장 대표적으로 데이터를 CDC할 수 있는 2-FF Synchronizer에 대해 알아보자.\nF/F은 데이터를 저장할 수 있는 하드웨어다. Old Clock domain에서 New Clock Domain으로 데이터를 CDC 처리할 때, 단순히 F/F을 2개 연달아서 배치하면 된다.\n이럴 경우 새로운 클럭으로 2clk이 delay된 신호를 최종 사용하기 때문에 Metastabilty 상태에서 벗어난 데이터를 안정적으로 사용할 수 있다.\n2-F/F Synchronizer를 활용해 Async FIFO를 설계할 수 있다.\n3. Gray Pointer vs Binary Pointer link여러 비트 넓이의 데이터를 CDC 처리를 하기 위해 Asynchronous FIFO가 가장 많이 사용된다.\nAsynchronous FIFO와 Synchronous FIFO의 가장 큰 차이는 데이터를 Write하는 클럭과 데이터를 Read하는 클럭이 서로 다르다는 것이다.\nSynchronous FIFO에 사용된 포인터는 Binary Pointer이다. 말 그대로 포인터를 이진법으로 나타낸 것이다.\n4비트 포인터 기준으로, 0은 0000, 1은 0001, 2는 0010, 3은 0011 순이다. 그러나 Binary Pointer를 사용하면 1에서 2로 넘어갈 때, 3번째, 4번째 비트가 바뀐다.\n즉 총 2개의 비트가 바뀌게 된다. 이렇게 포인터가 증가함에 따라 많은 비트가 바뀐다면 CDC처리에서 오류가 발생할 확률이 높아진다.\n이를 해결하기 위해서 Async FIFO에서는 Gray Pointer를 사용한다. 아래 그림은 Gray Pointer의 예다.\n0은 0000, 1은 0001, 2는 0011, 3은 0010 순으로 값이 바뀌게 된다.\nBinary Pointer와 가장 큰 차이는 값이 바뀜에 따라 비트가 1개만 바뀐다. 이렇게 변화하는 비트의 개수를 최소화하여 CDC 처리에 위험을 줄일 수 있다.\n그러면 Binary Pointer를 Gray Pointer로 바꾸기 위해서 어떻게 해야 할 까?\n답은 간단하다. Binary Pointer를 1비트 왼쪽으로 비트 이동을 한 것과 원래의 Binary Pointer를 xor 취하면 된다.\nBianry Pointer 2를 예로 들어보자.\n원래의 Binary Pointer는 0010이고, 1비트 왼쪽으로 비트 이동한 것은 0001이다.\n0010 (xor) 0001 = 0011이 된다.\n이제 Async FIFO에 사용하는 모든 Pointer는 Gray Pointer를 사용해 값을 쓰거나 읽게 된다.\n4. Gray Pointer의 CDC 처리 linkBinary Pointer를 Gray Pointer로 바꾼 뒤 Metastabilty 상태를 없애기 위해서 2-ff Synchronizer를 사용한다.\nOld Clock(Write Clock) domain의 쓰기 Gray 포인터를 2-ff synchronizer를 거쳐 New Clock(Read Clock) Domain의 쓰기 Gray 포인터를 만들어 준다.\n반대로 New Clock(Read Clock) Domain의 읽기 Gray 포인터를 2-ff synchronizer를 거쳐 Old Clock(Write Clock) Domain으로 바꿔준다. 아래 그림을 참고하자.\n이제 Write Clock Domain과 Read Clock Domain에서 쓰기 포인터와 읽기 포인터의 값을 비교할 수 있다.\n이를 활용해서 Asnyc FIFO full과 empty상태를 판단할 수 있다.\n5. FULL 과 EMPTY 상태 판단 link먼저 FULL상태를 판단해보자.\nFULL은 FIFO에 데이터를 쓰는 행위와 관련이 있다. FULL일 때 더 이상 데이터를 쓰지 못하기 때문이다.\n따라서 읽기 포인터와 쓰기 포인터를 Write Clock Domain에서 비교한다. 비교를 위해 읽기 포인터를 Write Clock Domain으로 바꾼다.\n즉 wr_ptr_wclk과 rd_ptr_wclk을 비교하여 FULL 상태를 비교한다.\nSync FIFO와 다른점은 포인터의 형태가 Gray 포인터 형태기 때문에, 포인터를 다시 Binary Pointer로 바꿔서 비교하거나, 다른 방법을 사용해야 한다.\nGray Pointer를 Binary Pointer로 다시 바꾸는 것은 하드웨어 구현시 추가 로직이 발생하므로, Gray Pointer 상에서 비교한다.\nSync FIFO에서 FULL은 Binary Pointer의 MSB가 다르고 MSB를 제외한 비트가 모두 같을 때다.\n예를 들어 Sync FIFO의 읽기 포인터가 0010이고 쓰기 포인터가 1010일 때 FIFO는 full이다.\n만약 Sync FIFO가 Gray Pointer를 사용했다면 0010은 0011이고, 1010은 1111이다.\n0011과 1111을 비교해보면 상위 2비트는 다르고 나머지 2비트는 같다.\n즉 Gray Pointer에서는 Binary Pointer와 달리, 상위 2비트가 다르고, 상위 2비트를 제외한 나머지 비트가 같을 때 FULL 상태다.\n다음으로 EMPTY 상태를 판단해보자.\nEMPTY는 FIFO에 데이터를 읽는 행위와 관련이 있다. 따라서 Read Clock Domain에서 읽기 포인터와 쓰기 포인터를 비교한다.\nSync FIFO의 경우 읽기 포인터와 쓰기 포인터가 같을 때, EMPTY상태다.\nAsync FIFO도 마찬가지다. Gray포인터의 형태의 쓰기 포인터와 읽기 포인터가 같을 때 EMPTY 상태다.\n다만 포인터를 비교할 때 Read Clock Domain에서 비교해야 한다. 이를 위해 쓰기 포인터를 Read Clock Domain으로 CDC 처리를 한 후, 비교를 진행한다.\n6. RTL 설계 고려 사항 link위 내용을 정리하면 아래와 같다.\nFIFO의 Write 포인터와 Read 포인터를 Gray 포인터 형태로 바꾼다.\nFIFO의 FULL상태는 Write Clock Domain에서 비교해아한다. 이를 위해 Gray Pointer 형태의 Read Pointer를 2-ff Synchronizer를 통해 Write Clock Domain으로 바꾼다.\nGray Pointer 형태의 Write 포인터와 Read 포인터의 상위 2비트를 비교해 그 2비트가 서로 달라야하고, 나머지 비트는 서로 같을 때 FULL이다.\nFIFO의 EMPTY 상태는 Read Clock Domain에서 비교해야한다. 이를 위해 Gray Pointer 형태의 Write Pointer를 2-ff Synchronizer를 통해 Read Clock Domain으로 바꾼다.\nGray Pointer 형태의 Write 포인터와 Read 포인터가 서로 같을 때, EMPTY다.\n7. Verilog RTL 구현 link 1module lib_axis_fifo_async 2#( 3 parameter DW =8, 4 parameter FIFO_DEPTH = 8 5) 6( 7 // Master Interfaces 8 input s_axis_wclk, // Write CLK 9 input s_axis_resetn, 10 input s_axis_tvalid, 11 input signed [DW-1:0] s_axis_tdata, 12 output s_axis_tready, 13 14 // Slave Interfaces 15 input m_axis_rclk, // Read CLK 16 input m_axis_resetn, 17 output m_axis_tvalid, 18 output signed [DW-1:0] m_axis_tdata, 19 input m_axis_tready, 20 21 // Status 22 output o_empty, 23 output o_full, 24 output o_overflow 25); 26 27reg signed [DW-1:0] fifo [0:FIFO_DEPTH-1]; 28reg r_overflow; 29 30always @(posedge s_axis_wclk) begin 31 if(!s_axis_resetn) begin 32 r_overflow \u003c= 0; 33 end 34 else if(s_axis_tvalid \u0026\u0026 s_axis_tready \u0026\u0026 o_full) begin 35 r_overflow \u003c= 1; 36 end 37 else begin 38 r_overflow \u003c= 0; 39 end 40end 41 42// Write CLK Domain 43reg [$clog2(FIFO_DEPTH):0] wr_ptr_bin; 44wire [$clog2(FIFO_DEPTH):0] wr_ptr_gray; 45reg [$clog2(FIFO_DEPTH):0] rd_ptr_gray_meta; 46reg [$clog2(FIFO_DEPTH):0] rd_ptr_gray_wclk; 47 48always @(posedge s_axis_wclk) begin 49 if(!s_axis_resetn) begin 50 wr_ptr_bin \u003c= 0; 51 end 52 else if(s_axis_tvalid \u0026\u0026 !o_full \u0026\u0026 s_axis_tready) begin 53 wr_ptr_bin \u003c= wr_ptr_bin + 1; 54 end 55end 56 57assign wr_ptr_gray = bin2gray(wr_ptr_bin); 58 59// Read CLK Domain 60reg [$clog2(FIFO_DEPTH):0] rd_ptr_bin; 61wire [$clog2(FIFO_DEPTH):0] rd_ptr_gray; 62reg [$clog2(FIFO_DEPTH):0] wr_ptr_gray_meta; 63reg [$clog2(FIFO_DEPTH):0] wr_ptr_gray_rclk; 64 65// CDC - wr_ptr 66always @(posedge m_axis_rclk) begin 67 if(!m_axis_resetn) begin 68 wr_ptr_gray_meta \u003c= 0; 69 wr_ptr_gray_rclk \u003c= 0; 70 end 71 else begin 72 wr_ptr_gray_meta \u003c= wr_ptr_gray; 73 wr_ptr_gray_rclk \u003c= wr_ptr_gray_meta; 74 end 75end 76 77// Read Clock Domain 78always @(posedge m_axis_rclk) begin 79 if(!m_axis_resetn) begin 80 rd_ptr_bin \u003c= 0; 81 end 82 else if(m_axis_tready \u0026\u0026 !o_empty) begin 83 rd_ptr_bin \u003c= rd_ptr_bin + 1; 84 end 85end 86 87assign rd_ptr_gray = bin2gray(rd_ptr_bin); 88 89// CDC - rd_ptr 90always @(posedge s_axis_wclk) begin 91 if(!m_axis_resetn) begin 92 rd_ptr_gray_meta \u003c= 0; 93 rd_ptr_gray_wclk \u003c= 0; 94 end 95 else begin 96 rd_ptr_gray_meta \u003c= rd_ptr_gray; 97 rd_ptr_gray_wclk \u003c= rd_ptr_gray_meta; 98 end 99end 100 101// Write Clock Domain 102integer k; 103 104always @(posedge s_axis_wclk) begin 105 if(!s_axis_resetn) begin 106 for(k = 0; k \u003c FIFO_DEPTH; k = k+1) begin 107 fifo[k] \u003c= 0; 108 end 109 end 110 else if(s_axis_tvalid \u0026\u0026 s_axis_tready) begin 111 fifo[wr_ptr_bin[$clog2(FIFO_DEPTH)-1:0]] \u003c= s_axis_tdata; 112 end 113end 114 115// Read Clock Domain 116reg signed [DW-1:0] r_rdata; 117always @(posedge m_axis_rclk) begin 118 if(!m_axis_resetn) begin 119 r_rdata \u003c= 0; 120 end 121 else if(m_axis_tready) begin 122 r_rdata \u003c= fifo[rd_ptr_bin[$clog2(FIFO_DEPTH)-1:0]]; 123 end 124end 125 126reg m_axis_tready_1d; 127reg o_empty_1d; 128always @(posedge m_axis_rclk) begin 129 if(!m_axis_resetn) begin 130 m_axis_tready_1d \u003c= 0; 131 o_empty_1d \u003c= 0; 132 end 133 else begin 134 m_axis_tready_1d \u003c= m_axis_tready; 135 o_empty_1d \u003c= o_empty; 136 end 137end 138 139assign m_axis_tdata = r_rdata; 140assign m_axis_tvalid = m_axis_tready_1d \u0026\u0026 !o_empty_1d; 141assign o_empty = (rd_ptr_gray == wr_ptr_gray_rclk); 142assign o_full = (wr_ptr_gray[$clog2(FIFO_DEPTH)] != rd_ptr_gray_wclk[$clog2(FIFO_DEPTH)]) \u0026\u0026 143 (wr_ptr_gray[$clog2(FIFO_DEPTH)-1] != rd_ptr_gray_wclk[$clog2(FIFO_DEPTH)-1]) \u0026\u0026 144 (wr_ptr_gray[$clog2(FIFO_DEPTH)-2:0]) == rd_ptr_gray_wclk[$clog2(FIFO_DEPTH)-2:0]; 145assign s_axis_tready = !o_full; 146assign o_overflow = r_overflow; 147 148function [$clog2(FIFO_DEPTH):0] bin2gray; 149 input [$clog2(FIFO_DEPTH):0] bin; 150 begin 151 bin2gray = (bin\u003e\u003e1) ^ bin; 152 end 153 endfunction 154 155endmodule 8. Example Design linkaxis_fifo_async를 활용해서 Example Design을 설계해보자.\nDesign Example을 구성하는 모듈은 총 5개다.\n– fifo_data_gen.v : FIFO에게 쓸 데이터를 생성하는 MASTER 모듈이다.\n– lib_axis_fifo_async.v : Async FIFO가 구현된 모듈이다.\n– export_data.v : FIFO에서 데이터를 읽는 FIFO SLAVE 모듈이다.\n– tb.v : Testbench 파일이다.\n– lib_clk_rst_gen.v : Write CLK, Read CLK 및 초기 reset을 생성하는 모듈이다.\n위 5개의 모듈을 Vivado 프로젝트에 복사해서 Example Design을 만들 수 있다.\n8.1 tb.v link 1`timescale 1ns/1ps 2 3module tb_lib_sync_fifo; 4 5 wire clk_wr; 6 wire rst_wr; 7 reg i_wen; 8 reg i_ren; 9 reg signed [3:0] i_wdata; 10 reg i_valid; 11 wire signed [3:0] o_rdata; 12 wire w_valid; 13 wire w_empty; 14 wire w_full; 15 wire w_almost_full; 16 wire w_fifo_ready; 17 18 19 wire w_fifo_valid; 20 wire [4:0] w_fifo_data; 21 //Data Gen Module 22 fifo_data_gen u_fifo_data_gen 23 ( 24 .clk_wr(clk_wr), 25 .rst_wr(rst_wr), 26 .i_fifo_ready(w_fifo_ready), 27 .o_fifo_valid(w_fifo_valid), 28 .o_fifo_data(w_fifo_data) 29 ); 30 31 //FIFO 32 wire w_fifo_ren; 33 34 lib_axis_fifo_async 35 #(.DW(4), .FIFO_DEPTH(8), .MASTER_DELAY(1)) 36 u_fifo ( 37 .s_axis_wclk(clk_wr), 38 .s_axis_resetn(!rst_wr), 39 40 .s_axis_tvalid(w_fifo_valid), 41 .s_axis_tdata(w_fifo_data), 42 .s_axis_tready(w_fifo_ready), 43 44 .m_axis_rclk(clk_rd), 45 .m_axis_resetn(!rst_rd), 46 .m_axis_tvalid(w_valid), 47 .m_axis_tdata(o_rdata), 48 .m_axis_tready(w_fifo_ren), 49 50 .o_empty(w_empty), 51 .o_full(w_full), 52 .o_overflow() 53 ); 54 55 //Data Export Module 56 export_data u_export_data 57 ( 58 .clk_rd(clk_rd), 59 .rst_rd(rst_rd), 60 .i_valid(w_valid), 61 .i_data(o_rdata), 62 .i_fifo_empty(w_empty), 63 .o_fifo_ren(w_fifo_ren) 64 ); 65 66 // Clock 생성 67 lib_clk_rst_gen 68 #(.CLK_RATE(200), .RST_CYCLE(2.4)) 69 u_clk_wr_rst_gen 70 ( 71 .o_clk(clk_wr), 72 .o_rst(rst_wr) 73 ); 74 75 lib_clk_rst_gen 76 #(.CLK_RATE(140), .RST_CYCLE(2.4)) 77 u_clk_rd_rst_gen 78 ( 79 .o_clk(clk_rd), 80 .o_rst(rst_rd) 81 ); 82endmodule 8.2 lib_clk_rst_gen.v link 1module lib_clk_rst_gen 2#( 3 parameter real CLK_RATE = 200, //MHz 4 parameter real RST_CYCLE = 1 5) 6( 7 output o_clk, 8 output o_rst 9); 10 11reg r_clk = 1; 12reg r_rst = 1; 13 14localparam real CLK_PERIOD = 1000/CLK_RATE; 15 16always #(CLK_PERIOD/2) r_clk = ~r_clk; 17initial begin 18 repeat(RST_CYCLE) @(posedge o_clk); 19 r_rst = 0; 20end 21 22assign o_clk = r_clk; 23assign o_rst = r_rst; 24 25endmodule 8.3 fifo_data_gen.v link 1`timescale 1ns / 1ps 2////////////////////////////////////////////////////////////////////////////////// 3// Company: 4// Engineer: 5// 6// Create Date: 2025/04/27 15:08:47 7// Design Name: 8// Module Name: fifo_data_gen 9// Project Name: 10// Target Devices: 11// Tool Versions: 12// Description: 13// 14// Dependencies: 15// 16// Revision: 17// Revision 0.01 - File Created 18// Additional Comments: 19// 20////////////////////////////////////////////////////////////////////////////////// 21 22 23module fifo_data_gen( 24 input clk_wr, 25 input rst_wr, 26 input i_fifo_ready, 27 output reg o_fifo_valid, 28 output reg signed [4:0] o_fifo_data 29); 30 31reg [14:0] cnt; 32always @(posedge clk_wr) begin 33 if(rst_wr) begin 34 cnt \u003c= 0; 35 end 36 else begin 37 cnt \u003c= cnt + 1; 38 end 39end 40 41always @(posedge clk_wr) begin 42 if(rst_wr) begin 43 o_fifo_valid \u003c= 0; 44 end 45 else if(cnt \u003c 170) begin 46 o_fifo_valid \u003c= 1; 47 end 48 else begin 49 o_fifo_valid \u003c= 0; 50 end 51end 52 53always @(posedge clk_wr) begin 54 if(rst_wr) begin 55 o_fifo_data \u003c= 0; 56 end 57 else if(i_fifo_ready) begin 58 o_fifo_data \u003c= o_fifo_data + 1; 59 end 60 else begin 61 o_fifo_data \u003c= o_fifo_data; 62 end 63end 64 65endmodule 8.4 export_data.v link 1module export_data( 2 input clk_rd, 3 input rst_rd, 4 input i_valid, 5 input signed [3:0] i_data, 6 input i_fifo_empty, 7 output reg o_fifo_ren 8); 9 10reg [13:0] cnt = 0; 11always @(posedge clk_rd) begin 12 if(rst_rd) begin 13 cnt \u003c= 0; 14 end 15 else begin 16 cnt \u003c= cnt + 1; 17 end 18end 19 20always @(posedge clk_rd) begin 21 if(rst_rd) begin 22 o_fifo_ren \u003c= 0; 23 end 24 else if(cnt \u003c 60 \u0026\u0026 cnt[5] == 1) begin 25 o_fifo_ren \u003c= 1; 26 end 27 else if(cnt \u003c 80 \u0026\u0026 cnt[5] == 1) begin 28 o_fifo_ren \u003c= 1; 29 end 30 else if(cnt \u003c 160 \u0026\u0026 cnt[5] == 1) begin 31 o_fifo_ren \u003c= 1; 32 end 33 else begin 34 o_fifo_ren \u003c= 0; 35 end 36end 37 38reg signed [4:0] r_fifo_1d; 39always @(posedge clk_rd) begin 40 if(rst_rd) begin 41 r_fifo_1d \u003c= 0; 42 end 43 else if(i_valid) begin 44 r_fifo_1d \u003c= i_data; 45 end 46end 47 48endmodule 9. Vivado 합성 결과 Logic link "
+            }
+        );
+    index.add(
+            {
+                id:  8 ,
                 href: "\/docs\/rtl-ip\/lib_sync_fifo\/",
                 title: "lib_axis_fifo_sync.v",
                 description: " 모듈 설명 linkSynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.\n1. Synchronous FIFO 란? linkFIFO(First-In-First-Out)의 줄임말이다. 말 그대로 먼저 들어온 데이터가 먼저 나간다는 뜻이다.\nFIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. 아래 예제를 통해 FIFO의 동작원리를 알아보자.\n2. Synchronous FIFO 예제 linkDEPTH가 8인 FIFO를 예제로 설명을 진행한다. DEPTH란 FIFO에 저장될 수 있는 데이터 개수를 의미한다.\n",
@@ -930,7 +951,7 @@
         );
     index.add(
             {
-                id:  8 ,
+                id:  9 ,
                 href: "\/docs\/fpga-demo\/petalinux_build_demo\/",
                 title: "Petalinux Build Demo (Zybo-z7-10)",
                 description: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다.\n본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.\n2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 또한 운영체제가 자원을 효과적으로 관리 가능하다.\n",
@@ -939,7 +960,7 @@
         );
     index.add(
             {
-                id:  9 ,
+                id:  10 ,
                 href: "\/docs\/rtl-ip\/mermaid\/",
                 title: "Mermaid",
                 description: "Example Mermaid diagrams",
@@ -948,7 +969,7 @@
         );
     index.add(
             {
-                id:  10 ,
+                id:  11 ,
                 href: "\/docs\/section-folder\/",
                 title: "Section Folder",
                 description: "Example of a folder at the root of the content tree (under `/docs`)",
@@ -957,7 +978,7 @@
         );
     index.add(
             {
-                id:  11 ,
+                id:  12 ,
                 href: "\/docs\/section-folder\/section-subfolder\/",
                 title: "Section Subfolder",
                 description: "Subfolder nested inside a root section folder",
@@ -966,7 +987,7 @@
         );
     index.add(
             {
-                id:  12 ,
+                id:  13 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/third-section-subfolder\/",
                 title: "Third Section Subfolder",
                 description: "Subfolder nested inside a section subfolder",
@@ -975,7 +996,7 @@
         );
     index.add(
             {
-                id:  13 ,
+                id:  14 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/",
                 title: "Second Section Subfolder",
                 description: "Subfolder nested inside a section subfolder",
@@ -984,7 +1005,7 @@
         );
     index.add(
             {
-                id:  14 ,
+                id:  15 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/third-section-subfolder\/example-doc\/",
                 title: "Example Doc",
                 description: "Example document nested inside multiple subfolders",
@@ -993,7 +1014,7 @@
         );
     index.add(
             {
-                id:  15 ,
+                id:  16 ,
                 href: "\/docs\/terms\/",
                 title: "Terms",
                 description: "Optional features in Lotus Docs.",
@@ -1002,17 +1023,17 @@
         );
     index.add(
             {
-                id:  16 ,
-                href: "\/docs\/theme-options\/",
-                title: "Theme Options",
+                id:  17 ,
+                href: "\/docs\/wireless_communication\/",
+                title: "Wireless Communications",
                 description: "Optional features in Lotus Docs.",
                 content: ""
             }
         );
     index.add(
             {
-                id:  17 ,
-                href: "\/docs\/theme-options\/breadcrumbs\/",
+                id:  18 ,
+                href: "\/docs\/wireless_communication\/breadcrumbs\/",
                 title: "Breadcrumb Navigation",
                 description: "How to configure Breadcrumb navigation for your Lotus Docs site.",
                 content: " \u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e/ Guides / Theme Options / Breadcrumbs Enable Breadcrumbs linkBreadcrumb navigation is enabled by default1 and appears in the top right-hand corner of content pages above the page title. The Lotus Docs breadcrumb implementation functions with both multilingual and single-language sites.\nStructured Data linkThe breadcrumb navigation also auto-generates structured data for rich results to help enable search results that are more engaging to users. Here are the Breadcrumb Rich Results test results for this very page.\nBreadcrumb configuration reference. ↩︎\n"
@@ -1020,7 +1041,7 @@
         );
     index.add(
             {
-                id:  18 ,
+                id:  19 ,
                 href: "\/docs\/terms\/pl_region\/",
                 title: "PL",
                 description: "PL영역이란 FPGA에서 HW 부분을 의미한다. Verilog 또는 VHDL로 HW 병렬처리 로직을 구현할 수 있는 영역이다.",
@@ -1029,7 +1050,7 @@
         );
     index.add(
             {
-                id:  19 ,
+                id:  20 ,
                 href: "\/docs\/terms\/ps_region\/",
                 title: "PS",
                 description: "PS영역이란 FPGA에서 SW 부분을 의미한다. C/C++ 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다.",
@@ -1038,7 +1059,7 @@
         );
     index.add(
             {
-                id:  20 ,
+                id:  21 ,
                 href: "\/docs\/terms\/wsl\/",
                 title: "WSL",
                 description: "WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구축한다.",
@@ -1047,8 +1068,8 @@
         );
     index.add(
             {
-                id:  21 ,
-                href: "\/docs\/theme-options\/link-behaviour\/",
+                id:  22 ,
+                href: "\/docs\/wireless_communication\/link-behaviour\/",
                 title: "Link behaviour",
                 description: "Options for Link behaviour in content pages",
                 content: "Open external links in a new tab linkBy default, Lotus Docs will open external links in a new tab.\nThis behaviour can be disabled by setting the extLinkNewTab parameter to false in your config:\nhugo.toml hugo.yaml hugo.json 1[params.docs] 2 extLinkNewTab = false # Open external links in a new Tab? default true 1 params: 2 docs: 3 extLinkNewTab: false # Open external links in a new Tab? default true 1{ 2 \"params\": { 3 \"feedback\": { 4 \"extLinkNewTab\": false 5 } 6 } 7} External links are indicated by the ’external link’ icon to the right of the link text. e.g. Lotus Docs GitHub repository:\nPreview tooltip for internal links linkWhen this option is enabled, internal links feature a tooltip that displays basic information about the destination page, such as it’s parent section, title, and description.\nHow to enable the link preview tooltip linkTo enable tooltip previews for internal links, set the intLinkTooltip parameter to true in your config:\nhugo.toml hugo.yaml hugo.json 1[params.docs] 2 intLinkTooltip = true # Enable a tooltip for internal links that displays info about the destination? default false 1 params: 2 docs: 3 intLinkTooltip: true # Enable a tooltip for internal links that displays info about the destination? default false 1{ 2 \"params\": { 3 \"feedback\": { 4 \"intLinkTooltip\": true 5 } 6 } 7} How to format links in your Markdown for preview tooltips linkThe link preview tooltip feature works by using a custom Markdown render hook to first validate a link is internal, and then enables the tooltip function for those links. Markdown links in your content pages can be formatted in one of two ways:\nUsing the relref shortcode - This shortcode displays the relative permalink to a document1.\nreport Be sure to use the % delimiter if creating internal markdown links using the relref shortcode. e.g. [Plausible Analytics Guide]({{% relref \"/docs/features/plausible-analytics\" %}}) warning Note, that relref links don’t work with _index or index files, you’ll need to use regular Markdown links to section landing or other index pages. Specify these links relative to the site’s root URL, for example:/docs/guides/ Links relative to the site’s root - e.g. /docs/guides/features/docsearch/ - /docs/guides/features/docsearch/\nBoth these formats will enable preview tooltips on internal links. However, one benefit of using relref to link internal content is that the hugo command will produce an error if an internal link’s path is invalid.\nLinks and cross references | Hugo ↩︎\n"
@@ -1056,7 +1077,7 @@
         );
     index.add(
             {
-                id:  22 ,
+                id:  23 ,
                 href: "\/docs\/",
                 title: "Docs",
                 description: "",
