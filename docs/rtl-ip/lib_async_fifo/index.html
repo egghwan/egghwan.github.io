@@ -129,6 +129,11 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
                                     
                                         
                                         
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/fpga-demo/i2c_interface_demo/">I2C Protocol Demo</a></li>
+                                        
+                                    
+                                        
+                                        
                                             <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/fpga-demo/petalinux_build_demo/">Petalinux Build Demo (Zybo-z7-10)</a></li>
                                         
                                     
@@ -272,12 +277,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
                                     
                                         
                                         
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/wireless_communication/breadcrumbs/">Breadcrumb Navigation</a></li>
-                                        
-                                    
-                                        
-                                        
-                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/wireless_communication/link-behaviour/">Link behaviour</a></li>
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/wireless_communication/breadcrumbs/">3.6 Pulse Shaping Filter</a></li>
                                         
                                     
                                 </ul>
@@ -1458,6 +1458,15 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
     index.add(
             {
                 id:  6 ,
+                href: "\/docs\/fpga-demo\/i2c_interface_demo\/",
+                title: "I2C Protocol Demo",
+                description: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 I2C-Protocol을 활용해 외부 장치인 Display를 제어하는 방법을 기술한다.\nI2C 프로토콜의 동작원리를 파악하고 Verilog를 활용해 I2C-Protocol를 설계한다. 그 다음 SSD 1306 드라이버 기반으로 동작하는 디스플레이 주변장치를 FPGA와 연결하여 제어하는 DEMO를 기술한다.\n2. I2C 프로토콜 linkI2C 프로토콜이란 서로 다른 두 개의 칩 사이의 통신 프로토콜 중 하나이다.\nI2C 프로토콜은 한 개의 Master가 여러 개의 Slave를 제어할 때 사용할 수 있는 프로토콜이다. 또한 I2C 프로토콜은 Master와 Slave가 클럭에 동기화 되어 동작하는 프로토콜이다.\n",
+                content: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 I2C-Protocol을 활용해 외부 장치인 Display를 제어하는 방법을 기술한다.\nI2C 프로토콜의 동작원리를 파악하고 Verilog를 활용해 I2C-Protocol를 설계한다. 그 다음 SSD 1306 드라이버 기반으로 동작하는 디스플레이 주변장치를 FPGA와 연결하여 제어하는 DEMO를 기술한다.\n2. I2C 프로토콜 linkI2C 프로토콜이란 서로 다른 두 개의 칩 사이의 통신 프로토콜 중 하나이다.\nI2C 프로토콜은 한 개의 Master가 여러 개의 Slave를 제어할 때 사용할 수 있는 프로토콜이다. 또한 I2C 프로토콜은 Master와 Slave가 클럭에 동기화 되어 동작하는 프로토콜이다.\n2.1 I2C-Protocol 동작 원리 link 위 그림에서 살펴볼 수 있듯이 1개의 Master가 여러개의 Slave와 데이터를 주고 받기 위해서 I2C 프로토콜을 활용한다. 이 때 Slave의 개수는 보통 127개에서 1024개까지 사용한다. Vs는 Slave가 동작하는데 필요한 입력 전압이다. 해당 Demo에서 사용할 SSD 1306 디스플레이 장치는 3.3V를 사용하여 동작한다.\nSCL은 Master와 Slave가 공유하는 데이터 클럭 라인이다. I2C는 그래서 동기식 프로토콜이다. SCL의 클럭 상태에 맞춰서 데이터가 전송된다.\nSDA는 Master와 Slave사이에서 데이터가 이동하는 라인이다. 즉 I2C 프로토콜은 SCL라인과 SDA라인 2개만 사용해서 데이터를 주고 받는 아주 간단한 프로토콜이다.\nI2C 프로토콜에서 사용되는 인터페이스를 모두 알았다. 다음은 SCL과 SDA의 동작 관계에 살펴보자.\nI2C 프로토콜이 동작하기 전, SDA와 SCL의 초기값은 항상 1상태를 유지해야한다. 왜냐면 Open Drain을 사용해야 하기 때문이다.\n초기값이 1일 때 하나의 선에 여러 Slave가 데이터를 공유할 수 있고, 신호 충돌을 방지할 수 있는 장점이 있다고 한다. (이해는 못했음..)\n이제 I2C 프로토콜의 동작 타이밍을 살펴보자.\nSDA가 1에서 0으로 떨어진다.\nSCL 클럭의 7클럭 동안 SDA를 통해 Slave의 Address 주소 데이터가 전달된다.\n– 7클럭 동안 Slave의 Address 주소 데이터를 전달하는 이유는 간단하다. I2C 프로토콜에서 Slave의 개수는 128개 까지 늘어날 수 있기 때문이다. (물론 1024개라면 10클럭동안 Address 주소 데이터를 전달해야 한다.)\n8번째 클럭에서 Master는 Read또는 Write 정보를 SDA를 통해 전달한다. 만약 8번째 클럭에 전달되는 데이터가 0이라면 Write 명령이다. 즉 Master는 앞선 7비트 주소를 갖는 Slave에 데이터를 쓰겠다는 의미다. 반대로 8번째 클럭에 전달되는 데이터가 1이라면 Read 명령이다. 즉 7비트 주소를 갖는 Slave로부터 데이터를 읽겠다는 의미다.\n8번째 클럭에서 Write 또는 Read 명령이 Slave에게 전달되면 9번째 클럭에서 Slave는 Ack 정보를 Master에게 전달한다. 만약 9번째 클럭에서 Master가 0을 받는다면 Slave로부터 ACK를 받은 것이다. 이 말은 8번째 클럭에서 Slave가 Write/Read 데이터를 제대로 받았다는 뜻이다. 반대로 9번째 클럭에서 Master가 1을 받는다면 Slave로부터 NACK를 받은 것이다. 즉 8번째 클럭에서 Slvae가 Write/Read 데이터를 제대로 받지 못했다는 뜻이다. 이 경우 1번 과정으로 돌아간다.\n만약 Master ACK를 받았다면 이제 데이터를 Write 또는 Read해야 한다. 8번째 클럭에서 Master가 Write 명령을 줬다면 Master가 Slave에 쓸 데이터를 이제 보내기 시작한다. Master가 8클럭에 걸쳐서 8개의 비트를 보내면 Slave는 8번째 비트를 받을 때마다, ACK를 보낸다.\n8번째 클럭에서 Master가 Read 명령을 줬다면 Slave가 Master에게 데이터를 보내기 시작한다. 이 때 Master가 8비트의 데이터를 받았다면 ACK를 Slave에게 보내야 한다.\n"
+            }
+        );
+    index.add(
+            {
+                id:  7 ,
                 href: "\/docs\/dsp\/interpolation_upsampling\/",
                 title: "Interpolation vs Upsampling",
                 description: " 1. 문서 설명 link신호처리를 할 때 Interpolation과 Up-sampling은 헷갈리는 개념이다.\nInterpolation을 정확히 이해하기 위해서 먼저 Interpolation과 Up-sampling의 의미에 대해 알아보고, 신호처리 관점 및 RTL구현 관점에서 해당 개념을 기술한다.\n2. 정의 link Interpolation : 디지털 신호를 먼저 샘플들 사이에 0을 집어넣어 up-sampling을 진행한다. 그 다음 Low-Pass-Filtering을 수행한다.\nUp-sampling : 디지털 신호를 샘플들 사이에 up-sampling factor 만큼 0을 넣어 up-sampling을 한다.\n",
@@ -1466,7 +1475,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  7 ,
+                id:  8 ,
                 href: "\/docs\/rtl-ip\/lib_async_fifo\/",
                 title: "lib_axis_fifo_async.v",
                 description: " 모듈 설명 linkAsynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.\nSynchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 안 갈 것이므로, 왼쪽 링크에서 먼저 Sync FIFO의 개념을 이해하고 오자. (Synchornous FIFO 참고 링크)\n",
@@ -1475,7 +1484,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  8 ,
+                id:  9 ,
                 href: "\/docs\/rtl-ip\/lib_sync_fifo\/",
                 title: "lib_axis_fifo_sync.v",
                 description: " 모듈 설명 linkSynchronous FIFO에 대한 개념을 설명하고 AXI4-Stream 인터페이스에 맞게 RTL로 구현하는 과정을 기술한다.\n1. Synchronous FIFO 란? linkFIFO(First-In-First-Out)의 줄임말이다. 말 그대로 먼저 들어온 데이터가 먼저 나간다는 뜻이다.\nFIFO는 기본적으로 읽기 포인터와 쓰기 포인터로 동작한다. 아래 예제를 통해 FIFO의 동작원리를 알아보자.\n2. Synchronous FIFO 예제 linkDEPTH가 8인 FIFO를 예제로 설명을 진행한다. DEPTH란 FIFO에 저장될 수 있는 데이터 개수를 의미한다.\n",
@@ -1484,7 +1493,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  9 ,
+                id:  10 ,
                 href: "\/docs\/fpga-demo\/petalinux_build_demo\/",
                 title: "Petalinux Build Demo (Zybo-z7-10)",
                 description: " 1. 데모 설명 linkZybo Z7-10 FPGA 보드에서 Petalinux를 빌드하는 방법을 기술한다.\n본 문서는 Zybo z7-10 보드를 기준으로 설명된 문서지만, 다른 Xilinx FPGA 보드에도 적용 가능하다.\n2. What is Petalinux? linkPetalinux란 Vivado FPGA에 포팅 가능한 운영체제를 뜻한다. 운영체제 안에는 커널, 쉘, 네트워크 등등 다양한 디바이스 드라이버가 미리 구현되어 있기 때문에 개발 시간을 단축할 수 있다. 또한 운영체제가 자원을 효과적으로 관리 가능하다.\n",
@@ -1493,7 +1502,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  10 ,
+                id:  11 ,
                 href: "\/docs\/rtl-ip\/mermaid\/",
                 title: "Mermaid",
                 description: "Example Mermaid diagrams",
@@ -1502,7 +1511,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  11 ,
+                id:  12 ,
                 href: "\/docs\/section-folder\/",
                 title: "Section Folder",
                 description: "Example of a folder at the root of the content tree (under `/docs`)",
@@ -1511,7 +1520,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  12 ,
+                id:  13 ,
                 href: "\/docs\/section-folder\/section-subfolder\/",
                 title: "Section Subfolder",
                 description: "Subfolder nested inside a root section folder",
@@ -1520,7 +1529,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  13 ,
+                id:  14 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/third-section-subfolder\/",
                 title: "Third Section Subfolder",
                 description: "Subfolder nested inside a section subfolder",
@@ -1529,7 +1538,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  14 ,
+                id:  15 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/",
                 title: "Second Section Subfolder",
                 description: "Subfolder nested inside a section subfolder",
@@ -1538,7 +1547,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  15 ,
+                id:  16 ,
                 href: "\/docs\/section-folder\/section-subfolder\/second-section-subfolder\/third-section-subfolder\/example-doc\/",
                 title: "Example Doc",
                 description: "Example document nested inside multiple subfolders",
@@ -1547,7 +1556,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  16 ,
+                id:  17 ,
                 href: "\/docs\/terms\/",
                 title: "Terms",
                 description: "Optional features in Lotus Docs.",
@@ -1556,7 +1565,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  17 ,
+                id:  18 ,
                 href: "\/docs\/wireless_communication\/",
                 title: "Wireless Communications",
                 description: "Optional features in Lotus Docs.",
@@ -1565,16 +1574,16 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  18 ,
+                id:  19 ,
                 href: "\/docs\/wireless_communication\/breadcrumbs\/",
-                title: "Breadcrumb Navigation",
+                title: "3.6 Pulse Shaping Filter",
                 description: "How to configure Breadcrumb navigation for your Lotus Docs site.",
-                content: " \u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e/ Guides / Theme Options / Breadcrumbs Enable Breadcrumbs linkBreadcrumb navigation is enabled by default1 and appears in the top right-hand corner of content pages above the page title. The Lotus Docs breadcrumb implementation functions with both multilingual and single-language sites.\nStructured Data linkThe breadcrumb navigation also auto-generates structured data for rich results to help enable search results that are more engaging to users. Here are the Breadcrumb Rich Results test results for this very page.\nBreadcrumb configuration reference. ↩︎\n"
+                content: "3.6 Pulse Shaping Filter link통신 모뎀 설계를 위해 필요한 펄스 정형 필터에 대해 기술한다.\n3.6.1 ISI(Inter-Symbol-Interference)란? link한국어로 직역하면 심볼 간 간섭이다. 명확한 이해를 위해 아래 그림을 살펴보자.\n빨간색 동그라미는 심볼이고 파란색 동그라미는 심볼을 4배 Upsampling한 샘플을 나타낸다. 위 심볼들은 시간 축에서 직사각형 형태를 띈다. 이렇게 직사각형 형태로 신호를 만들면 서로 다른 심볼은 다른 심볼 구간을 침범하지 않고 분리되어 있다. 이런 경우 심볼 간 간섭(ISI)가 없다고 말한다.\n그러나 이러한 직사각형 펄스 형태의 신호는 많은 문제가 있다. 이를 이해하기 위해 먼저 직사각형 펄스 형태의 신호를 알아보자.\n3.6.2 Spectrum of Rectangular Pulse link3.6.1 그림에서 심볼 1개에 대한 신호만 보면 직사각형 펄스 형태의 신호를 보인다. 시간 축에서 직사각형 펄스는 주파수 축에서 Sinc 형태를 보인다.\n심볼 당 샘플 수가 $L$인 직사각형 펄스 신호의 주파수 스펙트럼 식은 아래와 같이 쓸 수 있다.\n$$ \\left|P_{\\text{rect}}[k]\\right| = \\frac{\\sin\\left(\\pi L k / N\\right)}{\\sin\\left(\\pi k / N\\right)} $$\n위 식에서 주파수 성분의 크기가 0이 되는 순간은 분자가 0일 때다. 따라서 $ \\pi L (k / N) $ 이 $ \\pi $의 배수일 때 분모가 0이 된다. 따라서 $ k / N = \\pm 1 / L, \\pm 2 / L … $ 일 때 분자는 0이된다.\n이산 주파수 성질을 활용해 $F_{null} = F_S\\frac{k}{N} = F_S\\frac{m}{L}=\\frac{m}{T_M}$로 다시 쓸 수 있다. 여기서 $m$은 정수다.\n정리하면 시간 축에서 심볼 당 샘플이 $L$개인 직사각형 펄스의 주파수 스펙트럼은 이산 주파수 $ \\pm 1 / T_M, \\pm 2 / T_M, \\pm 3 / T_M … $ 일 때 크기가 0이다.\n나이퀴스트 정리에 의해 유효한 주파수 범위는 $-0.5F_s \\leq F \\leq 0.5F_S $ 인데 심볼 당 샘플 수가 $L$이고 심볼 레이트 $T_M$이면 $F_S = L/T_M$이 성립한다.\n따라서 유효 주파수 범위를 $-0.5 \\frac{L}{T_M} \\leq F \\leq 0.5\\frac{L}{T_M}$로 다시 쓸 수 있다.\n만약 심볼 당 샘플 $L$이 8이면, 유효 주파수 범위는 $ -\\frac{4}{T_M} \\leq F \\leq \\frac{4}{T_M} $이다. 심볼 당 샘플이 8인 직사각형 펄스 형태의 시간 축 신호를 주파수 축 스펙트럼으로 나타내면 아래 그림과 같다.\n스펙트럼에서 보면 알 수 있겠지만 직사각형 펄스 형태의 시간 축 신호는 아주 큰 문제가 있다. 피크 대비 사이드 로브의 크기 차이가 13dB밖에 차이가 나지 않는다는 점이다.\n이러한 경우, 인접한 스펙트럼이 다른 사용자에게 할당되었을 경우 사이드로브의 큰 에너지 때문에 심한 간섭이 발생할 수 있다. 이러한 경우를 채널 간 간섭이라고 부른다.\n직사각형 펄스 신호는 심볼 간 간섭은 없지만, 주파수 측 측면에서 채널 간 간섭을 유발할 수 있다는 문제가 있다.\n두 번째 문제는 점유하고 있는 대역폭이 너무 넓다는 점이다. 주파수 역시 한정된 자원이기 때문에 내가 사용하는 신호의 주파수 대역폭이 좁을 수록 유리하다.\n위에 열거된 문제를 해결하기 위해 엔지니어들은 다양한 관점에서 개선을 시도했다.\n3.6.2 Nyquist No-ISI 조건 (시간 축에서) link직사각형 펄스 형태의 단점을 안 이상, 채널 간 간섭을 줄이면서 대역폭을 줄일 수 있는 방법을 찾아야 한다. 먼저 대역폭을 줄이는 방식을 살펴보자.\n그러나 가장 중요한 것은, 대역폭과 사이드 로브의 크기는 줄이지만, 심볼 간 간섭이 0인 조건은 유지해야한다. 그러기 위해 먼저 시간 축에서 심볼 간 간섭이 없는 조건을 알아야 한다.\n이를 위해 시간 축에서 직사각형 펄스의 auto-correlation 신호를 살펴보자.\n빨간색 곡선은 직사각형 펄스의 자기상관 결과이고, 파란색 점선은 어떤 특정 신호의 자기상관 결과다.\n두 신호 모두 심볼 간격 $T_M$​에서 0의 값을 가지므로, 둘 다 ISI는 발생하지 않는다.\n차이점은 빨간색 신호는 $-T_M \\leq t \\leq T_M$ 구간만 0이 아니고 다른 시간에서는 전부 0이다. 반면 파란색 신호는 심볼 간격 $T_M$에서만 0이고 나머지에서 0이 아니다.\n이때 중요한 점은, 빨간색 곡선처럼 모든 구간이 0이어야만 ISI가 없는 것이 아니라, 심볼 간격에서만 0이 되면 ISI는 발생하지 않는다는 사실이다.\n즉, 샘플링 시점인 심볼 간격에서만 ISI가 없으면, 나머지 시점에서는 값이 0이 아니어도 상관없다.\n일반적으로 시간 축에서 좁은 신호(예: 직사각형 펄스)는 주파수 대역에서는 넓은 대역폭을 차지한다. 반대로 시간 축에서 길게 퍼진 신호는 주파수 영역에서는 좁은 대역폭을 가진다.\n따라서, 시간 축에서 길게 퍼져 있지만 심볼 간격에서는 0을 유지하는 파란색 곡선처럼 신호를 설계하면 ISI 없이도 대역폭을 줄일 수 있다.\n정리하면, 어떤 신호의 auto-correlation 결과가 심볼 간격 $T_M$ 에서, 해당 심볼을 제외한 나머지에서 모두 0이면, ISI가 발생하지 않는다.\n여기서 한 가지 의문이 생긴다. 왜 auto-correlation 결과로 ISI 여부를 판단하는가?\n그 이유는 수신기가 송신된 신호를 검출할 때 auto-correlation을 이용하기 때문이다. 특히 무선 통신에서는 송신 시점이 불확실하므로, 송신기는 앞부분에 알려진 심볼 시퀀스를 삽입하고, 수신기는 수신된 신호 전체에 대해 correlation을 수행한다.\n이때, auto-correlation 결과가 최대가 되는 시점을 기준으로 송신 신호가 도착했다고 판단한다. 따라서 수신기를 설계할 때 auto-correlation은 필수적인 과정이다.\n만약 auto-correlation 수행 중 ISI가 발생한다면, 심볼 간격 시점의 값이 망가져 정확한 심볼 추정이 불가능하다. 반대로 ISI가 없다면 수신기는 올바른 정보를 얻을 수 있다.\n결론적으로, auto-correlation 결과가 심볼 간격에서 0이 되도록 설계하면 시간 영역에서 ISI 없는 신호를 만들 수 있다. 이것이 Nyquist No-ISI 조건의 핵심이다.\n3.6.2 Nyquist No-ISI 조건 (주파수 축에서) link 위 그림에서 (a)는 시간 축에서 ISI가 없는 조건을 만족하는 첫 번째 심볼의 시간 축 파형이다. 빨간색 신호는 심볼 당 샘플이 $L$인 신호고 파란색 신호는 Down-Sampling을해 심볼 만 나타낸 신호다.\n실제 우리가 송신하는 신호는 여러개의 심볼이 존재한다. 예를 들어 두 번째 심볼의 시간 축 파형은 $T_M$일 때 1, 나머지 심볼 간격에서는 0인 신호가 있을 것이다.\n그리고 (a)에서의 신호와 합쳐져서 전송될 것이다.\n이렇게 만들어진 송신 신호를 주파수 스펙트럼에서 보면 심볼 간격 $\\frac{1}{T_M}$ 마다 반복되어 나타나게 된다.\n이유를 간단히 살펴보면 원래 샘플레이트 $F_S$로 송신된 신호는 $F_S$간격으로 주파수 레플리카가 반복된다. 이 신호를 심볼 당 샘플 $L$로 down-sampling을 하면 샘플레이트 역시 $\\frac{F_S}{L} = \\frac{1}{T_M}$으로 줄어들게 된다. 따라서 down-sampling된 신호는 주파수 레플리카가 $\\frac{1}{T_M}$마다 반복되게 된다.\n위 그림의 왼쪽 스펙트럼은 $\\frac{1}{T_M}$간격마다 스펙트럼이 반복되고 스펙트럼의 합이 평탄하게 이루어져 있다. 이럴 경우 No-ISI 조건을 만족한다.\n반면 오른쪽 스펙트럼은 $\\frac{1}{T_M}$마다 스펙트럼이 반복되지만 그 합이 평탄하지 못하고 Hole이 존재한다. 이럴 경우 No-ISI 조건을 만족하지 못한다.\n3.6.3 Coefficients of an Ideal Pulse Auto-correlation link심볼 간 간섭이 없는 이상적인 송신 신호를 만들기 위해서 주파수 축에서 $-\\frac{1}{2T_M} \\leq F \\leq \\frac{1}{2T_M}$에서 평탄한 직사각형 형태를 가져야 함을 알았다.\n주파수 축에서 직사각형 펄스는 시간 축에서 Sinc함수의 형태를 띈다. 즉 시간 축 신호에서 심볼을 Sinc함수 형태로 만든다면 ISI가 없는 이상적인 신호를 만들 수 있다.\n아래 그램은 ISI가 없는 이상적인 송신 신호를 시간 축에서 나타냈다. 심볼 당 샘플은 4일 때를 가정한다.\n심볼 간격 $T_M$에서 0이고 Sinc함수의 형태를 갖는다. 그러나 이 신호는 실제로 구현될 수 없다. Sinc함수는 시간 축에서 무한한 길이를 갖기 때문이다.\n실제 구현을 위해서는 Sinc 신호의 양 옆을 일정부분 잘라야 한다. 양 옆을 자르면 주파수 영역에서 완벽한 직사각형 형태를 띄지 못하고, 주파수 레플리카가 서로 겹치게 되는 문제가 발생한다.\n또한 실제 시스템에서 송신기와 수신기는 독립적인 클럭을 바탕으로 동작하기 때문에 타이밍 오류가 발생하여 정확한 심볼 간격에서 값을 수신하지 못할 수 있다. 이럴 경우 ISI가 발생한다.\n이러한 현실적인 문제를 해결하기 위해서 Raised Cosine 필터가 등장한다.\n3.6.4 Raised Cosine Filter link3.6.2에서 주파수축에서 ISI가 없는 조건은 $-\\frac{1}{2T_M} \\leq F \\leq \\frac{1}{2T_M}$에서 평탄한 스펙트럼을 가져야 하는 것이다.\n그러나 시간 축에서 무한히 긴 Sinc함수를 송신 신호로 사용할 수 없기 때문에, 양 옆을 잘라야하고 결국 주파수 스펙트럼상에서 완벽한 직사각형 모양은 약간 찌그러지게 된다.\n그러나 모양이 찌그러지더라도, 이를 잘 활용해 주파수 스펙트럼을 평탄하게 만들 수 있다. 아래 그림을 살펴보자.\n파란색 스펙트럼은 약간 찌그러진 사각 스펙트럼이고, 점선 스펙트럼은 주파수 레플리카다. 이 때 인접한 레플리카가 넘어온 영역이 $\\frac{1}{2T_M}$에 대해 홀수 대칭을 띈다면 그 합은 여전히 평탄할 것이다.\n즉 레플리카가 신호 영역을 침범해도, 결과적으로 주파수 스펙트럼은 평탄한 모양을 띌 수 있게 된다.\n여기서 핵심은 스펙트럼 영역에서 직사각형 형태의 펄스 정형 필터를 어떻게 잘 찌그러트려서 $\\frac{1}{2T_M}$에 대해 홀수 대칭을 유지하면서, 시간 축에서 최대한 짧은 꼬리를 가질 수 있게 만들지 생각해봐야 한다.\n방법은 생각보다 간단하다.시간 영역에서 Sinc 신호의 긴 꼬리는 주파수 영역에서 직사각형 펄스의 갑작스러운 변화 때문이므로, 주파수 영역에서 직사각형 펄스를 최대한 부드럽게 만들어 주면 된다.\n우리가 가장 쉽게 생각할 수 있는 부드러운 신호는 사인파다. 그래서 주파수 영역의 직사각형 펄스에 주파수 영역의 사인파를 컨볼루션해준다면, 시간 축 영역에서 짧아진 꼬리를 갖는 Sinc 신호가 만들어지게 될 것이다. 그 과정은 아래에 나타낸다.\n위 그림에서 주파수 영역의 직사각형 펄스에 주파수 영역의 사인파를 컨볼루션하면 $\\frac{1}{2T_M}$에 대해 홀수 대칭을 유지하면서 부드러워진다.\n주파수 영역에서 이러한 형태의 스펙트럼을 갖는 펄스 정형 필터를 Raised Cosine 필터라고 말한다.\n이 때 $\\alpha$를 roll-off 인자라고 말한다. $\\alpha = 0.25$면 최소 대역폭 대비 25%가 넓어졌다는 의미이다.\n이 roll-off 인자는 대역폭과, 시간 축에서 신호의 감쇄정도에 영향을 준다. 먼저 대역폭에 대해 살펴보자.\nroll-off가 클수록 대역폭은 넓어지게 된다.\n다음으로 시간 축 감쇄에 대해 살펴보자.\nroll-off가 클수록 감쇄가 빨라지게 된다.\n결과적으로 roll-off가 클수록 대역폭은 커지지만 시간 축에서 감쇄는 빠르게 일어난다. 감쇄가 빠르면 송/수신기의 타이밍 클럭 오차에서 발생하는 심볼 간 간섭을 줄여 타이밍 오차에 강인하게 만들 수 있다.\n반대로 roll-off가 작다면 대역폭은 작아지지만 시간 축에서 감쇄는 느리게 일어난다. 따라서 송/수신기의 타이밍 클럭 오차에서 발생하는 심볼 간 간섭이 커져 타이밍 오류에 민감하게 된다.\n3.6.5 Squared Root Raised Cosine Filter link그럼 모뎀을 설계할 때 Rasied Cosine Pulse Shaping Filter는 어디에 배치해야 할 까? 송신기와 수신기 관점에서 생각해보자.\n만약 수신기에 Pulse Shaping 필터를 배치한다면, 송신기에서 신호를 만들 때 사이드로브를 제어할 수 없다. 따라서 인접 채널에 영향을 주게 된다.\n반대로 송신기에 배치하면 어떨까? 이럴 경우 수신기에서는 무선 환경에서 추가된 잡음이 신호와 함께 들어오게 되고, SNR이 나빠지는 경우에 대해 대처할 수 없게 된다.\n따라서 이 필터를 송신기와 수신기에 나눠서 배치하게 된다. 이를 위해 Raised Cosine 필터의 계수를 Squared root해 송신기와 수신기에 각각 나눠 구현하게 된다.\n송신기에 있는 필터를 SRRC Pulse Shaping Filter, 수신기에 있는 필터를 Matched Filter로 표현하기도 한다.\nSRRC를 거쳐 나온 시간 축 송신 신호 파형은 아래와 같다.\n더 이상 심볼 간격 $T_M$에서 0이 아니다. 즉 ISI가 발생한다. 하지만 이는 당연하다. 수신기의 Matched Filter까지 거쳐야 심볼 간 간섭이 완벽히 제거되는 것이다.\n3.6.6 SRRC 필터의 단점 link송신기와 수신기에 Raised Cosine 필터를 나누어서 구현하면 많은 장점이 존재한다. 송신기에서 대역폭 컨트롤이 가능하고 수신기에서 효과적으로 잡음 제거가 가능하다.\n그러나 분명히 단점도 존재한다. 사실 SRRC 필터는 이론상으로는 No-ISI 조건을 만족하는 필터지만, 실제 구현상으로는 그러지 않는다.\n유한한 길이의 필터를 사용해야하기 때문에, SRRC 필터의 탭 계수 역시 유한개로 잘리게 된다. 그럴 경우 스펙트럼 상에서 더 이상 $\\frac{1}{2T_M}$에 대해 홀수 대칭을 띄지 않게 된다.\n아래 그림을 살펴보자.\n$\\frac{1}{2T_M}$을 기준으로 약 3dB 위쪽으로 스펙트럼이 지나가게 된다. 이럴 경우 스펙트럼 레플리카가 더해지면 더 이상 평탄하지 않게 된다.\n따라서 주파수 영역에서 No-ISI 조건을 만족할 수 없게 되어 약간의 심볼 간 간섭이 발생하게 된다.\n3.6.6 Upgrade SRRC Filter link우리는 Pulse Shaping Filter의 스펙트럼이 직사각형 일 때 발생하는 문제를 해결하기 위해 부드러운 사인파를 주파수 영역에서 컨볼루션했다.\n그 결과 시간 축에서 무한한 길이를 유한하게 바꿀 수 있었고, 동시에 심볼 간 간섭을 0으로 만드는 Pulse Shaping Filter를 만들 수 있었다.\n위 그림에서 알 수 있듯이, 시간 축에서 직사각형 Pulse Shaping 필터를 사용하는 것 대비, SRRC 필터를 사용하면 대역폭 및 사이드로브의 크기를 획기적으로 줄일 수 있다.\n그러나 아직 사이드로브의 크기가 충분히 감쇄된건 아니다. 우리는 감쇄를 충분히 더 주기 위해 직사각형 스펙트럼에 사인파를 컨볼루션 하는데신 카이저 파형을 컨볼루션 할 수 있다.\n위 그림을 통해 RRC Pulse Shaping Filter 대비 더 많은 감쇄를 줄 수 있다. 그러나 주파수의 평탄한 영역이 줄어드므로 이에 따른 trade-off를 잘 고려해야 한다.\n"
             }
         );
     index.add(
             {
-                id:  19 ,
+                id:  20 ,
                 href: "\/docs\/terms\/pl_region\/",
                 title: "PL",
                 description: "PL영역이란 FPGA에서 HW 부분을 의미한다. Verilog 또는 VHDL로 HW 병렬처리 로직을 구현할 수 있는 영역이다.",
@@ -1583,7 +1592,7 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  20 ,
+                id:  21 ,
                 href: "\/docs\/terms\/ps_region\/",
                 title: "PS",
                 description: "PS영역이란 FPGA에서 SW 부분을 의미한다. C/C++ 또는 Python으로 SW 어플리케이션을 구동할 수 있는 영역이다.",
@@ -1592,20 +1601,11 @@ Synchornous FIFO의 이해가 없다면 해당 게시물의 내용이 이해가 
         );
     index.add(
             {
-                id:  21 ,
+                id:  22 ,
                 href: "\/docs\/terms\/wsl\/",
                 title: "WSL",
                 description: "WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구축한다.",
                 content: ""
-            }
-        );
-    index.add(
-            {
-                id:  22 ,
-                href: "\/docs\/wireless_communication\/link-behaviour\/",
-                title: "Link behaviour",
-                description: "Options for Link behaviour in content pages",
-                content: "Open external links in a new tab linkBy default, Lotus Docs will open external links in a new tab.\nThis behaviour can be disabled by setting the extLinkNewTab parameter to false in your config:\nhugo.toml hugo.yaml hugo.json 1[params.docs] 2 extLinkNewTab = false # Open external links in a new Tab? default true 1 params: 2 docs: 3 extLinkNewTab: false # Open external links in a new Tab? default true 1{ 2 \"params\": { 3 \"feedback\": { 4 \"extLinkNewTab\": false 5 } 6 } 7} External links are indicated by the ’external link’ icon to the right of the link text. e.g. Lotus Docs GitHub repository:\nPreview tooltip for internal links linkWhen this option is enabled, internal links feature a tooltip that displays basic information about the destination page, such as it’s parent section, title, and description.\nHow to enable the link preview tooltip linkTo enable tooltip previews for internal links, set the intLinkTooltip parameter to true in your config:\nhugo.toml hugo.yaml hugo.json 1[params.docs] 2 intLinkTooltip = true # Enable a tooltip for internal links that displays info about the destination? default false 1 params: 2 docs: 3 intLinkTooltip: true # Enable a tooltip for internal links that displays info about the destination? default false 1{ 2 \"params\": { 3 \"feedback\": { 4 \"intLinkTooltip\": true 5 } 6 } 7} How to format links in your Markdown for preview tooltips linkThe link preview tooltip feature works by using a custom Markdown render hook to first validate a link is internal, and then enables the tooltip function for those links. Markdown links in your content pages can be formatted in one of two ways:\nUsing the relref shortcode - This shortcode displays the relative permalink to a document1.\nreport Be sure to use the % delimiter if creating internal markdown links using the relref shortcode. e.g. [Plausible Analytics Guide]({{% relref \"/docs/features/plausible-analytics\" %}}) warning Note, that relref links don’t work with _index or index files, you’ll need to use regular Markdown links to section landing or other index pages. Specify these links relative to the site’s root URL, for example:/docs/guides/ Links relative to the site’s root - e.g. /docs/guides/features/docsearch/ - /docs/guides/features/docsearch/\nBoth these formats will enable preview tooltips on internal links. However, one benefit of using relref to link internal content is that the hugo command will produce an error if an internal link’s path is invalid.\nLinks and cross references | Hugo ↩︎\n"
             }
         );
     index.add(
