@@ -100,11 +100,32 @@
       <description></description>
     </item>
     <item>
-      <title>3.6 Pulse Shaping Filter</title>
-      <link>https://egghwan.github.io/docs/wireless_communication/breadcrumbs/</link>
+      <title>3.06 Pulse Shaping Filter</title>
+      <link>https://egghwan.github.io/docs/wireless_communication/3_6_pulse_shaping_filter/</link>
       <pubDate>Sun, 27 Nov 2022 07:08:15 +0000</pubDate>
-      <guid>https://egghwan.github.io/docs/wireless_communication/breadcrumbs/</guid>
+      <guid>https://egghwan.github.io/docs/wireless_communication/3_6_pulse_shaping_filter/</guid>
       <description>&lt;h2 id=&#34;36-pulse-shaping-filter&#34;&gt;3.6 Pulse Shaping Filter &lt;a href=&#34;#36-pulse-shaping-filter&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;통신 모뎀 설계를 위해 필요한 펄스 정형 필터에 대해 기술한다.&lt;/p&gt;&#xA;&lt;h3 id=&#34;361-isiinter-symbol-interference란&#34;&gt;3.6.1 ISI(Inter-Symbol-Interference)란? &lt;a href=&#34;#361-isiinter-symbol-interference%eb%9e%80&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;한국어로 직역하면 심볼 간 간섭이다. 명확한 이해를 위해 아래 그림을 살펴보자.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;  &#xA;&#xA;&#xA;&#xA;  &#xA;    &#xA;      &lt;img src=&#34;https://egghwan.github.io/images/content/pulse_shaping/pic1.png&#34; alt=&#34;Internal link preview tooltip&#34; width=&#34;783&#34; height=&#34;147&#34; loading=&#34;lazy&#34;&gt;&#xA;    &#xA;  &#xA;&lt;/p&gt;&#xA;&lt;p&gt;빨간색 동그라미는 심볼이고 파란색 동그라미는 심볼을 4배 Upsampling한 샘플을 나타낸다. 위 심볼들은 시간 축에서 직사각형 형태를 띈다. 이렇게 직사각형 형태로 신호를 만들면 서로 다른 심볼은 다른 심볼 구간을 침범하지 않고 분리되어 있다. 이런 경우 심볼 간 간섭(ISI)가 없다고 말한다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>3.07 Quadrature Amplitude Modulation (QAM)</title>
+      <link>https://egghwan.github.io/docs/wireless_communication/3_7_quadrature-amplitude-modulation---%EB%B3%B5%EC%82%AC%EB%B3%B8/</link>
+      <pubDate>Sun, 27 Nov 2022 07:08:15 +0000</pubDate>
+      <guid>https://egghwan.github.io/docs/wireless_communication/3_7_quadrature-amplitude-modulation---%EB%B3%B5%EC%82%AC%EB%B3%B8/</guid>
+      <description>&lt;h2 id=&#34;371-qam-송신기-구조&#34;&gt;3.7.1 QAM 송신기 구조 &lt;a href=&#34;#371-qam-%ec%86%a1%ec%8b%a0%ea%b8%b0-%ea%b5%ac%ec%a1%b0&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;  &#xA;&#xA;&#xA;&#xA;  &#xA;    &#xA;      &lt;img src=&#34;https://egghwan.github.io/images/content/qam/pic2.png&#34; alt=&#34;Internal link preview tooltip&#34; width=&#34;1085&#34; height=&#34;765&#34; loading=&#34;lazy&#34;&gt;&#xA;    &#xA;  &#xA;&lt;/p&gt;&#xA;&lt;p&gt;위 그림은 QAM Modulator의 구조다. 위 구조를 바탕으로 단계를 따라가면 QAM Waveform이 생성되는 과정을 살펴본다.&lt;/p&gt;&#xA;&lt;h3 id=&#34;3711-bits-to-symbol&#34;&gt;3.7.1.1 Bits to Symbol &lt;a href=&#34;#3711-bits-to-symbol&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;QAM 웨이브폼을 만들기 위한 순서에 대해 알아보자. 설명을 쉽게 하기 위해 2-QAM을 가정한다.&lt;/p&gt;&#xA;&lt;p&gt;2-QAM은 비트 1개가 심볼 1개에 매핑되는 QAM 변조 방식이다. 만약 4-QAM이라면 비트 2개가 심볼 1개에 매핑된다.&lt;/p&gt;&#xA;&lt;p&gt;먼저 비트레이트 $R_b$에 해당하는 속도로 비트가 생성된다. 2-QAM 기준으로 비트 1개가 심볼 1개를 구성하므로 심볼레이트 $T_M = R_b$가 성립한다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>3.10 Computing Error Rates</title>
+      <link>https://egghwan.github.io/docs/wireless_communication/3_10_computing_error_rates/</link>
+      <pubDate>Sun, 27 Nov 2022 07:08:15 +0000</pubDate>
+      <guid>https://egghwan.github.io/docs/wireless_communication/3_10_computing_error_rates/</guid>
+      <description>&lt;h2 id=&#34;310-computing-error-rates&#34;&gt;3.10 Computing Error Rates &lt;a href=&#34;#310-computing-error-rates&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;디지털 통신 모뎀을 설계하고 나면 성능을 측정해야 한다. 가장 대표적인 성능 측정 방법으로는 BER(Bit-Error-Rate) 또는 SER(Symbol-Error-Rates)있다.&#xA;BER 공식은 아래와 같다.&lt;/p&gt;&#xA;&lt;h3 id=&#34;3101-ser-과-ber&#34;&gt;3.10.1 SER 과 BER &lt;a href=&#34;#3101-ser-%ea%b3%bc-ber&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;  &#xA;&#xA;&#xA;&#xA;  &#xA;    &#xA;      &lt;img src=&#34;https://egghwan.github.io/images/content/ber/pic1.png&#34; alt=&#34;Internal link preview tooltip&#34; width=&#34;352&#34; height=&#34;118&#34; loading=&#34;lazy&#34;&gt;&#xA;    &#xA;  &#xA;&lt;/p&gt;&#xA;&lt;p&gt;식은 간단하다. SER의 경우 에러가 난 심볼 개수를 전체 송신 심볼 개수로 나누면 된다.&lt;/p&gt;&#xA;&lt;p&gt;BER의 경우 에러나 난 비트 개수를 전체 송신 비트 개수로 나누면 된다.&lt;/p&gt;&#xA;&lt;h3 id=&#34;3102-snr&#34;&gt;3.10.2 SNR &lt;a href=&#34;#3102-snr&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;SNR은 디지털 통신 모뎀의 성능을 측정할 때 가장 많이 사용되는 지표다. 정의는 신호 전력을 노이즈 전력으로 나눈 값이다.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>4.2 Basic Components of a PLL</title>
+      <link>https://egghwan.github.io/docs/wireless_communication/4_02_basic-componets-of-a-pll/</link>
+      <pubDate>Sun, 27 Nov 2022 07:08:15 +0000</pubDate>
+      <guid>https://egghwan.github.io/docs/wireless_communication/4_02_basic-componets-of-a-pll/</guid>
+      <description>&lt;h2 id=&#34;42-pll이란&#34;&gt;4.2 PLL이란 &lt;a href=&#34;#42-pll%ec%9d%b4%eb%9e%80&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;PLL(Phase-Locked-Loop)는 말 그대로 위상을 고정하는 장치임을 의미한다.&lt;/p&gt;&#xA;&lt;p&gt;이게 통신 모뎀에서 왜 필요할까? 그것은 바로 무선 통신 환경에서 손상되는 송신 신호를 복구하여 수신 하기 위함이다.&lt;/p&gt;&#xA;&lt;p&gt;무선 통신 환경에서는 송신기와 수신기의 클럭이 독립적으로 동작한다. 만약 200MHz의 송신기 클럭과 200MHz의 수신기 클럭이 있다면 이 2개의 클럭이 과연 같을까?&lt;/p&gt;&#xA;&lt;p&gt;정답은 아니다. 우선 첫번째로 클럭의 시작 위상이 다를 수 있다.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;  &#xA;&#xA;&#xA;&#xA;  &#xA;    &#xA;      &lt;img src=&#34;https://egghwan.github.io/images/content/PLL/pic1.png&#34; alt=&#34;Internal link preview tooltip&#34; width=&#34;611&#34; height=&#34;219&#34; loading=&#34;lazy&#34;&gt;&#xA;    &#xA;  &#xA;&lt;/p&gt;&#xA;&lt;p&gt;$V_1(t)$가 송신기 클럭이고 $V_2(t)$가 수신기 클럭이라고 하자.&lt;/p&gt;&#xA;&lt;p&gt;만약 데이터가 지연 시간 없이 전달된다고 가정한다면 시작 위상이 다르기 때문에 데이터를 수신하는 순간이 달라지게 된다. 따라서 데이터 시작 지점이 달라져 수신 불가능해진다.&lt;/p&gt;</description>
     </item>
     <item>
       <title>PL</title>
