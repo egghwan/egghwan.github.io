@@ -309,6 +309,11 @@
                                             <li class="current "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/wireless_communication/4_02_basic-componets-of-a-pll/">4.2 Basic Components of a PLL</a></li>
                                         
                                     
+                                        
+                                        
+                                            <li class=" "><a class="sidebar-nested-link" href="https://egghwan.github.io/docs/wireless_communication/10_1_polyphase-filterbank-implementation/">V.01 Polyphase Filterbank Implementation</a></li>
+                                        
+                                    
                                 </ul>
                             </div>
                         </li>
@@ -472,6 +477,10 @@
         <li><a href="#45-nco-numberically-controlled-oscillator">4.5 NCO (Numberically Controlled Oscillator)</a></li>
         <li><a href="#451-최종-pll-구조">4.5.1 최종 PLL 구조</a></li>
         <li><a href="#46-pll-디자인">4.6 PLL 디자인</a></li>
+        <li><a href="#47-complex-pll-matlab-구현">4.7 Complex PLL Matlab 구현</a></li>
+        <li><a href="#471-ppm오차와-위상-잡음이-있는-pll-입력신호">4.7.1 ppm오차와 위상 잡음이 있는 PLL 입력신호</a></li>
+        <li><a href="#472-digital-pll">4.7.2 Digital PLL</a></li>
+        <li><a href="#473-결과">4.7.3 결과</a></li>
       </ul>
     </li>
   </ul>
@@ -496,6 +505,10 @@
         <li><a href="#45-nco-numberically-controlled-oscillator">4.5 NCO (Numberically Controlled Oscillator)</a></li>
         <li><a href="#451-최종-pll-구조">4.5.1 최종 PLL 구조</a></li>
         <li><a href="#46-pll-디자인">4.6 PLL 디자인</a></li>
+        <li><a href="#47-complex-pll-matlab-구현">4.7 Complex PLL Matlab 구현</a></li>
+        <li><a href="#471-ppm오차와-위상-잡음이-있는-pll-입력신호">4.7.1 ppm오차와 위상 잡음이 있는 PLL 입력신호</a></li>
+        <li><a href="#472-digital-pll">4.7.2 Digital PLL</a></li>
+        <li><a href="#473-결과">4.7.3 결과</a></li>
       </ul>
     </li>
   </ul>
@@ -755,7 +768,406 @@ $$</p>
   
 </p>
 <p>이러한 PLL구조는 추후 모뎀의 수신 동기화 알고리즘에 많이 활용된다.</p>
-<h3 id="46-pll-디자인">4.6 PLL 디자인 <a href="#46-pll-%eb%94%94%ec%9e%90%ec%9d%b8" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>PLL을 구현하기 위해서 가장 먼저 결정해야 할 것은 루프 필터다. 루프 필터의 PI필터가 곧 PLL의 수렴 성능 및 속도를 결정하기 때문이다.</p>
+<h3 id="46-pll-디자인">4.6 PLL 디자인 <a href="#46-pll-%eb%94%94%ec%9e%90%ec%9d%b8" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>PLL의 성능을 결정짓는 가장 중요한 파라미터를 2가지를 소개한다.</p>
+<p>첫 번째는 Dampling factor $\zeta$ 다. 이게 뭔지 알아보자.</p>
+<p>쉽게 설명하기 위해 테니스 공을 땅에 떨어뜨리는 상상을 해보자. 공은 바닥에 부딪혀 다시 튀어오르고 점차 감쇠되는 진동을 보이다 결국 평형을 이룬다.</p>
+<p>PLL역시 처음 위상 획득 과정에서 초기에는 테니스공 처럼 진동하다가 점차 평형 상태로 수렴하게 된다.</p>
+<p>이 때 Damping factor $\zeta$는 감쇠비를 의미한다. Damping factor가 크면 감쇠 진동은 줄어들지만 수렴 시간이 길어진다.</p>
+<p>반대로 Damping factor가 작다면 수렴 시간이 빠르지만 감쇠 진동이 발생한다. 아래 그림을 통해 Damping factor에 따른 진동 정도를 살펴보자.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic12.png" alt="Internal link preview tooltip" width="613" height="397" loading="lazy">
+    
+  
+</p>
+<p>Damping factor가 1보다 작을 때 PLL응답은 과도한 상승(oversrhoot)과 과도한 하강(undershoot) 형태의 감쇠 진동을 보인다. 이러한 경우 underdamped 상태라고 한다.</p>
+<p>Damping factor가 1보다 클 경우 PLL응답은 진동성 반응이 사라지게 된다. 이러한 경우 overdamped(과감쇠) 상태라고 한다.</p>
+<p>Damping factor가 정확히 1일 경우 PLL응답은 underdamped와 overdamped 사이의 중간 상태 정도로 진동한다. 이러한 경우 critically damped(임계 감쇠) 상태라고 부른다.</p>
+<p>두 번째는 Natural frequency $w_n$이다.</p>
+<p>우리가 PLL을 사용하는 목적은 입력되는 파형의 위상과 주파수를 추적하기 위함이다. 통신 모뎀의 경우 수신 신호가 무선 채널 환경에 의해 왜곡됐을때 이 오차를 추적하기 위함이다.</p>
+<p>그러나 이러한 입력 신호는 잡음에 오염되어 있기 때문에 정확한 수신 신호의 복구를 위해 잡음을 제거해야 한다. 그리고 이를 PLL이 수행한다.</p>
+<p>따라서 PLL은 신호를 통과시키고 잡음은 제거시키는 필터와 비슷하게 동작한다. 아래 그림을 살펴보자.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic13.png" alt="Internal link preview tooltip" width="689" height="468" loading="lazy">
+    
+  
+</p>
+<p>위 그래프는 Proportional+Integrator 형태의 루프 필터를 갖는 PLL의 주파수 응답이다. 위 그림을 통해 PLL이 저역통과(LPF) 필터임을 알 수 있다.</p>
+<p>잘 살펴보면 주파수 응답이 0에서 $w_n$까지는 거의 평탄한 응답을 보인다. 이 뜻은 PLL의 입력 신호의 위상 오차의 변화가 $w_n$이하일 경우, PLL은 오차를 잘 추적해 수렴할 수 있음을 의미한다.</p>
+<p>그러나 위 그림에서 같은 $w_n$이라도 Damping factor에 따라 Passband의 영역이 달라진다. 따라서 우리는 더 나은 PLL의 Passband 대역정의가 필요하다.</p>
+<p>이를 위해 등가 잡음 대역폭(Equivalent noise BW) $B_n$이라는 개념을 사용한다.</p>
+<p>이 뜻은 주파수 응답 곡선의 아래 면적과 동일한 면적을 갖는 이상적인 벽돌 필터의 대역을 의미한다. 아래 그램을 참고해보자.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic14.png" alt="Internal link preview tooltip" width="569" height="195" loading="lazy">
+    
+  
+</p>
+<p>파란색 주파수 응답은 PLL의 주파수 응답이다. 이때 파란색 곡선 아래의 면적과 동일한 면적의 벽돌 필터가 보인다. 이 때 $B_n$은 벽돌 필터의 대역폭을 의미한다.</p>
+<p>내용이 어려워 생략하겠지만, 등가 잡음 대역폭 $B_n$과 Natural Frequency $w_n$과 Damping Factor $\zeta$의 관계식을 아래와 같이 나타낼 수 있다.</p>
+<p>$$B_n = \frac{\omega_n}{2} \left(1 + \frac{1}{4\zeta}\right)$$</p>
+<p>등가 잡음 대역폭 $B_n$은 Loop Bandwidth라고도 불린다.</p>
+<p>자 이제 PLL을 설계할 준비가 끝났다. PLL을 설계하기 위해서는 Damping Factor와 Loop Bandwidth를 먼저 고려해야 한다.</p>
+<p>먼저 Damping Factor에 대해 적절한 값을 찾아보자.</p>
+<p>앞서 말했듯이, Damping Factor가 크면 감쇠 진동이 작지만 수렴 시간이 길어지고, Damping Factor가 작으면 감쇠 진동이 크지만 수렴 시간이 짧아진다.</p>
+<p>이러한 trade-off 관계에서 좋은 균형을 이루는 Damping Factor 값으로 0.707이 많이 사용된다.</p>
+<p>그 다음은 Loop bandwidth에 대해 적절한 값을 찾아보자.</p>
+<p>좁은 Loop bandwidth를 선택하면 대부분의 잡음을 효과적으로 걸러낼 수 있지만 빠른 위상 변화를 추적할 수는 없다.</p>
+<p>반면 넓은 Loop bandwidth를 선택하면 빠른 위상 변화를 잘 추적할 수 있지만, 더 많은 잡음이 루프를 통해 들어올 수 있다.</p>
+<p>대부분의 수신기에서는 입력 신호 SymbolRate의 약 1%정도인 값이 $B_n$의 좋은 시작점 값이다.</p>
+<p>그 다음은 루프 상수 $K_0$, $K_D$, $K_p$, $K_i$를 결정해야 한다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic15.png" alt="Internal link preview tooltip" width="586" height="206" loading="lazy">
+    
+  
+</p>
+<p>위 그림은 PLL 이득을 결정하는 순서를 나타낸 그림이다.</p>
+<p>먼저 Phase Error Detector Gain $K_D$를 결정한다.</p>
+<p>그 다음 PLL Input 신호가 갖는 SampleRate의 a%만큼을 루프 대역폭으로 설정한다.</p>
+<p>마지막으로 루프 필터 Gain $K_P$와 $K_i$를 설정한다.</p>
+<p>$K_P$와 $K_i$를 설정하기 위해 먼저 Normalized natural frequency $\theta_n$을 정의해보자.</p>
+<p>$$ \theta_n = w_n \frac{T_S}{2}$$</p>
+<p>위 식에 루프 대역폭 $B_n$의 식을 대입하면 아래와 같이 다시 쓸 수 있다.</p>
+<p>$$ \theta_n = \frac{B_nT_S}{\zeta+\frac{1}{4\zeta}}$$</p>
+<p>위 식을 바탕으로 $K_P$와 $K_i$의 식을 유도할 수 있다. 유도과정은 생략한다.</p>
+<p>$$K_P = \frac{1}{K_DK_0}\frac{4\zeta\theta_n}{1+2\zeta\theta_n+\theta^2}$$</p>
+<p>$$K_i = \frac{1}{K_DK_0}\frac{4\theta_n^2}{1+2\zeta\theta_n+\theta^2}$$</p>
+<p>하지만 디지털 통신 시스템에서 PLL의 루프 대역폭은 일반적으로 샘플링 속도 $f_s$를 기준으로 정의된다. 그러나 나중의 동기화 알고리즘에서 사용되기 위해서는 심볼률 $f_M$이 더 적절한 파라미터다.</p>
+<p>이 때 심볼 당 샘플수 $L$인 디지털 신호에 대해 PLL의 $K_P$와 $K_i$값은 아래와 같이 달라진다.</p>
+<p>$$K_P = \frac{1}{K_DK_0}\frac{4\zeta\frac{\theta_n}{L}}{1+2\zeta\frac{\theta_n}{L}+(\frac{\theta}{L})^2}$$</p>
+<p>$$K_i = \frac{1}{K_DK_0}\frac{4(\frac{\theta_n}{L})^2}{1+2\zeta\frac{\theta_n}{L}+(\frac{\theta}{L})^2}$$</p>
+<p>수식만으로는 PLL을 완벽하게 이해하는 데 어려울 수 있어서 간단한 예제를 살펴보자.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic16.png" alt="Internal link preview tooltip" width="757" height="646" loading="lazy">
+    
+  
+</p>
+<p>PLL의 입력 신호 $r[n]$이 있다고 해보자. PLL의 최종 출력$s[n]$은 결국 $r[n]$과 같아지는 것이다.</p>
+<p>$$r[n] = Acos(2 \pi \frac{1}{15}n + \theta[n])$$</p>
+<p>그리고 $\theta_n$이 서서히 변한다고 가정해보자. 그렇다면 PLL은 입력 신호의 위상 오차를 계산하여 보정한다.</p>
+<p>NCO의 출력은 I/Q 신호로 구성된 복소수 신호다. 만약 입력 신호가 복소수면 I/Q신호를 전부 사용하고, 실수 신호면 Q신호만 사용해 보정한다.</p>
+<p>$$s_I[n] = cos(2 \pi \frac{k}{N}n + \hat{\theta}[n])$$
+$$s_Q[n] = -sin(2 \pi \frac{k}{N}n + \hat{\theta}[n])$$</p>
+<p>그 다음은 Phase Error Detector에서 일어나는 일을 살펴보자.</p>
+<p>그림을 잘 살펴보면 Phase Error Detector에서 NCO의 출력의 Q신호가 PLL의 입력신호와 곱해짐을 알 수 있다.</p>
+<p>그 이유는 위상 오차는 비선형 입력신호에 숨어 있기 때문에 Q신호를 곱함으로써 위상 오차를 계산할 수 있기 때문이다. 아래 식을 통해 자세히 살펴보자.</p>
+<p>$$e_D[n] = -sin(2 \pi \frac{k}{N}n + \hat{\theta}[n]) Acos(2 \pi \frac{1}{15}n + \theta[n])$$</p>
+<p>삼각함수 변환 공식에 의해 위 식의 우변은 아래와 같이 변형될 수 있다.</p>
+<p>$$e_D[n] = \frac{A}{2}sin(\theta[n]-\hat{\theta}[n]) - \frac{A}{2}sin(2 \pi \frac{2k}{N}n+\theta[n]+\hat{\theta}[n])$$</p>
+<p>여기서 $\frac{A}{2}sin(2 \pi \frac{2k}{N}n+\theta[n]+\hat{\theta}[n])$는 주파수가 2배인 항이다.</p>
+<p>PLL은 루프 대역폭 $B_n$을 갖는 저역통과 필터로 동작하기 때문에 주파수가 2배인 항은 필터링 되어 사라지게 된다. 따라서 Phase Error Detector의 출력 $e_D[n]$은 아래와 같이 쓸 수 있다.</p>
+<p>$$e_D[n] = \frac{A}{2}sin\theta_e[n]$$</p>
+<p>따라서 위 PLL의 S-Curve는 Sin인 것을 알 수 있다. S-curve에 대한 그림을 아래처럼 나타낼 수 있다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic17.png" alt="Internal link preview tooltip" width="548" height="314" loading="lazy">
+    
+  
+</p>
+<p>만약 위상 오차가 매우 작다면 $sin\theta_e[n] = \theta_e[n]$을 만족하므로</p>
+<p>$$e_D[n] = \frac{A}{2}\theta_e[n]$$을 만족한다.</p>
+<p>위 식에서 우리는 Phase Error Detector의 Gain을 구할 수 있다.</p>
+<p>$$K_D = \frac{A}{2}$$</p>
+<p>위에서 Phase Error Detector의 Gain은 PLL 입력신호의 진폭 $A$에 의해 결정된다. 만약 입력 신호의 레벨이 변해 진폭이 바뀐다면 $K_D$값 역시 불안정해져</p>
+<p>PLL에서 설계된 노이즈 대역폭과 Damping Factor에 맞게 동작하지 않을 수 있다.</p>
+<p>따라서 수신기에서는 AGC를 활용해 입력 신호의 레벨을 일정하게 맞추어 안정적인 PLL 동작을 보장해야 한다.</p>
+<p>예제의 간단화를 위해 입력 신호의 진폭 $A$는 항상 1로 고정되어 있다고 가정해보자.</p>
+<p>그럼 Phase Error Detector는 0.5가 된다.</p>
+<p>그 다음은 Damping Factor를 결정할 차례다. PLL의 수렴속도와 안정성의 trade-off관계에서 일반적으로 좋은 시작점은 0.707이다.</p>
+<p>$$ \zeta = 0.707 $$</p>
+<p>그 다음은 PLL의 노이즈(루프)대역폭 $B_n$을 결정할 차례다. 일반적으로 PLL 입력 신호 SampleRate의 5%가 좋은 시작점이다.</p>
+<p>$$B_nTs = 0.05 $$</p>
+<p>이제 PLL 루프 필터의 Gain $K_P$와 $K_i$를 결정해보자. 위에서 살펴보았던 식에 Damping Factor와 노이즈 대역폭 값을 대입하면 아래와 같다.</p>
+<p>$$K_P = 0.2667 $$
+$$K_i = 0.0178 $$</p>
+<p>이렇게 설계된 PLL에서 각 단계별로 신호가 어떻게 바뀌는지 살펴보자.</p>
+<p>먼저 Phase Error Detector의 출력을 살펴보자.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic18.png" alt="Internal link preview tooltip" width="815" height="326" loading="lazy">
+    
+  
+</p>
+<p>그림에서 알 수 있듯이 Phase Error Detector의 출력 $e_D[n]$는 파란색 신호에 해당한다. 그리고 빨간색 신호는 위상 오차 $\theta_e[n]$을 나타낸다.</p>
+<p>시간이 지날수록 위상 오차 $\theta_e[n]$이 0이 되어 출력 위상이 안정화 되는 것을 볼 수 있다.</p>
+<p>Phase Error Detector의 출력 신호 $e_D[n]$은 루프 필터의 입력 신호로 들어간다. 루프필터를 거치고 나온 신호는 아래와 같이 표현된다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic19.png" alt="Internal link preview tooltip" width="807" height="298" loading="lazy">
+    
+  
+</p>
+<p>그림에서 알 수 있듯이 신호의 피크 투 피크 값이 1에서 0.3으로 감소했음을 알 수 있다.</p>
+<p>이 뜻은 PLL이 저역통과 필터의 특성을 띠기 때문에 고주파 성분이 감쇠됐기 때문이다.</p>
+<p>루프 필터를 거치고 나온 신호의 위상 추적 결과를 살펴보면 아래와 같다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+</p>
+<p>초기 위상 오차 $\pi$를 잘 추적했음을 알 수 있다. 그러나 $\pi$를 기준으로 조금씩 진동하고 있다. 이 이유는 Phase Error Detector에서 나온 이중 주파수 성분에 의한 떨림이다.</p>
+<p>마지막으로 최종 PLL의 출력 신호에 대해 알아보자.</p>
+<p>NCO의 Q신호는 위상 오차를 계산하기 위해 Phase Error Detector로 보내졌다. 반면 NCO의 I신호는 PLL의 최종 출력이 된다.</p>
+<p>아래 그림을 통해 PLL의 출력 신호가 점차 입력 신호와 같아짐을 확인할 수 있다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic21.png" alt="Internal link preview tooltip" width="795" height="318" loading="lazy">
+    
+  
+</p>
+<p>아래 그림은 PLL의 입력신호가 복소 신호일 때의 구조이다. PLL 입력 신호가 실수 신호일 때와 구조가 거의 비슷하지만 Phase Error Detector에서 약간의 차이를 보인다.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic24.png" alt="Internal link preview tooltip" width="703" height="478" loading="lazy">
+    
+  
+</p>
+<h3 id="47-complex-pll-matlab-구현">4.7 Complex PLL Matlab 구현 <a href="#47-complex-pll-matlab-%ea%b5%ac%ed%98%84" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>이제 MATLAB으로 PLL을 구현해보자.</p>
+<p>Phase Noise가 있는 Complex 신호를 PLL의 입력신호로 넣고 PLL이 어떻게 위상을 따라가는지 살펴보자.</p>
+<p>먼저 MATLAB 코드는 아래와 같다.</p>
+
+
+    
+    <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>close all; clear all;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#ff79c6">%%</span> PLL Simulation <span style="color:#ff79c6">parameter</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>debug           <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>pll_iteration   <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2e4</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>pn_var          <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1e-9</span>; <span style="color:#ff79c6">%</span> Phase noise variance
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>Kd              <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0.5</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>BnTs            <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0.05</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>K0              <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>zeta            <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span><span style="color:#ff79c6">/</span>sqrt(<span style="color:#bd93f9">2</span>);     <span style="color:#ff79c6">%</span> Damping factor
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>theta           <span style="color:#ff79c6">=</span> BnTs<span style="color:#ff79c6">/</span>(zeta <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span><span style="color:#ff79c6">/</span>(<span style="color:#bd93f9">4</span><span style="color:#ff79c6">*</span>zeta));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>Kp              <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span><span style="color:#ff79c6">/</span>(Kd<span style="color:#ff79c6">*</span>K0) <span style="color:#ff79c6">*</span> (<span style="color:#bd93f9">4</span><span style="color:#ff79c6">*</span>zeta<span style="color:#ff79c6">*</span>theta<span style="color:#ff79c6">^</span><span style="color:#bd93f9">2</span>)<span style="color:#ff79c6">/</span>(<span style="color:#bd93f9">1</span><span style="color:#ff79c6">+</span><span style="color:#bd93f9">2</span><span style="color:#ff79c6">*</span>zeta<span style="color:#ff79c6">*</span>theta<span style="color:#ff79c6">+</span>theta<span style="color:#ff79c6">^</span><span style="color:#bd93f9">2</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>Ki              <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span><span style="color:#ff79c6">/</span>(Kd<span style="color:#ff79c6">*</span>K0) <span style="color:#ff79c6">*</span> (<span style="color:#bd93f9">4</span><span style="color:#ff79c6">*</span>theta<span style="color:#ff79c6">^</span><span style="color:#bd93f9">2</span>)<span style="color:#ff79c6">/</span>(<span style="color:#bd93f9">1</span><span style="color:#ff79c6">+</span><span style="color:#bd93f9">2</span><span style="color:#ff79c6">*</span>zeta<span style="color:#ff79c6">*</span>theta<span style="color:#ff79c6">+</span>theta<span style="color:#ff79c6">^</span><span style="color:#bd93f9">2</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span><span style="color:#ff79c6">%%</span> Generate Input Complex Signal
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>fs              <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1e6</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>f0              <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1e3</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>y_ppm           <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">50</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>y               <span style="color:#ff79c6">=</span> y_ppm <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">1e-6</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>foffset         <span style="color:#ff79c6">=</span> y <span style="color:#ff79c6">*</span> f0;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>phase_noise <span style="color:#ff79c6">=</span> sqrt(pn_var) <span style="color:#ff79c6">*</span> randn(pll_iteration,<span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>delta_phi_in <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">*</span> pi <span style="color:#ff79c6">*</span> (f0 <span style="color:#ff79c6">+</span> foffset)<span style="color:#ff79c6">/</span>fs;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>phase <span style="color:#ff79c6">=</span> (<span style="color:#bd93f9">0</span><span style="color:#ff79c6">:</span>pll_iteration<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>).&#39;<span style="color:#ff79c6">*</span> delta_phi_in <span style="color:#ff79c6">+</span> phase_noise;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>pll_in <span style="color:#ff79c6">=</span> exp(<span style="color:#bd93f9">1</span>j <span style="color:#ff79c6">*</span> phase);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span><span style="color:#ff79c6">%%</span> PLL Ioop Initialization
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>pd_comp      <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>pd_err       <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>lf_kp_out    <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>lf_ki_out    <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>lf_out       <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>dds_out      <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>pd_in        <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>pd_conjugate <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>pll_out      <span style="color:#ff79c6">=</span> zeros(pll_iteration, <span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>lf_ki_init <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>dds_out_init <span style="color:#ff79c6">=</span> pi;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span><span style="color:#ff79c6">for</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">:</span> pll_iteration
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>    <span style="color:#ff79c6">%%</span> Phase Error Detector
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>    <span style="color:#ff79c6">if</span>(i <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>        pd_in(i) <span style="color:#ff79c6">=</span> exp(<span style="color:#bd93f9">1</span>j<span style="color:#ff79c6">*</span>dds_out_init);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>    <span style="color:#ff79c6">else</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>        pd_in(i) <span style="color:#ff79c6">=</span> exp(<span style="color:#bd93f9">1</span>j<span style="color:#ff79c6">*</span>dds_out(i<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>    <span style="color:#ff79c6">%</span> Conjugate
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>    pd_conjugate(i) <span style="color:#ff79c6">=</span> conj(pd_in(i));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52</span><span>    <span style="color:#ff79c6">%</span> Phase Compensate
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53</span><span>    pd_comp(i) <span style="color:#ff79c6">=</span> pll_in(i) <span style="color:#ff79c6">*</span> pd_conjugate(i);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55</span><span>    <span style="color:#ff79c6">%</span> Phase Detector Error
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56</span><span>    pd_err(i) <span style="color:#ff79c6">=</span> angle(pd_comp(i));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58</span><span>    <span style="color:#ff79c6">%%</span> Loop Filter
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59</span><span>    <span style="color:#ff79c6">%</span> Proportional Controller
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60</span><span>    lf_kp_out(i) <span style="color:#ff79c6">=</span> Kp <span style="color:#ff79c6">*</span> pd_err(i);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62</span><span>    <span style="color:#ff79c6">%</span> Integrator Controller
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63</span><span>    <span style="color:#ff79c6">if</span>(i <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64</span><span>        lf_ki_out(i) <span style="color:#ff79c6">=</span> Ki <span style="color:#ff79c6">*</span> pd_err(i) <span style="color:#ff79c6">+</span> lf_ki_init;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65</span><span>    <span style="color:#ff79c6">else</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66</span><span>        lf_ki_out(i) <span style="color:#ff79c6">=</span> Ki <span style="color:#ff79c6">*</span> pd_err(i) <span style="color:#ff79c6">+</span> lf_ki_out(i<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69</span><span>    <span style="color:#ff79c6">%</span> Loop Filter Out
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70</span><span>    lf_out(i) <span style="color:#ff79c6">=</span> lf_kp_out(i) <span style="color:#ff79c6">+</span> lf_ki_out(i);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">71</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">72</span><span>    <span style="color:#ff79c6">%%</span> DDS
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">73</span><span>    f_target <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span><span style="color:#ff79c6">*</span>pi<span style="color:#ff79c6">*</span>f0<span style="color:#ff79c6">/</span>fs;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">74</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">75</span><span>    <span style="color:#ff79c6">if</span>(i <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">1</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">76</span><span>        dds_out(i) <span style="color:#ff79c6">=</span> lf_out(i) <span style="color:#ff79c6">+</span> f_target <span style="color:#ff79c6">+</span> dds_out_init;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">77</span><span>    <span style="color:#ff79c6">else</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">78</span><span>        dds_out(i) <span style="color:#ff79c6">=</span> lf_out(i) <span style="color:#ff79c6">+</span> f_target <span style="color:#ff79c6">+</span> dds_out(i<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">79</span><span>    <span style="color:#ff79c6">end</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">80</span><span>    pll_out(i) <span style="color:#ff79c6">=</span> exp(<span style="color:#bd93f9">1</span>j<span style="color:#ff79c6">*</span>dds_out(i));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">81</span><span><span style="color:#ff79c6">end</span></span></span></code></pre></div>
+<p>코드를 천천히 분석해보자.</p>
+<h3 id="471-ppm오차와-위상-잡음이-있는-pll-입력신호">4.7.1 ppm오차와 위상 잡음이 있는 PLL 입력신호 <a href="#471-ppm%ec%98%a4%ec%b0%a8%ec%99%80-%ec%9c%84%ec%83%81-%ec%9e%a1%ec%9d%8c%ec%9d%b4-%ec%9e%88%eb%8a%94-pll-%ec%9e%85%eb%a0%a5%ec%8b%a0%ed%98%b8" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>먼저 위상 잡음이 껴있는 신호를 만드는 방법에 대해 알아보자.</p>
+<p>그러기 위해서는 ppm(parts-per-million)에 대해 알아야 한다.</p>
+<p>1ppm은 기준 주파수 대비 1/1e6(백만) 이내의 오차가 있다는 뜻이다.</p>
+<p>예를 들어 PLL에 100MHz의 기준 주파수를 갖고 50ppm의 오차를 갖는 입력 신호를 넣는다고 가정해보면</p>
+<p>$$100MHz \times \frac{50}{1000000} = 5000Hz$$</p>
+<p>따라서 입력 신호는 100~100.005MHz의 이내에서 주파수가 흔들리는 신호임을 알 수 있다.</p>
+<p>MATLAB 코드 20Line에서 foffset = y_ppm * 1e-6 * fo로 구하는식이 위에서 언급한 식과 동일하다.</p>
+<p>따라서 코드에서 foffset은 기준 주파수가 갖는 오차를 의미하기 때문에 delta_phi_in 부분에서 주파수 부분에 f0+foffset을 통해 ppm오차를 반영할 수 있다.</p>
+<p>그리고 이산 시간 정현파 신호는 $exp(1j2 \pi f_c/f_s)$로 표헌 가능하고 $2 \pi f_c/fs$는 정현파의 위상을 나타낸다.</p>
+<p>따라서 MATLAB 23Line처럼 ppm을 반영한 PLL 입력 신호의 위상을 나타낼 수 있다.</p>
+<p>이제 위상 잡음을 추가할 차례다. 22 Line에서 위상 랜덤 잡음을 추가하여 delta_phi_in과 더해주면 24 Line에서 ppm오차와 랜덤 위상 잡음이 포함된 최종 PLL입력신호의 위상을 표현할 수 있다.</p>
+<p>이제 정현파 신호의 표현식 $exp(1j*위상)$식을 활용해 25 Line처럼 표현하여 PLL 입력신호를 나타낼 수 있다.</p>
+<h3 id="472-digital-pll">4.7.2 Digital PLL <a href="#472-digital-pll" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>이해를 위해 코드에서 나타낸 부분을 그림에 같이 표현했다. 아래 그림을 참고해보자.</p>
+<p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic25.png" alt="Internal link preview tooltip" width="1042" height="696" loading="lazy">
+    
+  
+</p>
+<p>그림에서 매핑된 변수와 코드부분을 따라가보면 블록다이어그램이 어떻게 코드로 표현됐는지 확인할 수 있다.</p>
+<h3 id="473-결과">4.7.3 결과 <a href="#473-%ea%b2%b0%ea%b3%bc" class="anchor" aria-hidden="true"><i class="material-icons align-middle">link</i></a></h3><p>
+
+
+
+
+
+  
+
+
+
+  
+    
+      <img src="/images/content/PLL/pic26.png" alt="Internal link preview tooltip" width="727" height="577" loading="lazy">
+    
+  
+</p>
+<p>위 그림은 PLL의 결과다. 빨간색 신호는 PLL의 출력신호다. 파란색 신호는 위상 잡음과 ppm이 포함된 입력 신호다.</p>
+<p>시간이 지나면서 PLL의 출력신호인 빨간색 신호가 PLL의 입력신호인 파란색 신호를 잘 따라가는 것을 확인할 수 있다.</p>
 
     </div>
 
@@ -947,6 +1359,13 @@ $$</p>
     
 
 
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1348,7 +1767,7 @@ $$</p>
                 href: "\/docs\/wireless_communication\/4_02_basic-componets-of-a-pll\/",
                 title: "4.2 Basic Components of a PLL",
                 description: "How to configure Breadcrumb navigation for your Lotus Docs site.",
-                content: "4.2 PLL이란 linkPLL(Phase-Locked-Loop)는 말 그대로 위상을 고정하는 장치임을 의미한다.\n이게 통신 모뎀에서 왜 필요할까? 그것은 바로 무선 통신 환경에서 손상되는 송신 신호를 복구하여 수신 하기 위함이다.\n무선 통신 환경에서는 송신기와 수신기의 클럭이 독립적으로 동작한다. 만약 200MHz의 송신기 클럭과 200MHz의 수신기 클럭이 있다면 이 2개의 클럭이 과연 같을까?\n정답은 아니다. 우선 첫번째로 클럭의 시작 위상이 다를 수 있다.\n$V_1(t)$가 송신기 클럭이고 $V_2(t)$가 수신기 클럭이라고 하자.\n만약 데이터가 지연 시간 없이 전달된다고 가정한다면 시작 위상이 다르기 때문에 데이터를 수신하는 순간이 달라지게 된다. 따라서 데이터 시작 지점이 달라져 수신 불가능해진다.\n물론 지연 시간 없이 데이터가 전달 될 수도 없다. 언제 데이터가 수신기로 전달될지 모른다는 건 결국 클럭의 위상이 다르다는 것과 같다.\n또 다른 이유는 송신기의 200MHz와 수신기의 200MHz가 완벽히 동일한 200MHz가 아니다.\n세상에서 가장 정밀한 크리스탈로 만든 클럭도 0.000001Hz 정도의 오차가 존재한다.\n이러한 오차가 누적되면 데이터가 잘 수신되다가도 갑자기 끊어질 수 있다.\n이처럼 송신기와 수신기 사이에는 클럭의 오차 또는 무선 환경에 의한 노이즈 등 여러 이유 때문에 송신 신호와 수신 신호간 오차가 발생한다.\n이 오차를 줄이기 위해 필요한 것이 PLL이다. 오차를 입력으로 받아서 계속 Loop를 돌리면 최종적으로 수렴되는 오차가 존재한다. 이 최종 오차를 계산해 결정(=고정)하는 것이 PLL의 역할이다.\n그리고 최종 결정된 오차를 수신 신호에 보정해주면 우리는 오차를 극복하여 신호를 수신할 수 있다.\n4.2.1 PLL 기본 구조 (Input, Output) link 위 그림은 PLL의 기본 구조다. 천천히 단게별로 어떤 기능을 하는지 살펴보자.\n먼저 입력 신호(input)을 Cos 신호로 가정해보자.\n$$Input = Acos(2 \\pi \\frac{k}{N}n+\\theta[n])$$\n그리고 PLL의 초기 출력 신호 (output)을 아래와 같이 가정해보자.\n$$Input = Acos(2 \\pi \\frac{k}{N}n+\\hat{\\theta}[n])$$\n입력 신호와 출력 신호의 차이는 위상 $\\theta[n]$에 존재한다. 즉 입력 신호와 출력 신호의 위상 오차 $\\theta_e[n]$을 아래와 같이 정의할 수 있다.\n$$\\theta_e[n] = \\theta[n] - \\hat{\\theta}[n]$$\nPLL은 위상 오차 $\\hat{\\theta}[n]$을 입력으로 계속 받아서 최종적으로 수렴되는 오차를 구한뒤, 그 오차만큼을 출력 신호에 보정해주면 PLL은 입력 신호와 비슷한 출력 신호를 만들 수 있게 된다.\n4.2.2 PLL 기본 구조 (Phase Error Detector) linkPLL로 입력되는 신호와 PLL의 출력 신호와의 오차를 비교하는 블록이다.\nPLL의 Input 신호와 PLL의 Output신호를 서로 비교하여 위상 오차 $\\theta_D[n]$을 계속 만들어낸다.\n4.2.3 PLL 기본 구조 (Loop Filter) linkPhase Error Detector에서 탐지된 오차 $\\theta_D[n]$은 Loop Filter로 들어가게 된다.\n루프 필터는 “얼마나 큰 오차를” 또는 “얼마나 빨리 오차를” 수렴시킬지 결정할 수 있는 블록이다.\n루프필터를 거쳐 나온 위상 오차를 $\\theta_F[n]$으로 정의한다.\n시간이 지나면 $\\theta_F[n]$은 결국 특정 값으로 서서히 수렴되게 될 것이다.\n4.2.3 PLL 기본 구조 (NCO) link루프 필터를 거쳐 서서히 특정 값으로 수렴되는 오차 $\\theta_F[n]$을 입력으로 받아 주파수를 생성하는 오실레이터 모듈이다.\n위상 오차가 최종 수렴되면 NCO에서 나오는 Cos 신호는 Input 신호와 동일하게 바뀔 것이다.\n이럴 때 PLL은 잠금(Lock)되었다고 표현한다.\n4.3 Phase Error Detector linkPhase Error Detector에서는 PLL Input신호와 PLL Output신호의 위상 오차를 비교하는 블록이다.\n동작 매커니즘을 자세히 살펴보자.\n쉽게 생각하면 위상 오차를 비교하기 위해서 Input신호의 위상 $\\theta[n]$과 Output신호의 위상 $\\hat{\\theta}[n]$을 뺀 값이 위상 오차 $\\theta_D[n]$이라고 생각하기 쉽다.\n하지만 그렇게 간단하지 않다. 그 이유는 Input 신호가 비선형 신호일 때도 동작해야하기 때문이다.\n현재 가정을 들고 있는 Cos신호의 경우 위상 $\\theta[n]$이 선형적으로 변하더라도 Cos신호는 비선형적으로 변한다. PLL은 비선형 신호 안에 숨어 있는 선형으로 변하는 위상을 찾아내야한다.\n따라서 단순히 Input 신호의 위상과 Output 신호의 위상을 뺀 선형 오차를 계산한다면 오차를 정밀하게 추적할 수 없다.\n그래서 특정 비선형함수를 $f$를 거쳐 위상 오차를 추적한다.\n$$e_D[n] = f(\\theta[n]-\\hat{\\theta[n]}) $$\n그런데 우리는 구현을 하는 입장에서 이러한 비선형 함수를 다루기 까다로우므로 $f$를 선형 근사 시켜버린다.\n사실 이렇게 해도 큰 문제가 없는 이유는 PLL이 수렴해가는 과정에서 위상 오차 $e_D[n]$은 매우 작은 값이 될 것이고 결국 0이 된다.\n즉 비선형 곡선을 아주 짧게 보면 직선 처럼 보이듯이 선형 근사를 시켜도 크게 문제가 없다는 것이다. 아래 그림을 보면서 이해해보자.\n여기서 추가로 주목할 점은 위상 오차 $e_D[n]$이 0으로 수렴하기 위해 비선형 함수 $f$가 어떤 모양이어야 하는지 알아야 한다.\n이에 대한 답을 찾기 위해서 먼저 Phase Error Detector에서 탐지된 초기 오차 $\\theta_e[n]$이 양수라고 가정해보자. 그럼 아래와 같은 관계 식이 성립한다.\n식을 설명하면 $\\theta[n]-\\hat{\\theta}[n]$이 0보다 크므로 $\\hat{\\theta}[n]$이 커져야 한다.\n그러기 위해서는 $e_F[n]$, $e_D[n]$, $f(\\theta_e[n])$이 차례대로 커져야 한다.\n만약 초기 오차 $\\theta_e[n]$이 음수라면 반대로 $e_F[n]$, $e_D[n]$, $f(\\theta_e[n])$이 차례대로 작아져야 한다. 이러한 관계를 만족하는 비선형 함수 $f$는 아래와 같다.\n위 그림을 잘 살펴보면 $\\theta_e[n]$이 양수일 때 $\\theta_D[n]$은 0의 위쪽 방향에서 감소하는 방향으로 움직인다.\n반대로 $\\theta_e[n]$이 음수일 때 $\\theta_D[n]$은 0의 아래쪽 방향에서 증가하는 방향으로 움직인다.\n이러한 관계는 알파벳 S와 비슷하기 때문에 PLL의 S-Curve라고 부른다.\n정리하면 Phase Error Detector의 비선형 함수 $f$는 S-Curve형태를 띄어야 위상 오차를 정밀하게 추적할 수 있는 것이다.\n주목할 점은 $\\theta_D[n]$을 0으로 만들려고 하는 강도(세기)가 $\\theta_e[n]$에 따라 일정하지 않다는 점이다. 위 그림의 빨간색 화살표의 기울기가 $\\theta_D[n]$을 조정하는 세기가 된다.\n그리고 원점 부근에서 양의 기울기를 가져야한다는 점이다. 양의 기울기를 가질 때 위상 오차는 원점으로 수렴할 수 있게 된다.\n앞서 언급한대로 상대적으로 작은 위상 오차 $\\theta_e[n]$인 경우 S-curve는 기울기가 $K_D$인 직선으로 선형 근사 가능하다.\n$$ f(\\theta_e[n]) = K_D \\theta_e $$\n이것을 하드웨어로 구현하게 되면 단순 곱셈기로 구현할 수 있게 된다.\n선형 근사화된 Phase Error Detector의 모듈을 아래와 같이 다시 그릴 수 있다.\n4.4 Loop Filter linkLoop Filter에서는 Phase Error Detector에서 생성된 $\\theta_D[n]$을 입력으로 받아 최종 위상 오차로 수렴시키는 블록이다.\n루프 필터의 주 목표는 NCO에 최종 오차로 수렴되고 있는 위상 오차인 $\\theta_F[n]$을 제공하여 최종 위상 오차를 0으로 수렴시킨다.\n루프 필터의 다른 목표는 위상 오차내에 포함되어 있는 노이즈 및 고주파 성분을 제거하는 것이다. 위상 오차 내의 노이즈를 제거하여 정밀한 오차 추적을 가능하게 만든다.\n위상 오차내에 포함되어 있는 노이즈 성분을 줄이기 위해 루프 필터는 Proportional + Integrator (PI) 루프 필터 형태를 갖는다.\nProportional(비례) 필터는 현재의 에러성분을 바탕으로 Gain을 조절하는 부분이다. 만약 Phase Error Detector에서 출력된 위상 오차 $\\theta_D[n]$이 크다면, Proportional Gain을 크게 설정해서 루프 필터가 추정한 위상 오차 값을 더 빨리 키워 수렴 속도를 빠르게 하는 것이다.\n좀 더 쉽게 설명하자면 오차가 30이라면 10씩 3번 루프 필터를 돌면서 보정하는 것보다, 한 번에 30을 보정하는게 더 빨리 수렴하게 되는 것이다. 이 때의 Proportional Gain을 $K_P$로 정의한다.\n그리고 Proportional 필터의 출력을 아래와 같이 정의한다.\n$$e_{F,1}[n] = K_Pe_D[n]$$\n다음은 Integrator(적분) 필터는 미세한 오차를 보정하기 위해 존재한다.\n이전 루프에서 출력했던 위상 오차와 현재 루프에서 출력하는 위상 오차를 누적하면 미세한 오차가 보다 더 커질 것이고, 이 오차를 Integrator Gain $K_i$로 증폭시켜준다.\n즉 미세한 오차를 증폭시켜 잔여 위상 오차를 줄일 수 있게 된다. Integrator 필터의 출력을 아래와 같이 정의한다.\n$$e_{F,2}[n] = e_{F,2}[n-1] + K_ie_D[n]$$\n그리고 루프 필터의 최종 위상 오차 출력은 Proportional과 Integrator를 더한 위상 오차 값이다.\n$$e_F[n] = e_{F,1}[n] + e_{F,2}[n] $$\n아래 그림은 PLL의 루프 필터를 자세히 그린 PLL 전체 구조다.\n4.5 NCO (Numberically Controlled Oscillator) linkNCO는 직역하면 수치 제어 발진기다. 즉 발진기에 입력되는 숫자 값을 기반으로 동작한다.\n루프 필터에서 나온 수렴되고 있는 위상 오차를 입력으로 받으면 NCO에서 출력되는 발진 주파수는 서서히 Input 신호의 위상을 갖도록 바뀌게 되는 것이다.\nNCO는 크게 2개의 부분으로 구성된다. 아래 그림을 참고하자.\n이 그림은 NCO의 내부 구조이다. 크게 Phase Accumulator랑 LUT가 보인다.\n먼저 Phase Accumulator는 Loop Filter의 출력 위상 오차 $e_{F}[n]$을 바탕으로 PLL의 추정 위상인 $\\hat{\\theta}[n]$을 조정하는 부분이다.\n식 부터 살펴보자. $$ \\hat{\\theta}[n] = K_o \\sum_{i=-\\infty}^{n-1} e_F[i] \\quad \\quad mod \\ 2 \\pi $$\n수식을 보면 루프 필터에서 출력한 위상 오차를 계속 누적하고 있음을 알 수 있다. 오차를 계속해서 더해서 최종 위상 오차를 출력해 내는 것이다.\n이 때 $K_0$는 루프 필터가 출력한 위상 오차에 대해 얼마나 민감하게 반응할지를 결정한다. $K_0$가 크다면 보다 루프 필터가 출력한 위상 오차에 대해 민감하게 반응할 것이다.\n이럴 경우 수렴 속도는 빨라질 수 있지만 오차의 변동이 크다면 수렴 자체가 불가능할 수 있다.\n주목할 점은 $mod \\ 2 \\pi$다. 왜 $mod \\ 2 \\pi$로 나눗셈 연산을 진행하냐면 누적 위상의 범위가 $0 \\le \\hat{\\theta}[n] \\le 2 \\pi $면 충분하기 때문이다. 사인파든 코사인파든 위상이 360도 돌면 같은 위치기 떄문이다.\n다음은 LUT다. Phase Accumulator에서 출력된 위상 오차 $\\hat{\\theta}[n]$을 LUT의 입력으로 넣어주면 그 위상을 갖는 Cos과 Sin가 출력된다. 식은 아래와 같다. $$ \\ s_I[n] = \\cos \\hat{\\theta}[n] \\ $$ $$ \\ s_Q[n] = \\sin \\hat{\\theta}[n] $$\n4.5.1 최종 PLL 구조 linkPhase Error Detector, Loop Filter, NCO를 자세히 그려서 최종 PLL 블록 다이어그램을 그리면 아래와 같다.\n이러한 PLL구조는 추후 모뎀의 수신 동기화 알고리즘에 많이 활용된다.\n4.6 PLL 디자인 linkPLL을 구현하기 위해서 가장 먼저 결정해야 할 것은 루프 필터다. 루프 필터의 PI필터가 곧 PLL의 수렴 성능 및 속도를 결정하기 때문이다.\n"
+                content: "4.2 PLL이란 linkPLL(Phase-Locked-Loop)는 말 그대로 위상을 고정하는 장치임을 의미한다.\n이게 통신 모뎀에서 왜 필요할까? 그것은 바로 무선 통신 환경에서 손상되는 송신 신호를 복구하여 수신 하기 위함이다.\n무선 통신 환경에서는 송신기와 수신기의 클럭이 독립적으로 동작한다. 만약 200MHz의 송신기 클럭과 200MHz의 수신기 클럭이 있다면 이 2개의 클럭이 과연 같을까?\n정답은 아니다. 우선 첫번째로 클럭의 시작 위상이 다를 수 있다.\n$V_1(t)$가 송신기 클럭이고 $V_2(t)$가 수신기 클럭이라고 하자.\n만약 데이터가 지연 시간 없이 전달된다고 가정한다면 시작 위상이 다르기 때문에 데이터를 수신하는 순간이 달라지게 된다. 따라서 데이터 시작 지점이 달라져 수신 불가능해진다.\n물론 지연 시간 없이 데이터가 전달 될 수도 없다. 언제 데이터가 수신기로 전달될지 모른다는 건 결국 클럭의 위상이 다르다는 것과 같다.\n또 다른 이유는 송신기의 200MHz와 수신기의 200MHz가 완벽히 동일한 200MHz가 아니다.\n세상에서 가장 정밀한 크리스탈로 만든 클럭도 0.000001Hz 정도의 오차가 존재한다.\n이러한 오차가 누적되면 데이터가 잘 수신되다가도 갑자기 끊어질 수 있다.\n이처럼 송신기와 수신기 사이에는 클럭의 오차 또는 무선 환경에 의한 노이즈 등 여러 이유 때문에 송신 신호와 수신 신호간 오차가 발생한다.\n이 오차를 줄이기 위해 필요한 것이 PLL이다. 오차를 입력으로 받아서 계속 Loop를 돌리면 최종적으로 수렴되는 오차가 존재한다. 이 최종 오차를 계산해 결정(=고정)하는 것이 PLL의 역할이다.\n그리고 최종 결정된 오차를 수신 신호에 보정해주면 우리는 오차를 극복하여 신호를 수신할 수 있다.\n4.2.1 PLL 기본 구조 (Input, Output) link 위 그림은 PLL의 기본 구조다. 천천히 단게별로 어떤 기능을 하는지 살펴보자.\n먼저 입력 신호(input)을 Cos 신호로 가정해보자.\n$$Input = Acos(2 \\pi \\frac{k}{N}n+\\theta[n])$$\n그리고 PLL의 초기 출력 신호 (output)을 아래와 같이 가정해보자.\n$$Input = Acos(2 \\pi \\frac{k}{N}n+\\hat{\\theta}[n])$$\n입력 신호와 출력 신호의 차이는 위상 $\\theta[n]$에 존재한다. 즉 입력 신호와 출력 신호의 위상 오차 $\\theta_e[n]$을 아래와 같이 정의할 수 있다.\n$$\\theta_e[n] = \\theta[n] - \\hat{\\theta}[n]$$\nPLL은 위상 오차 $\\hat{\\theta}[n]$을 입력으로 계속 받아서 최종적으로 수렴되는 오차를 구한뒤, 그 오차만큼을 출력 신호에 보정해주면 PLL은 입력 신호와 비슷한 출력 신호를 만들 수 있게 된다.\n4.2.2 PLL 기본 구조 (Phase Error Detector) linkPLL로 입력되는 신호와 PLL의 출력 신호와의 오차를 비교하는 블록이다.\nPLL의 Input 신호와 PLL의 Output신호를 서로 비교하여 위상 오차 $\\theta_D[n]$을 계속 만들어낸다.\n4.2.3 PLL 기본 구조 (Loop Filter) linkPhase Error Detector에서 탐지된 오차 $\\theta_D[n]$은 Loop Filter로 들어가게 된다.\n루프 필터는 “얼마나 큰 오차를” 또는 “얼마나 빨리 오차를” 수렴시킬지 결정할 수 있는 블록이다.\n루프필터를 거쳐 나온 위상 오차를 $\\theta_F[n]$으로 정의한다.\n시간이 지나면 $\\theta_F[n]$은 결국 특정 값으로 서서히 수렴되게 될 것이다.\n4.2.3 PLL 기본 구조 (NCO) link루프 필터를 거쳐 서서히 특정 값으로 수렴되는 오차 $\\theta_F[n]$을 입력으로 받아 주파수를 생성하는 오실레이터 모듈이다.\n위상 오차가 최종 수렴되면 NCO에서 나오는 Cos 신호는 Input 신호와 동일하게 바뀔 것이다.\n이럴 때 PLL은 잠금(Lock)되었다고 표현한다.\n4.3 Phase Error Detector linkPhase Error Detector에서는 PLL Input신호와 PLL Output신호의 위상 오차를 비교하는 블록이다.\n동작 매커니즘을 자세히 살펴보자.\n쉽게 생각하면 위상 오차를 비교하기 위해서 Input신호의 위상 $\\theta[n]$과 Output신호의 위상 $\\hat{\\theta}[n]$을 뺀 값이 위상 오차 $\\theta_D[n]$이라고 생각하기 쉽다.\n하지만 그렇게 간단하지 않다. 그 이유는 Input 신호가 비선형 신호일 때도 동작해야하기 때문이다.\n현재 가정을 들고 있는 Cos신호의 경우 위상 $\\theta[n]$이 선형적으로 변하더라도 Cos신호는 비선형적으로 변한다. PLL은 비선형 신호 안에 숨어 있는 선형으로 변하는 위상을 찾아내야한다.\n따라서 단순히 Input 신호의 위상과 Output 신호의 위상을 뺀 선형 오차를 계산한다면 오차를 정밀하게 추적할 수 없다.\n그래서 특정 비선형함수를 $f$를 거쳐 위상 오차를 추적한다.\n$$e_D[n] = f(\\theta[n]-\\hat{\\theta[n]}) $$\n그런데 우리는 구현을 하는 입장에서 이러한 비선형 함수를 다루기 까다로우므로 $f$를 선형 근사 시켜버린다.\n사실 이렇게 해도 큰 문제가 없는 이유는 PLL이 수렴해가는 과정에서 위상 오차 $e_D[n]$은 매우 작은 값이 될 것이고 결국 0이 된다.\n즉 비선형 곡선을 아주 짧게 보면 직선 처럼 보이듯이 선형 근사를 시켜도 크게 문제가 없다는 것이다. 아래 그림을 보면서 이해해보자.\n여기서 추가로 주목할 점은 위상 오차 $e_D[n]$이 0으로 수렴하기 위해 비선형 함수 $f$가 어떤 모양이어야 하는지 알아야 한다.\n이에 대한 답을 찾기 위해서 먼저 Phase Error Detector에서 탐지된 초기 오차 $\\theta_e[n]$이 양수라고 가정해보자. 그럼 아래와 같은 관계 식이 성립한다.\n식을 설명하면 $\\theta[n]-\\hat{\\theta}[n]$이 0보다 크므로 $\\hat{\\theta}[n]$이 커져야 한다.\n그러기 위해서는 $e_F[n]$, $e_D[n]$, $f(\\theta_e[n])$이 차례대로 커져야 한다.\n만약 초기 오차 $\\theta_e[n]$이 음수라면 반대로 $e_F[n]$, $e_D[n]$, $f(\\theta_e[n])$이 차례대로 작아져야 한다. 이러한 관계를 만족하는 비선형 함수 $f$는 아래와 같다.\n위 그림을 잘 살펴보면 $\\theta_e[n]$이 양수일 때 $\\theta_D[n]$은 0의 위쪽 방향에서 감소하는 방향으로 움직인다.\n반대로 $\\theta_e[n]$이 음수일 때 $\\theta_D[n]$은 0의 아래쪽 방향에서 증가하는 방향으로 움직인다.\n이러한 관계는 알파벳 S와 비슷하기 때문에 PLL의 S-Curve라고 부른다.\n정리하면 Phase Error Detector의 비선형 함수 $f$는 S-Curve형태를 띄어야 위상 오차를 정밀하게 추적할 수 있는 것이다.\n주목할 점은 $\\theta_D[n]$을 0으로 만들려고 하는 강도(세기)가 $\\theta_e[n]$에 따라 일정하지 않다는 점이다. 위 그림의 빨간색 화살표의 기울기가 $\\theta_D[n]$을 조정하는 세기가 된다.\n그리고 원점 부근에서 양의 기울기를 가져야한다는 점이다. 양의 기울기를 가질 때 위상 오차는 원점으로 수렴할 수 있게 된다.\n앞서 언급한대로 상대적으로 작은 위상 오차 $\\theta_e[n]$인 경우 S-curve는 기울기가 $K_D$인 직선으로 선형 근사 가능하다.\n$$ f(\\theta_e[n]) = K_D \\theta_e $$\n이것을 하드웨어로 구현하게 되면 단순 곱셈기로 구현할 수 있게 된다.\n선형 근사화된 Phase Error Detector의 모듈을 아래와 같이 다시 그릴 수 있다.\n4.4 Loop Filter linkLoop Filter에서는 Phase Error Detector에서 생성된 $\\theta_D[n]$을 입력으로 받아 최종 위상 오차로 수렴시키는 블록이다.\n루프 필터의 주 목표는 NCO에 최종 오차로 수렴되고 있는 위상 오차인 $\\theta_F[n]$을 제공하여 최종 위상 오차를 0으로 수렴시킨다.\n루프 필터의 다른 목표는 위상 오차내에 포함되어 있는 노이즈 및 고주파 성분을 제거하는 것이다. 위상 오차 내의 노이즈를 제거하여 정밀한 오차 추적을 가능하게 만든다.\n위상 오차내에 포함되어 있는 노이즈 성분을 줄이기 위해 루프 필터는 Proportional + Integrator (PI) 루프 필터 형태를 갖는다.\nProportional(비례) 필터는 현재의 에러성분을 바탕으로 Gain을 조절하는 부분이다. 만약 Phase Error Detector에서 출력된 위상 오차 $\\theta_D[n]$이 크다면, Proportional Gain을 크게 설정해서 루프 필터가 추정한 위상 오차 값을 더 빨리 키워 수렴 속도를 빠르게 하는 것이다.\n좀 더 쉽게 설명하자면 오차가 30이라면 10씩 3번 루프 필터를 돌면서 보정하는 것보다, 한 번에 30을 보정하는게 더 빨리 수렴하게 되는 것이다. 이 때의 Proportional Gain을 $K_P$로 정의한다.\n그리고 Proportional 필터의 출력을 아래와 같이 정의한다.\n$$e_{F,1}[n] = K_Pe_D[n]$$\n다음은 Integrator(적분) 필터는 미세한 오차를 보정하기 위해 존재한다.\n이전 루프에서 출력했던 위상 오차와 현재 루프에서 출력하는 위상 오차를 누적하면 미세한 오차가 보다 더 커질 것이고, 이 오차를 Integrator Gain $K_i$로 증폭시켜준다.\n즉 미세한 오차를 증폭시켜 잔여 위상 오차를 줄일 수 있게 된다. Integrator 필터의 출력을 아래와 같이 정의한다.\n$$e_{F,2}[n] = e_{F,2}[n-1] + K_ie_D[n]$$\n그리고 루프 필터의 최종 위상 오차 출력은 Proportional과 Integrator를 더한 위상 오차 값이다.\n$$e_F[n] = e_{F,1}[n] + e_{F,2}[n] $$\n아래 그림은 PLL의 루프 필터를 자세히 그린 PLL 전체 구조다.\n4.5 NCO (Numberically Controlled Oscillator) linkNCO는 직역하면 수치 제어 발진기다. 즉 발진기에 입력되는 숫자 값을 기반으로 동작한다.\n루프 필터에서 나온 수렴되고 있는 위상 오차를 입력으로 받으면 NCO에서 출력되는 발진 주파수는 서서히 Input 신호의 위상을 갖도록 바뀌게 되는 것이다.\nNCO는 크게 2개의 부분으로 구성된다. 아래 그림을 참고하자.\n이 그림은 NCO의 내부 구조이다. 크게 Phase Accumulator랑 LUT가 보인다.\n먼저 Phase Accumulator는 Loop Filter의 출력 위상 오차 $e_{F}[n]$을 바탕으로 PLL의 추정 위상인 $\\hat{\\theta}[n]$을 조정하는 부분이다.\n식 부터 살펴보자. $$ \\hat{\\theta}[n] = K_o \\sum_{i=-\\infty}^{n-1} e_F[i] \\quad \\quad mod \\ 2 \\pi $$\n수식을 보면 루프 필터에서 출력한 위상 오차를 계속 누적하고 있음을 알 수 있다. 오차를 계속해서 더해서 최종 위상 오차를 출력해 내는 것이다.\n이 때 $K_0$는 루프 필터가 출력한 위상 오차에 대해 얼마나 민감하게 반응할지를 결정한다. $K_0$가 크다면 보다 루프 필터가 출력한 위상 오차에 대해 민감하게 반응할 것이다.\n이럴 경우 수렴 속도는 빨라질 수 있지만 오차의 변동이 크다면 수렴 자체가 불가능할 수 있다.\n주목할 점은 $mod \\ 2 \\pi$다. 왜 $mod \\ 2 \\pi$로 나눗셈 연산을 진행하냐면 누적 위상의 범위가 $0 \\le \\hat{\\theta}[n] \\le 2 \\pi $면 충분하기 때문이다. 사인파든 코사인파든 위상이 360도 돌면 같은 위치기 떄문이다.\n다음은 LUT다. Phase Accumulator에서 출력된 위상 오차 $\\hat{\\theta}[n]$을 LUT의 입력으로 넣어주면 그 위상을 갖는 Cos과 Sin가 출력된다. 식은 아래와 같다. $$ \\ s_I[n] = \\cos \\hat{\\theta}[n] \\ $$ $$ \\ s_Q[n] = \\sin \\hat{\\theta}[n] $$\n4.5.1 최종 PLL 구조 linkPhase Error Detector, Loop Filter, NCO를 자세히 그려서 최종 PLL 블록 다이어그램을 그리면 아래와 같다.\n이러한 PLL구조는 추후 모뎀의 수신 동기화 알고리즘에 많이 활용된다.\n4.6 PLL 디자인 linkPLL의 성능을 결정짓는 가장 중요한 파라미터를 2가지를 소개한다.\n첫 번째는 Dampling factor $\\zeta$ 다. 이게 뭔지 알아보자.\n쉽게 설명하기 위해 테니스 공을 땅에 떨어뜨리는 상상을 해보자. 공은 바닥에 부딪혀 다시 튀어오르고 점차 감쇠되는 진동을 보이다 결국 평형을 이룬다.\nPLL역시 처음 위상 획득 과정에서 초기에는 테니스공 처럼 진동하다가 점차 평형 상태로 수렴하게 된다.\n이 때 Damping factor $\\zeta$는 감쇠비를 의미한다. Damping factor가 크면 감쇠 진동은 줄어들지만 수렴 시간이 길어진다.\n반대로 Damping factor가 작다면 수렴 시간이 빠르지만 감쇠 진동이 발생한다. 아래 그림을 통해 Damping factor에 따른 진동 정도를 살펴보자.\nDamping factor가 1보다 작을 때 PLL응답은 과도한 상승(oversrhoot)과 과도한 하강(undershoot) 형태의 감쇠 진동을 보인다. 이러한 경우 underdamped 상태라고 한다.\nDamping factor가 1보다 클 경우 PLL응답은 진동성 반응이 사라지게 된다. 이러한 경우 overdamped(과감쇠) 상태라고 한다.\nDamping factor가 정확히 1일 경우 PLL응답은 underdamped와 overdamped 사이의 중간 상태 정도로 진동한다. 이러한 경우 critically damped(임계 감쇠) 상태라고 부른다.\n두 번째는 Natural frequency $w_n$이다.\n우리가 PLL을 사용하는 목적은 입력되는 파형의 위상과 주파수를 추적하기 위함이다. 통신 모뎀의 경우 수신 신호가 무선 채널 환경에 의해 왜곡됐을때 이 오차를 추적하기 위함이다.\n그러나 이러한 입력 신호는 잡음에 오염되어 있기 때문에 정확한 수신 신호의 복구를 위해 잡음을 제거해야 한다. 그리고 이를 PLL이 수행한다.\n따라서 PLL은 신호를 통과시키고 잡음은 제거시키는 필터와 비슷하게 동작한다. 아래 그림을 살펴보자.\n위 그래프는 Proportional+Integrator 형태의 루프 필터를 갖는 PLL의 주파수 응답이다. 위 그림을 통해 PLL이 저역통과(LPF) 필터임을 알 수 있다.\n잘 살펴보면 주파수 응답이 0에서 $w_n$까지는 거의 평탄한 응답을 보인다. 이 뜻은 PLL의 입력 신호의 위상 오차의 변화가 $w_n$이하일 경우, PLL은 오차를 잘 추적해 수렴할 수 있음을 의미한다.\n그러나 위 그림에서 같은 $w_n$이라도 Damping factor에 따라 Passband의 영역이 달라진다. 따라서 우리는 더 나은 PLL의 Passband 대역정의가 필요하다.\n이를 위해 등가 잡음 대역폭(Equivalent noise BW) $B_n$이라는 개념을 사용한다.\n이 뜻은 주파수 응답 곡선의 아래 면적과 동일한 면적을 갖는 이상적인 벽돌 필터의 대역을 의미한다. 아래 그램을 참고해보자.\n파란색 주파수 응답은 PLL의 주파수 응답이다. 이때 파란색 곡선 아래의 면적과 동일한 면적의 벽돌 필터가 보인다. 이 때 $B_n$은 벽돌 필터의 대역폭을 의미한다.\n내용이 어려워 생략하겠지만, 등가 잡음 대역폭 $B_n$과 Natural Frequency $w_n$과 Damping Factor $\\zeta$의 관계식을 아래와 같이 나타낼 수 있다.\n$$B_n = \\frac{\\omega_n}{2} \\left(1 + \\frac{1}{4\\zeta}\\right)$$\n등가 잡음 대역폭 $B_n$은 Loop Bandwidth라고도 불린다.\n자 이제 PLL을 설계할 준비가 끝났다. PLL을 설계하기 위해서는 Damping Factor와 Loop Bandwidth를 먼저 고려해야 한다.\n먼저 Damping Factor에 대해 적절한 값을 찾아보자.\n앞서 말했듯이, Damping Factor가 크면 감쇠 진동이 작지만 수렴 시간이 길어지고, Damping Factor가 작으면 감쇠 진동이 크지만 수렴 시간이 짧아진다.\n이러한 trade-off 관계에서 좋은 균형을 이루는 Damping Factor 값으로 0.707이 많이 사용된다.\n그 다음은 Loop bandwidth에 대해 적절한 값을 찾아보자.\n좁은 Loop bandwidth를 선택하면 대부분의 잡음을 효과적으로 걸러낼 수 있지만 빠른 위상 변화를 추적할 수는 없다.\n반면 넓은 Loop bandwidth를 선택하면 빠른 위상 변화를 잘 추적할 수 있지만, 더 많은 잡음이 루프를 통해 들어올 수 있다.\n대부분의 수신기에서는 입력 신호 SymbolRate의 약 1%정도인 값이 $B_n$의 좋은 시작점 값이다.\n그 다음은 루프 상수 $K_0$, $K_D$, $K_p$, $K_i$를 결정해야 한다.\n위 그림은 PLL 이득을 결정하는 순서를 나타낸 그림이다.\n먼저 Phase Error Detector Gain $K_D$를 결정한다.\n그 다음 PLL Input 신호가 갖는 SampleRate의 a%만큼을 루프 대역폭으로 설정한다.\n마지막으로 루프 필터 Gain $K_P$와 $K_i$를 설정한다.\n$K_P$와 $K_i$를 설정하기 위해 먼저 Normalized natural frequency $\\theta_n$을 정의해보자.\n$$ \\theta_n = w_n \\frac{T_S}{2}$$\n위 식에 루프 대역폭 $B_n$의 식을 대입하면 아래와 같이 다시 쓸 수 있다.\n$$ \\theta_n = \\frac{B_nT_S}{\\zeta+\\frac{1}{4\\zeta}}$$\n위 식을 바탕으로 $K_P$와 $K_i$의 식을 유도할 수 있다. 유도과정은 생략한다.\n$$K_P = \\frac{1}{K_DK_0}\\frac{4\\zeta\\theta_n}{1+2\\zeta\\theta_n+\\theta^2}$$\n$$K_i = \\frac{1}{K_DK_0}\\frac{4\\theta_n^2}{1+2\\zeta\\theta_n+\\theta^2}$$\n하지만 디지털 통신 시스템에서 PLL의 루프 대역폭은 일반적으로 샘플링 속도 $f_s$를 기준으로 정의된다. 그러나 나중의 동기화 알고리즘에서 사용되기 위해서는 심볼률 $f_M$이 더 적절한 파라미터다.\n이 때 심볼 당 샘플수 $L$인 디지털 신호에 대해 PLL의 $K_P$와 $K_i$값은 아래와 같이 달라진다.\n$$K_P = \\frac{1}{K_DK_0}\\frac{4\\zeta\\frac{\\theta_n}{L}}{1+2\\zeta\\frac{\\theta_n}{L}+(\\frac{\\theta}{L})^2}$$\n$$K_i = \\frac{1}{K_DK_0}\\frac{4(\\frac{\\theta_n}{L})^2}{1+2\\zeta\\frac{\\theta_n}{L}+(\\frac{\\theta}{L})^2}$$\n수식만으로는 PLL을 완벽하게 이해하는 데 어려울 수 있어서 간단한 예제를 살펴보자.\nPLL의 입력 신호 $r[n]$이 있다고 해보자. PLL의 최종 출력$s[n]$은 결국 $r[n]$과 같아지는 것이다.\n$$r[n] = Acos(2 \\pi \\frac{1}{15}n + \\theta[n])$$\n그리고 $\\theta_n$이 서서히 변한다고 가정해보자. 그렇다면 PLL은 입력 신호의 위상 오차를 계산하여 보정한다.\nNCO의 출력은 I/Q 신호로 구성된 복소수 신호다. 만약 입력 신호가 복소수면 I/Q신호를 전부 사용하고, 실수 신호면 Q신호만 사용해 보정한다.\n$$s_I[n] = cos(2 \\pi \\frac{k}{N}n + \\hat{\\theta}[n])$$ $$s_Q[n] = -sin(2 \\pi \\frac{k}{N}n + \\hat{\\theta}[n])$$\n그 다음은 Phase Error Detector에서 일어나는 일을 살펴보자.\n그림을 잘 살펴보면 Phase Error Detector에서 NCO의 출력의 Q신호가 PLL의 입력신호와 곱해짐을 알 수 있다.\n그 이유는 위상 오차는 비선형 입력신호에 숨어 있기 때문에 Q신호를 곱함으로써 위상 오차를 계산할 수 있기 때문이다. 아래 식을 통해 자세히 살펴보자.\n$$e_D[n] = -sin(2 \\pi \\frac{k}{N}n + \\hat{\\theta}[n]) Acos(2 \\pi \\frac{1}{15}n + \\theta[n])$$\n삼각함수 변환 공식에 의해 위 식의 우변은 아래와 같이 변형될 수 있다.\n$$e_D[n] = \\frac{A}{2}sin(\\theta[n]-\\hat{\\theta}[n]) - \\frac{A}{2}sin(2 \\pi \\frac{2k}{N}n+\\theta[n]+\\hat{\\theta}[n])$$\n여기서 $\\frac{A}{2}sin(2 \\pi \\frac{2k}{N}n+\\theta[n]+\\hat{\\theta}[n])$는 주파수가 2배인 항이다.\nPLL은 루프 대역폭 $B_n$을 갖는 저역통과 필터로 동작하기 때문에 주파수가 2배인 항은 필터링 되어 사라지게 된다. 따라서 Phase Error Detector의 출력 $e_D[n]$은 아래와 같이 쓸 수 있다.\n$$e_D[n] = \\frac{A}{2}sin\\theta_e[n]$$\n따라서 위 PLL의 S-Curve는 Sin인 것을 알 수 있다. S-curve에 대한 그림을 아래처럼 나타낼 수 있다.\n만약 위상 오차가 매우 작다면 $sin\\theta_e[n] = \\theta_e[n]$을 만족하므로\n$$e_D[n] = \\frac{A}{2}\\theta_e[n]$$을 만족한다.\n위 식에서 우리는 Phase Error Detector의 Gain을 구할 수 있다.\n$$K_D = \\frac{A}{2}$$\n위에서 Phase Error Detector의 Gain은 PLL 입력신호의 진폭 $A$에 의해 결정된다. 만약 입력 신호의 레벨이 변해 진폭이 바뀐다면 $K_D$값 역시 불안정해져\nPLL에서 설계된 노이즈 대역폭과 Damping Factor에 맞게 동작하지 않을 수 있다.\n따라서 수신기에서는 AGC를 활용해 입력 신호의 레벨을 일정하게 맞추어 안정적인 PLL 동작을 보장해야 한다.\n예제의 간단화를 위해 입력 신호의 진폭 $A$는 항상 1로 고정되어 있다고 가정해보자.\n그럼 Phase Error Detector는 0.5가 된다.\n그 다음은 Damping Factor를 결정할 차례다. PLL의 수렴속도와 안정성의 trade-off관계에서 일반적으로 좋은 시작점은 0.707이다.\n$$ \\zeta = 0.707 $$\n그 다음은 PLL의 노이즈(루프)대역폭 $B_n$을 결정할 차례다. 일반적으로 PLL 입력 신호 SampleRate의 5%가 좋은 시작점이다.\n$$B_nTs = 0.05 $$\n이제 PLL 루프 필터의 Gain $K_P$와 $K_i$를 결정해보자. 위에서 살펴보았던 식에 Damping Factor와 노이즈 대역폭 값을 대입하면 아래와 같다.\n$$K_P = 0.2667 $$ $$K_i = 0.0178 $$\n이렇게 설계된 PLL에서 각 단계별로 신호가 어떻게 바뀌는지 살펴보자.\n먼저 Phase Error Detector의 출력을 살펴보자.\n그림에서 알 수 있듯이 Phase Error Detector의 출력 $e_D[n]$는 파란색 신호에 해당한다. 그리고 빨간색 신호는 위상 오차 $\\theta_e[n]$을 나타낸다.\n시간이 지날수록 위상 오차 $\\theta_e[n]$이 0이 되어 출력 위상이 안정화 되는 것을 볼 수 있다.\nPhase Error Detector의 출력 신호 $e_D[n]$은 루프 필터의 입력 신호로 들어간다. 루프필터를 거치고 나온 신호는 아래와 같이 표현된다.\n그림에서 알 수 있듯이 신호의 피크 투 피크 값이 1에서 0.3으로 감소했음을 알 수 있다.\n이 뜻은 PLL이 저역통과 필터의 특성을 띠기 때문에 고주파 성분이 감쇠됐기 때문이다.\n루프 필터를 거치고 나온 신호의 위상 추적 결과를 살펴보면 아래와 같다.\n초기 위상 오차 $\\pi$를 잘 추적했음을 알 수 있다. 그러나 $\\pi$를 기준으로 조금씩 진동하고 있다. 이 이유는 Phase Error Detector에서 나온 이중 주파수 성분에 의한 떨림이다.\n마지막으로 최종 PLL의 출력 신호에 대해 알아보자.\nNCO의 Q신호는 위상 오차를 계산하기 위해 Phase Error Detector로 보내졌다. 반면 NCO의 I신호는 PLL의 최종 출력이 된다.\n아래 그림을 통해 PLL의 출력 신호가 점차 입력 신호와 같아짐을 확인할 수 있다.\n아래 그림은 PLL의 입력신호가 복소 신호일 때의 구조이다. PLL 입력 신호가 실수 신호일 때와 구조가 거의 비슷하지만 Phase Error Detector에서 약간의 차이를 보인다.\n4.7 Complex PLL Matlab 구현 link이제 MATLAB으로 PLL을 구현해보자.\nPhase Noise가 있는 Complex 신호를 PLL의 입력신호로 넣고 PLL이 어떻게 위상을 따라가는지 살펴보자.\n먼저 MATLAB 코드는 아래와 같다.\n1close all; clear all; 2 3%% PLL Simulation parameter 4debug = 1; 5pll_iteration = 2e4; 6pn_var = 1e-9; % Phase noise variance 7Kd = 0.5; 8BnTs = 0.05; 9K0 = 1; 10zeta = 1/sqrt(2); % Damping factor 11theta = BnTs/(zeta + 1/(4*zeta)); 12Kp = 1/(Kd*K0) * (4*zeta*theta^2)/(1+2*zeta*theta+theta^2); 13Ki = 1/(Kd*K0) * (4*theta^2)/(1+2*zeta*theta+theta^2); 14 15%% Generate Input Complex Signal 16fs = 1e6; 17f0 = 1e3; 18y_ppm = 50; 19y = y_ppm * 1e-6; 20foffset = y * f0; 21 22phase_noise = sqrt(pn_var) * randn(pll_iteration,1); 23delta_phi_in = 2 * pi * (f0 + foffset)/fs; 24phase = (0:pll_iteration-1).'* delta_phi_in + phase_noise; 25pll_in = exp(1j * phase); 26 27%% PLL Ioop Initialization 28pd_comp = zeros(pll_iteration, 1); 29pd_err = zeros(pll_iteration, 1); 30lf_kp_out = zeros(pll_iteration, 1); 31lf_ki_out = zeros(pll_iteration, 1); 32lf_out = zeros(pll_iteration, 1); 33dds_out = zeros(pll_iteration, 1); 34pd_in = zeros(pll_iteration, 1); 35pd_conjugate = zeros(pll_iteration, 1); 36pll_out = zeros(pll_iteration, 1); 37 38lf_ki_init = 0; 39dds_out_init = pi; 40 41for i = 1 : pll_iteration 42 %% Phase Error Detector 43 if(i == 1) 44 pd_in(i) = exp(1j*dds_out_init); 45 else 46 pd_in(i) = exp(1j*dds_out(i-1)); 47 end 48 49 % Conjugate 50 pd_conjugate(i) = conj(pd_in(i)); 51 52 % Phase Compensate 53 pd_comp(i) = pll_in(i) * pd_conjugate(i); 54 55 % Phase Detector Error 56 pd_err(i) = angle(pd_comp(i)); 57 58 %% Loop Filter 59 % Proportional Controller 60 lf_kp_out(i) = Kp * pd_err(i); 61 62 % Integrator Controller 63 if(i == 1) 64 lf_ki_out(i) = Ki * pd_err(i) + lf_ki_init; 65 else 66 lf_ki_out(i) = Ki * pd_err(i) + lf_ki_out(i-1); 67 end 68 69 % Loop Filter Out 70 lf_out(i) = lf_kp_out(i) + lf_ki_out(i); 71 72 %% DDS 73 f_target = 2*pi*f0/fs; 74 75 if(i == 1) 76 dds_out(i) = lf_out(i) + f_target + dds_out_init; 77 else 78 dds_out(i) = lf_out(i) + f_target + dds_out(i-1); 79 end 80 pll_out(i) = exp(1j*dds_out(i)); 81end 코드를 천천히 분석해보자.\n4.7.1 ppm오차와 위상 잡음이 있는 PLL 입력신호 link먼저 위상 잡음이 껴있는 신호를 만드는 방법에 대해 알아보자.\n그러기 위해서는 ppm(parts-per-million)에 대해 알아야 한다.\n1ppm은 기준 주파수 대비 1/1e6(백만) 이내의 오차가 있다는 뜻이다.\n예를 들어 PLL에 100MHz의 기준 주파수를 갖고 50ppm의 오차를 갖는 입력 신호를 넣는다고 가정해보면\n$$100MHz \\times \\frac{50}{1000000} = 5000Hz$$\n따라서 입력 신호는 100~100.005MHz의 이내에서 주파수가 흔들리는 신호임을 알 수 있다.\nMATLAB 코드 20Line에서 foffset = y_ppm * 1e-6 * fo로 구하는식이 위에서 언급한 식과 동일하다.\n따라서 코드에서 foffset은 기준 주파수가 갖는 오차를 의미하기 때문에 delta_phi_in 부분에서 주파수 부분에 f0+foffset을 통해 ppm오차를 반영할 수 있다.\n그리고 이산 시간 정현파 신호는 $exp(1j2 \\pi f_c/f_s)$로 표헌 가능하고 $2 \\pi f_c/fs$는 정현파의 위상을 나타낸다.\n따라서 MATLAB 23Line처럼 ppm을 반영한 PLL 입력 신호의 위상을 나타낼 수 있다.\n이제 위상 잡음을 추가할 차례다. 22 Line에서 위상 랜덤 잡음을 추가하여 delta_phi_in과 더해주면 24 Line에서 ppm오차와 랜덤 위상 잡음이 포함된 최종 PLL입력신호의 위상을 표현할 수 있다.\n이제 정현파 신호의 표현식 $exp(1j*위상)$식을 활용해 25 Line처럼 표현하여 PLL 입력신호를 나타낼 수 있다.\n4.7.2 Digital PLL link이해를 위해 코드에서 나타낸 부분을 그림에 같이 표현했다. 아래 그림을 참고해보자.\n그림에서 매핑된 변수와 코드부분을 따라가보면 블록다이어그램이 어떻게 코드로 표현됐는지 확인할 수 있다.\n4.7.3 결과 link 위 그림은 PLL의 결과다. 빨간색 신호는 PLL의 출력신호다. 파란색 신호는 위상 잡음과 ppm이 포함된 입력 신호다.\n시간이 지나면서 PLL의 출력신호인 빨간색 신호가 PLL의 입력신호인 파란색 신호를 잘 따라가는 것을 확인할 수 있다.\n"
             }
         );
     index.add(
@@ -1372,6 +1791,15 @@ $$</p>
     index.add(
             {
                 id:  25 ,
+                href: "\/docs\/wireless_communication\/10_1_polyphase-filterbank-implementation\/",
+                title: "V.01 Polyphase Filterbank Implementation",
+                description: "How to configure Breadcrumb navigation for your Lotus Docs site.",
+                content: "10.1.1 Polyphase Filterbank 란? link3.06절에서 Pulse Shaping을 수행하기 위해서 심볼을 $L$만큼 Up-Sampling을 수행한다.\nSymbolRate를 $T_M$이라고 하면 SampleRate를 아래와 같이 정의할 수 있다.\n$$T_{S,1} = \\frac{T_M}{L}$$\n이러한 구조엥서 우리는 Polyphase Filterbank 구조를 활용해 효율적인 송신기 구조를 만들 수 있다.\n심볼 당 샘플 $L=4$이고 Pulse Shaping Filter를 $p(nT_{s,1})$로 표현해보자.\n심볼 당 샘플이 $L$을 만족하기 위해서 심볼 사이에 0을 4개씩 추가하여 Up-Sampling을 수행한다. 따라서 실제로 심볼과 Pulse Shaping의 계수가 컨볼루션되는 순간은 4번째마다 일어난다. 왜냐하면 0은 컨볼루션 결과에 아무 의미가 없기 때문이다.\n그러면 Pulse Shaping Filter의 계수를 아래와 같이 표현할 수 있다.\n첫 번째 세로줄에는 Pulse Shaping Filter의 처음 4개의 계수를, 두 번째 세로줄에는 그 다음 4개의 계수를 차례대로 배치했다.\n따라서 $p0(mT_M)$은 첫 번째 심볼 스트림이고 $p1(mT_M)$은 두 번째 심볼 스트림인데, 첫 번째 심볼 스트림이 0인 순간에 두 번째 심볼 스트림의 컨볼루션을 처리하면 4개의 심볼 스트림을 동시에 처리할 수 있게 된다.\n"
+            }
+        );
+    index.add(
+            {
+                id:  26 ,
                 href: "\/docs\/terms\/wsl\/",
                 title: "WSL",
                 description: "WSL환경이란 윈도우 환경에서 프로그램을 이용하여 리눅스 환경을 구축하는 것이다. 임베디드 시스템을 구현할 때는 ubuntu 또는 vmware 프로그램을 활용하여 WSL 환경을 구축한다.",
@@ -1380,7 +1808,7 @@ $$</p>
         );
     index.add(
             {
-                id:  26 ,
+                id:  27 ,
                 href: "\/docs\/",
                 title: "Docs",
                 description: "",

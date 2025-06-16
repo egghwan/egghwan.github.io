@@ -36,5 +36,12 @@
       <guid>https://egghwan.github.io/docs/wireless_communication/4_02_basic-componets-of-a-pll/</guid>
       <description>&lt;h2 id=&#34;42-pll이란&#34;&gt;4.2 PLL이란 &lt;a href=&#34;#42-pll%ec%9d%b4%eb%9e%80&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;PLL(Phase-Locked-Loop)는 말 그대로 위상을 고정하는 장치임을 의미한다.&lt;/p&gt;&#xA;&lt;p&gt;이게 통신 모뎀에서 왜 필요할까? 그것은 바로 무선 통신 환경에서 손상되는 송신 신호를 복구하여 수신 하기 위함이다.&lt;/p&gt;&#xA;&lt;p&gt;무선 통신 환경에서는 송신기와 수신기의 클럭이 독립적으로 동작한다. 만약 200MHz의 송신기 클럭과 200MHz의 수신기 클럭이 있다면 이 2개의 클럭이 과연 같을까?&lt;/p&gt;&#xA;&lt;p&gt;정답은 아니다. 우선 첫번째로 클럭의 시작 위상이 다를 수 있다.&lt;/p&gt;&#xA;&lt;p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;  &#xA;&#xA;&#xA;&#xA;  &#xA;    &#xA;      &lt;img src=&#34;https://egghwan.github.io/images/content/PLL/pic1.png&#34; alt=&#34;Internal link preview tooltip&#34; width=&#34;611&#34; height=&#34;219&#34; loading=&#34;lazy&#34;&gt;&#xA;    &#xA;  &#xA;&lt;/p&gt;&#xA;&lt;p&gt;$V_1(t)$가 송신기 클럭이고 $V_2(t)$가 수신기 클럭이라고 하자.&lt;/p&gt;&#xA;&lt;p&gt;만약 데이터가 지연 시간 없이 전달된다고 가정한다면 시작 위상이 다르기 때문에 데이터를 수신하는 순간이 달라지게 된다. 따라서 데이터 시작 지점이 달라져 수신 불가능해진다.&lt;/p&gt;</description>
     </item>
+    <item>
+      <title>V.01 Polyphase Filterbank Implementation</title>
+      <link>https://egghwan.github.io/docs/wireless_communication/10_1_polyphase-filterbank-implementation/</link>
+      <pubDate>Sun, 27 Nov 2022 07:08:15 +0000</pubDate>
+      <guid>https://egghwan.github.io/docs/wireless_communication/10_1_polyphase-filterbank-implementation/</guid>
+      <description>&lt;h2 id=&#34;1011-polyphase-filterbank-란&#34;&gt;10.1.1 Polyphase Filterbank 란? &lt;a href=&#34;#1011-polyphase-filterbank-%eb%9e%80&#34; class=&#34;anchor&#34; aria-hidden=&#34;true&#34;&gt;&lt;i class=&#34;material-icons align-middle&#34;&gt;link&lt;/i&gt;&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;3.06절에서 Pulse Shaping을 수행하기 위해서 심볼을 $L$만큼 Up-Sampling을 수행한다.&lt;/p&gt;&#xA;&lt;p&gt;SymbolRate를 $T_M$이라고 하면 SampleRate를 아래와 같이 정의할 수 있다.&lt;/p&gt;&#xA;&lt;p&gt;$$T_{S,1} = \frac{T_M}{L}$$&lt;/p&gt;&#xA;&lt;p&gt;이러한 구조엥서 우리는 Polyphase Filterbank 구조를 활용해 효율적인 송신기 구조를 만들 수 있다.&lt;/p&gt;&#xA;&lt;p&gt;심볼 당 샘플 $L=4$이고 Pulse Shaping Filter를 $p(nT_{s,1})$로 표현해보자.&lt;/p&gt;&#xA;&lt;p&gt;심볼 당 샘플이 $L$을 만족하기 위해서 심볼 사이에 0을 4개씩 추가하여 Up-Sampling을 수행한다. 따라서 실제로 심볼과 Pulse Shaping의 계수가 컨볼루션되는 순간은 4번째마다 일어난다. 왜냐하면 0은 컨볼루션 결과에 아무 의미가 없기 때문이다.&lt;/p&gt;</description>
+    </item>
   </channel>
 </rss>
